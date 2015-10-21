@@ -78,7 +78,8 @@ int main()
 
     // cegui
     CEGUI::OpenGLRenderer& uiRenderer = CEGUI::OpenGLRenderer::bootstrapSystem();
-    CEGUI::SchemeManager::getSingleton().create( "TaharezLook.scheme" );
+    //CEGUI::SchemeManager::getSingleton().create( "TaharezLook.scheme" );
+    CEGUI::SchemeManager::getSingleton().create("WindowsLook.scheme");
     CEGUI::Window * ptrUiRoot = CEGUI::WindowManager::getSingleton().loadWindowLayout("petanqulator.layout");
     CEGUI::System::getSingleton().setGUISheet(ptrUiRoot);
 
