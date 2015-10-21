@@ -1,6 +1,6 @@
 PACKAGES = glfw3 epoxy
-CXXFLAGS += -std=c++11 -Wall -Wextra 
-LIBS += -lGL
+CXXFLAGS += -std=c++11 -Wall -Wextra -I/usr/include/CEGUI
+LIBS += -lGL -lCEGUIBase -lCEGUIOpenGLRenderer 
 MAINSRC = ./src/petanqulator.cpp 
 ifeq ($(DEBUG), 1)
 	override CXXFLAGS += -O0 -g

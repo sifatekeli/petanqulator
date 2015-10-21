@@ -2,6 +2,9 @@
 #define GLFW_INCLUDE_GLU
 #include <GLFW/glfw3.h>
 
+#include <CEGUI.h>
+#include <RendererModules/OpenGL/CEGUIOpenGLRenderer.h>
+
 #include <cmath>
 #include <iostream>
 
@@ -73,6 +76,12 @@ int main()
 
     glfwSwapInterval(1);
 
+    // cegui
+    CEGUI::OpenGLRenderer& uiRenderer = CEGUI::OpenGLRenderer::bootstrapSystem();
+    CEGUI::SchemeManager::getSingleton().create( "TaharezLook.scheme" );
+    CEGUI::Window * ptrUiRoot = CEGUI::WindowManager::getSingleton().loadWindowLayout("petanqulator.layout");
+    CEGUI::System::getSingleton().setGUISheet(ptrUiRoot);
+
     while (GL_TRUE != glfwWindowShouldClose(ptrWindow))
     {
         float ratio;
@@ -99,6 +108,8 @@ int main()
         glColor3f(0.f, 0.f, 1.f);
         glVertex3f(0.f, 0.6f, 0.f);
         glEnd();
+
+        CEGUI::System::getSingleton().renderGUI();
 
         glfwSwapBuffers(ptrWindow);
         glfwPollEvents();
