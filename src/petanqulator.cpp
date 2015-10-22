@@ -5,6 +5,8 @@
 #include <CEGUI.h>
 #include <RendererModules/OpenGL/CEGUIOpenGLRenderer.h>
 
+// http://cegui.org.uk/wiki/CEGUI_In_Practice_-_A_push_button
+
 #include <cmath>
 #include <iostream>
 
@@ -44,6 +46,8 @@ void handleMouseButton(GLFWwindow *, int button, int action, int)
             gMouseMotion = true;
         else if (action == GLFW_RELEASE)
             gMouseMotion = false;
+
+    CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::MouseButton::LeftButton);
     }
 }
 
@@ -78,8 +82,7 @@ int main()
 
     // cegui
     CEGUI::OpenGLRenderer& uiRenderer = CEGUI::OpenGLRenderer::bootstrapSystem();
-    //CEGUI::SchemeManager::getSingleton().create( "TaharezLook.scheme" );
-    CEGUI::SchemeManager::getSingleton().create("WindowsLook.scheme");
+    CEGUI::SchemeManager::getSingleton().create( "TaharezLook.scheme" );
     CEGUI::Window * ptrUiRoot = CEGUI::WindowManager::getSingleton().loadWindowLayout("petanqulator.layout");
     CEGUI::System::getSingleton().setGUISheet(ptrUiRoot);
 
