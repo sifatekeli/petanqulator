@@ -13,18 +13,12 @@ class ViewGL : public Gtk::GL::DrawingArea
 
 	View & _refView;
 
-    /*
-	// display info
-	Herve::FpsCounter _fpsCounter;
-	Herve::InputMotion1dRelative _keyUp;
-	Herve::InputMotion2d _mouse;
-    */
-
 public:
 
+	Glib::RefPtr< Gdk::Window > _window;
 	Glib::RefPtr< Gdk::GL::Config > _glconfig;
 	Glib::RefPtr< Gdk::GL::Context > _glcontext;
-
+	Glib::RefPtr< Gdk::GL::Window > _glwindow;
 
 public:
 	ViewGL(View & refView, int & argc, char** argv);
@@ -40,8 +34,9 @@ private:
 
 	// new handlers
 	bool handle_idle();
-	bool handle_key_press_event(GdkEventKey * event);
-	bool handle_key_release_event(GdkEventKey * event);
+	//bool handle_key_press_event(GdkEventKey * event);
+	//bool handle_key_release_event(GdkEventKey * event);
 };
 
 #endif
+

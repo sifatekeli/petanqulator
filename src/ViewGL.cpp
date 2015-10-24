@@ -2,6 +2,8 @@
 #include "View.hpp"
 #include "ViewGL.hpp"
 
+#include <GL/glu.h>
+
 #include <iostream>
 
 ViewGL::ViewGL(View & refView, int& argc, char** argv) :
@@ -10,9 +12,10 @@ _refView(refView)
 
 	// initialize gtkglextmm
 	Gtk::GL::init(argc, argv);
-	_glconfig = Gdk::GL::Config::create(Gdk::GL::MODE_RGBA | Gdk::GL::MODE_DEPTH | Gdk::GL::MODE_DOUBLE);
+	_glconfig = Gdk::GL::Config::create(Gdk::GL::MODE_RGBA 
+            | Gdk::GL::MODE_DEPTH | Gdk::GL::MODE_DOUBLE);
 	if (not _glconfig)
-        std::cerr << "init error\n";
+        std::cerr << "error: ViewGL::ViewGL" << std::endl;
 	set_gl_capability(_glconfig);
 
 	// initialize event handling
@@ -21,87 +24,86 @@ _refView(refView)
 	add_events(Gdk::BUTTON_PRESS_MASK);
 	add_events(Gdk::BUTTON_RELEASE_MASK);
 	add_events(Gdk::BUTTON1_MOTION_MASK);
-	add_events(Gdk::KEY_PRESS_MASK);
-	add_events(Gdk::KEY_RELEASE_MASK);
-	signal_key_press_event().connect(sigc::mem_fun(*this, &ViewGL::handle_key_press_event));
-	signal_key_release_event().connect(sigc::mem_fun(*this, &ViewGL::handle_key_release_event));
-	set_can_focus(true);
 }
 
-void ViewGL::init() {
-
+void ViewGL::init() 
+{
+    _window = get_window();
 	_glcontext = get_gl_context();
+    _glwindow = get_gl_window();
 
-	// begin OpenGL
-	Glib::RefPtr<Gdk::GL::Window> glwindow = get_gl_window();
-	if (!glwindow->gl_begin(get_gl_context()))
-		return;
+	if (not _glwindow->gl_begin(_glcontext))
+    {
+        std::cerr << "error: ViewGL::init" << std::endl;
+        exit(-1);
+    }
 
-	// end OpenGL
-	glwindow->gl_end();
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+    glShadeModel(GL_SMOOTH);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
 
-	// start counting fps
-	//_fpsCounter.start();
+	_glwindow->gl_end();
 }
 
-bool ViewGL::on_expose_event(GdkEventExpose* ) {
+bool ViewGL::on_expose_event(GdkEventExpose* ) 
+{
+	_glwindow->gl_begin(_glcontext);
 
-	Glib::RefPtr<Gdk::GL::Window> glwindow = get_gl_window();
-	if (not glwindow->gl_begin(_glcontext))
-		return false;
-
-    /*/
-	// update camera
-	float tx = _keyRight.getValue() - _keyLeft.getValue();
-	float ty = _keyUp.getValue() - _keyDown.getValue();
-	float tz = _keyBackward.getValue() - _keyForward.getValue();
-	float rx = -_mouse.getYValue();	// mouse y controls rotation around opengl x-axis
-	float ry = -_mouse.getXValue();	// mouse x controls rotation around opengl y-axis
-	_displayDevice.updateView(tx, ty, tz, rx, ry, 0.f);
-    */
-
-	// render scene
-    glClearColor(0.6, 0.7, 0.9, 1.0);
+    glClearColor(0.5, 0.5, 0.5, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glwindow->swap_buffers();
+    glPushMatrix();
+    glTranslatef(0, 0, 0.1);
+    //glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, Material()._diffuse);
+    //glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, Material()._specular);
+    //glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, Material()._shininess);
+    gluSphere(gluNewQuadric(), 0.5, 32, 32);
+    glPopMatrix();
 
-	glwindow->gl_end();
+
+	_glwindow->gl_end();
+
+    _glwindow->swap_buffers();
 
 	return true;
 }
 
-bool ViewGL::on_configure_event(GdkEventConfigure * ) {
+bool ViewGL::on_configure_event(GdkEventConfigure * ) 
+{
 	return true;
 }
 
-bool ViewGL::on_button_press_event(GdkEventButton* ) {
+bool ViewGL::on_button_press_event(GdkEventButton* ) 
+{
 	return true;
 }
 
-bool ViewGL::on_button_release_event(GdkEventButton* ) {
-		return true;
+bool ViewGL::on_button_release_event(GdkEventButton* ) 
+{
+    return true;
 }
 
-bool ViewGL::on_motion_notify_event(GdkEventMotion* ) {
+bool ViewGL::on_motion_notify_event(GdkEventMotion* ) 
+{
 	return true;
 }
 
-bool ViewGL::handle_idle() {
+bool ViewGL::handle_idle() 
+{
 
 	// FIXME beurk
-	grab_focus();
+	//grab_focus();
 
-	// refresh opengl view
-	Glib::RefPtr<Gdk::Window> win = get_window();
-	if (win) win->invalidate(false);
-
+    _window->invalidate(false);
 	return true;
 }
 
-bool ViewGL::handle_key_press_event(GdkEventKey * ) {
+/*
+bool ViewGL::handle_key_press_event(GdkEventKey * ) 
+{
 
-    /*
 	switch (event->keyval) {
 	case GDK_KEY_Page_Up : _keyUp.press(); break;
 	case GDK_KEY_Page_Down : _keyDown.press(); break;
@@ -110,14 +112,13 @@ bool ViewGL::handle_key_press_event(GdkEventKey * ) {
 	case GDK_KEY_Left : _keyLeft.press(); break;
 	case GDK_KEY_Right : _keyRight.press(); break;
 	}
-    */
 
 	return true;
 }
 
-bool ViewGL::handle_key_release_event(GdkEventKey * ) {
+bool ViewGL::handle_key_release_event(GdkEventKey * ) 
+{
 
-    /*
 	switch (event->keyval) {
 	case GDK_KEY_Page_Up : _keyUp.release(); break;
 	case GDK_KEY_Page_Down : _keyDown.release(); break;
@@ -127,7 +128,9 @@ bool ViewGL::handle_key_release_event(GdkEventKey * ) {
 	case GDK_KEY_Right : _keyRight.release(); break;
 	case GDK_KEY_Escape : Gtk::Main::quit();
 	}
-    */
 
 	return true;
 }
+*/
+
+

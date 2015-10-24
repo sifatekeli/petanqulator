@@ -15,13 +15,11 @@ _viewGL(*this, argc, argv)
 	_hbox.pack_start(_viewPanel, Gtk::PACK_SHRINK);
 	_hbox.pack_start(_viewGL);
 	_window.show_all();
-
-	_viewGL.init();
-	_viewPanel.init();
 }
 
 void View::run() 
 {
+	_viewGL.init();
 	_kit.run(_window);
 }
 
