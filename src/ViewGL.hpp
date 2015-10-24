@@ -13,12 +13,16 @@ class ViewGL : public Gtk::GL::DrawingArea
 
 	View & _refView;
 
-public:
-
 	Glib::RefPtr< Gdk::Window > _window;
 	Glib::RefPtr< Gdk::GL::Config > _glconfig;
 	Glib::RefPtr< Gdk::GL::Context > _glcontext;
 	Glib::RefPtr< Gdk::GL::Window > _glwindow;
+
+    float _translateX;
+    float _translateY;
+    float _motionX;
+    float _motionY;
+    bool _isMotion;
 
 public:
 	ViewGL(View & refView, int & argc, char** argv);

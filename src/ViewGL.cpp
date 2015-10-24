@@ -7,7 +7,10 @@
 #include <iostream>
 
 ViewGL::ViewGL(View & refView, int& argc, char** argv) :
-_refView(refView)
+    _refView(refView),
+    _translateX(0),
+    _translateY(0),
+    _isMotion(false)
 {
 
 	// initialize gtkglextmm
@@ -20,7 +23,7 @@ _refView(refView)
 
 	// initialize event handling
 	//Glib::signal_idle().connect(sigc::mem_fun(*this, &ViewGL::handle_idle));
-	Glib::signal_timeout().connect(sigc::mem_fun(*this, &ViewGL::handle_idle), 20);
+	//Glib::signal_timeout().connect(sigc::mem_fun(*this, &ViewGL::handle_idle), 20);
 	add_events(Gdk::BUTTON_PRESS_MASK);
 	add_events(Gdk::BUTTON_RELEASE_MASK);
 	add_events(Gdk::BUTTON1_MOTION_MASK);
@@ -55,16 +58,14 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glPushMatrix();
-    glTranslatef(0, 0, 0.1);
+    glTranslatef(_translateX, _translateY, 0);
     //glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, Material()._diffuse);
     //glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, Material()._specular);
     //glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, Material()._shininess);
     gluSphere(gluNewQuadric(), 0.5, 32, 32);
     glPopMatrix();
 
-
 	_glwindow->gl_end();
-
     _glwindow->swap_buffers();
 
 	return true;
@@ -75,18 +76,34 @@ bool ViewGL::on_configure_event(GdkEventConfigure * )
 	return true;
 }
 
-bool ViewGL::on_button_press_event(GdkEventButton* ) 
+bool ViewGL::on_button_press_event(GdkEventButton * event) 
 {
+    if (event->button == 1)
+    {
+        _motionX = event->x;
+        _motionY = event->y;
+        _isMotion = true;
+    }
 	return true;
 }
 
-bool ViewGL::on_button_release_event(GdkEventButton* ) 
+bool ViewGL::on_button_release_event(GdkEventButton * event) 
 {
+    if (event->button == 1)
+        _isMotion = false; 
     return true;
 }
 
-bool ViewGL::on_motion_notify_event(GdkEventMotion* ) 
+bool ViewGL::on_motion_notify_event(GdkEventMotion * event) 
 {
+    if (_isMotion)
+    {
+        _translateX += 0.005*(event->x - _motionX);
+        _motionX = event->x;
+        _translateY += -0.005*(event->y - _motionY);
+        _motionY = event->y;
+        _window->invalidate(false);
+    }
 	return true;
 }
 
