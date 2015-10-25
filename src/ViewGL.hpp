@@ -5,12 +5,12 @@
 #include <gtkmm.h>
 #include <gtkglmm.h>
 
+class Game;
 class View;
 
-// Displays an OpenGL scene in a gtkmm window.
 class ViewGL : public Gtk::GL::DrawingArea 
 {
-
+    Game & _refGame;
 	View & _refView;
 
 	Glib::RefPtr< Gdk::Window > _window;
@@ -25,8 +25,9 @@ class ViewGL : public Gtk::GL::DrawingArea
     bool _isMotion;
 
 public:
-	ViewGL(View & refView, int & argc, char** argv);
+	ViewGL(Game & refGame, View & refView, int & argc, char** argv);
 	void init();
+    void update();
 
 private:
 	// override signal handlers
@@ -37,9 +38,7 @@ private:
 	bool on_motion_notify_event(GdkEventMotion * event);
 
 	// new handlers
-	bool handle_idle();
-	//bool handle_key_press_event(GdkEventKey * event);
-	//bool handle_key_release_event(GdkEventKey * event);
+	//bool handle_idle();
 };
 
 #endif

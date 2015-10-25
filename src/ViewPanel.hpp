@@ -4,30 +4,31 @@
 
 #include <gtkmm.h>
 
+class Game;
 class View;
 
 class ViewPanel : public Gtk::VBox 
 {
-    View & _refView;
+    private:
+        Game & _refGame;
+        View & _refView;
 
-    Gtk::Button _newButton;
-    Gtk::Button _quitButton;
+        Gtk::Button _newButton;
+        Gtk::Button _quitButton;
 
-    Gtk::SpinButton _pitchSpin1;
-    Gtk::SpinButton _yawSpin1;
-    Gtk::SpinButton _velocitySpin1;
-    Gtk::Button _launchButton1;
-
-    Gtk::SpinButton _pitchSpin2;
-    Gtk::SpinButton _yawSpin2;
-    Gtk::SpinButton _velocitySpin2;
-    Gtk::Button _launchButton2;
+        Gtk::SpinButton _pitchSpin;
+        Gtk::SpinButton _yawSpin;
+        Gtk::SpinButton _velocitySpin;
+        Gtk::Button _launchButton;
 
     public:
-    ViewPanel(View & refView);
+        ViewPanel(Game & refGame, View & refView);
+        void update();
 
     private:
-    void packLabel(const char * str);
+        void packLabel(const char * str);
+        void handleNew();
+        void handleLaunch();
 };
 
 #endif

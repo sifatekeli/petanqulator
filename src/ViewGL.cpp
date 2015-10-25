@@ -1,4 +1,5 @@
 
+#include "Game.hpp"
 #include "View.hpp"
 #include "ViewGL.hpp"
 #include "Utils.hpp"
@@ -7,21 +8,24 @@
 
 #include <iostream>
 
-ViewGL::ViewGL(View & refView, int& argc, char** argv) :
+ViewGL::ViewGL(Game & refGame, View & refView, int& argc, char** argv) :
+    _refGame(refGame),
     _refView(refView),
     _translateX(0),
     _translateY(0),
     _isMotion(false)
 {
-
-	// initialize gtkglextmm
-	Gtk::GL::init(argc, argv);
-	_glconfig = Gdk::GL::Config::create(Gdk::GL::MODE_RGBA 
+    Gtk::GL::init(argc, argv);
+    _glconfig = Gdk::GL::Config::create(Gdk::GL::MODE_RGBA 
             | Gdk::GL::MODE_DEPTH | Gdk::GL::MODE_DOUBLE);
-	if (not _glconfig)
-        UTILS_ERROR("OpenGL init failed")
+    if (not _glconfig)
+    {
+        UTILS_ERROR("OpenGL init failed");
+    }
     else
-        UTILS_INFO("OpenGL init ok")
+    {
+        UTILS_INFO("OpenGL init ok");
+    }
 
 	set_gl_capability(_glconfig);
 
@@ -40,9 +44,13 @@ void ViewGL::init()
     _glwindow = get_gl_window();
 
 	if (not _glwindow->gl_begin(_glcontext))
-        UTILS_ERROR("OpenGL begin failed")
+    {
+        UTILS_ERROR("OpenGL begin failed");
+    }
     else
-        UTILS_INFO("OpenGL begin ok")
+    {
+        UTILS_INFO("OpenGL begin ok");
+    }
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
@@ -60,13 +68,21 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
     glClearColor(0.5, 0.5, 0.5, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    // draw ground
     glPushMatrix();
+
     glTranslatef(_translateX, _translateY, 0);
     //glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, Material()._diffuse);
     //glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, Material()._specular);
     //glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, Material()._shininess);
     gluSphere(gluNewQuadric(), 0.5, 32, 32);
     glPopMatrix();
+
+    // draw jack
+
+    // draw red balls
+
+    // draw blue balls
 
 	_glwindow->gl_end();
     _glwindow->swap_buffers();
@@ -105,20 +121,27 @@ bool ViewGL::on_motion_notify_event(GdkEventMotion * event)
         _motionX = event->x;
         _translateY += -0.005*(event->y - _motionY);
         _motionY = event->y;
-        _window->invalidate(false);
+        update();
     }
 	return true;
 }
 
+void ViewGL::update() 
+{
+    _window->invalidate(false);
+}
+
+/*
+
 bool ViewGL::handle_idle() 
 {
-
 	// FIXME beurk
 	//grab_focus();
-
     _window->invalidate(false);
 	return true;
 }
+
+*/
 
 /*
 bool ViewGL::handle_key_press_event(GdkEventKey * ) 
