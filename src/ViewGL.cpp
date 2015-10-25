@@ -1,6 +1,7 @@
 
 #include "View.hpp"
 #include "ViewGL.hpp"
+#include "Utils.hpp"
 
 #include <GL/glu.h>
 
@@ -18,7 +19,10 @@ ViewGL::ViewGL(View & refView, int& argc, char** argv) :
 	_glconfig = Gdk::GL::Config::create(Gdk::GL::MODE_RGBA 
             | Gdk::GL::MODE_DEPTH | Gdk::GL::MODE_DOUBLE);
 	if (not _glconfig)
-        std::cerr << "error: ViewGL::ViewGL" << std::endl;
+        UTILS_ERROR("OpenGL init failed")
+    else
+        UTILS_INFO("OpenGL init ok")
+
 	set_gl_capability(_glconfig);
 
 	// initialize event handling
@@ -36,10 +40,9 @@ void ViewGL::init()
     _glwindow = get_gl_window();
 
 	if (not _glwindow->gl_begin(_glcontext))
-    {
-        std::cerr << "error: ViewGL::init" << std::endl;
-        exit(-1);
-    }
+        UTILS_ERROR("OpenGL begin failed")
+    else
+        UTILS_INFO("OpenGL begin ok")
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);

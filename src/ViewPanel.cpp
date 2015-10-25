@@ -23,6 +23,7 @@ ViewPanel::ViewPanel(View & refView) :
     packLabel("yaw:");
     _yawSpin1.set_range(-180, 180);
     _yawSpin1.set_increments(1, 5);
+    _yawSpin1.set_value(20);
     pack_start(_yawSpin1, Gtk::PACK_SHRINK);
     packLabel("velocity:");
     _velocitySpin1.set_digits(1);
