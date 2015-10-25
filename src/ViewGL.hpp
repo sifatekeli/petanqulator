@@ -18,11 +18,11 @@ class ViewGL : public Gtk::GL::DrawingArea
 	Glib::RefPtr< Gdk::GL::Context > _glcontext;
 	Glib::RefPtr< Gdk::GL::Window > _glwindow;
 
-    float _translateX;
-    float _translateY;
-    float _motionX;
-    float _motionY;
-    bool _isMotion;
+    float _theta;
+    float _thetaRef;
+    float _phi;
+    float _phiRef;
+    bool _motionThetaPhi;
 
 public:
 	ViewGL(Game & refGame, View & refView, int & argc, char** argv);

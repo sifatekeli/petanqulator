@@ -11,9 +11,9 @@
 ViewGL::ViewGL(Game & refGame, View & refView, int& argc, char** argv) :
     _refGame(refGame),
     _refView(refView),
-    _translateX(0),
-    _translateY(0),
-    _isMotion(false)
+    _theta(0),
+    _phi(0),
+    _motionThetaPhi(false)
 {
     Gtk::GL::init(argc, argv);
     _glconfig = Gdk::GL::Config::create(Gdk::GL::MODE_RGBA 
@@ -50,15 +50,19 @@ void ViewGL::init()
     else
     {
         UTILS_INFO("OpenGL begin ok");
+
+        glEnable(GL_DEPTH_TEST);
+        glShadeModel(GL_SMOOTH);
+        glEnable(GL_LIGHTING);
+        glEnable(GL_LIGHT0);
+
+        float specular[4] = {0.8f, 0.8f, 0.8f, 1.f};
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular);
+        float shininess[4] = {50.f, 50.f, 50.f, 1.f};
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, shininess);
+
+        _glwindow->gl_end();
     }
-
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-    glShadeModel(GL_SMOOTH);
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
-
-	_glwindow->gl_end();
 }
 
 bool ViewGL::on_expose_event(GdkEventExpose* ) 
@@ -68,21 +72,32 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
     glClearColor(0.5, 0.5, 0.5, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // draw ground
     glPushMatrix();
 
-    glTranslatef(_translateX, _translateY, 0);
-    //glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, Material()._diffuse);
-    //glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, Material()._specular);
-    //glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, Material()._shininess);
+    glRotatef(_theta, 0, 1, 0);
+    glRotatef(_phi, cos(M_PI*_theta/180.0), 0, sin(M_PI*_theta/180.0));
+
+    float lightPosition[4] = {0, 100, 0, 1};
+    glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
+
+    float jackDiffuse[4] = {1, 0, 0, 1};
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, jackDiffuse);
+    glPushMatrix();
+    glTranslatef(0, 0.5, 0);
     gluSphere(gluNewQuadric(), 0.5, 32, 32);
     glPopMatrix();
 
-    // draw jack
+    float groundDiffuse[4] = {0, 1, 0, 1};
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, groundDiffuse);
+    glBegin(GL_QUADS);
+    glNormal3f(0, 1, 0);
+    glVertex3f(-5, 0, -1);
+    glVertex3f(-5, 0, 1);
+    glVertex3f(5, 0, 1);
+    glVertex3f(5, 0, -1);
+    glEnd();
 
-    // draw red balls
-
-    // draw blue balls
+    glPopMatrix();
 
 	_glwindow->gl_end();
     _glwindow->swap_buffers();
@@ -90,90 +105,59 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
 	return true;
 }
 
-bool ViewGL::on_configure_event(GdkEventConfigure * ) 
+bool ViewGL::on_configure_event(GdkEventConfigure * event) 
 {
-	return true;
+    float h = std::max(1, event->height);
+    float w = event->width;
+    float ratio = w / h;
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glViewport(0, 0, w, h);
+    gluPerspective(60, ratio, 1, 100);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    gluLookAt(0, 12, 10,      // position
+            0, 2, 0,         // center
+            0, 0.77, -0.77); // up vector
+
+    return true;
 }
 
 bool ViewGL::on_button_press_event(GdkEventButton * event) 
 {
     if (event->button == 1)
     {
-        _motionX = event->x;
-        _motionY = event->y;
-        _isMotion = true;
+        _thetaRef = event->x;
+        _phiRef = event->y;
+        _motionThetaPhi = true;
     }
-	return true;
+    return true;
 }
 
 bool ViewGL::on_button_release_event(GdkEventButton * event) 
 {
     if (event->button == 1)
-        _isMotion = false; 
+        _motionThetaPhi = false; 
     return true;
 }
 
 bool ViewGL::on_motion_notify_event(GdkEventMotion * event) 
 {
-    if (_isMotion)
+    if (_motionThetaPhi)
     {
-        _translateX += 0.005*(event->x - _motionX);
-        _motionX = event->x;
-        _translateY += -0.005*(event->y - _motionY);
-        _motionY = event->y;
+        _theta += 0.5*(event->x - _thetaRef);
+        _thetaRef = event->x;
+        _phi += 0.5*(event->y - _phiRef);
+        _phiRef = event->y;
         update();
     }
-	return true;
+    return true;
 }
 
 void ViewGL::update() 
 {
     _window->invalidate(false);
 }
-
-/*
-
-bool ViewGL::handle_idle() 
-{
-	// FIXME beurk
-	//grab_focus();
-    _window->invalidate(false);
-	return true;
-}
-
-*/
-
-/*
-bool ViewGL::handle_key_press_event(GdkEventKey * ) 
-{
-
-	switch (event->keyval) {
-	case GDK_KEY_Page_Up : _keyUp.press(); break;
-	case GDK_KEY_Page_Down : _keyDown.press(); break;
-	case GDK_KEY_Up : _keyForward.press(); break;
-	case GDK_KEY_Down : _keyBackward.press(); break;
-	case GDK_KEY_Left : _keyLeft.press(); break;
-	case GDK_KEY_Right : _keyRight.press(); break;
-	}
-
-	return true;
-}
-
-bool ViewGL::handle_key_release_event(GdkEventKey * ) 
-{
-
-	switch (event->keyval) {
-	case GDK_KEY_Page_Up : _keyUp.release(); break;
-	case GDK_KEY_Page_Down : _keyDown.release(); break;
-	case GDK_KEY_Up : _keyForward.release(); break;
-	case GDK_KEY_Down : _keyBackward.release(); break;
-	case GDK_KEY_Left : _keyLeft.release(); break;
-	case GDK_KEY_Right : _keyRight.release(); break;
-	case GDK_KEY_Escape : Gtk::Main::quit();
-	}
-
-	return true;
-}
-*/
-
 

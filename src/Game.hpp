@@ -2,30 +2,20 @@
 #ifndef _GAME_HPP_
 #define _GAME_HPP_
 
+#include "Physics.hpp"
+
 #include <string>
-#include <vector>
-
-struct Ball
-{
-};
-
-struct Ground
-{
-};
 
 class Game
 {
     private:
-        Ball _jack;
-
+        Physics _physics;
+        Ball * _ptrJack;
+        std::vector<Ball*> _redBalls;
+        std::vector<Ball*> _blueBalls;
         int _nbRemainingRedBalls;
-        std::vector<Ball> _redBalls;
-
         int _nbRemainingBlueBalls;
-        std::vector<Ball> _blueBalls;
-
         std::string _currentPlayer;
-
         std::string _status;
 
     public:
