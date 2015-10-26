@@ -9,7 +9,7 @@ ViewPanel::ViewPanel(Game & refGame, View & refView) :
     _refView(refView),
     _newButton("new"),
     _quitButton("quit"),
-    _launchButton("   launch   ")
+    _throwBallButton("   throw ball   ")
 {
 
 	pack_start(_newButton, Gtk::PACK_SHRINK);
@@ -36,9 +36,12 @@ ViewPanel::ViewPanel(Game & refGame, View & refView) :
     _velocitySpin.set_value(10);
     pack_start(_velocitySpin, Gtk::PACK_SHRINK);
 
-    pack_start(_launchButton, Gtk::PACK_SHRINK);
-	_launchButton.signal_clicked().connect(
-            sigc::mem_fun(*this, &ViewPanel::handleLaunch));
+    pack_start(_throwBallButton, Gtk::PACK_SHRINK);
+	_throwBallButton.signal_clicked().connect(
+            sigc::mem_fun(*this, &ViewPanel::handleThrowBall));
+
+    pack_start(_teamLabel, Gtk::PACK_SHRINK);
+    _teamLabel.set_label("\nTODO teams");
 }
 
 void ViewPanel::update()
@@ -53,7 +56,7 @@ void ViewPanel::handleNew()
     _refView.update();
 }
 
-void ViewPanel::handleLaunch()
+void ViewPanel::handleThrowBall()
 {
     _refView.update();
 }

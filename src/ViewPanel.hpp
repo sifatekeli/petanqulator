@@ -19,7 +19,8 @@ class ViewPanel : public Gtk::VBox
         Gtk::SpinButton _pitchSpin;
         Gtk::SpinButton _yawSpin;
         Gtk::SpinButton _velocitySpin;
-        Gtk::Button _launchButton;
+        Gtk::Button _throwBallButton;
+        Gtk::Label _teamLabel;
 
     public:
         ViewPanel(Game & refGame, View & refView);
@@ -28,7 +29,7 @@ class ViewPanel : public Gtk::VBox
     private:
         void packLabel(const char * str);
         void handleNew();
-        void handleLaunch();
+        void handleThrowBall();
 };
 
 #endif
