@@ -4,10 +4,21 @@
 #include "ViewGL.hpp"
 #include "Utils.hpp"
 
-// Use old OpenGL so it should even run on bread toasters
+// use old OpenGL so it should even run on bread toasters
 #include <GL/glu.h>
 
 #include <iostream>
+
+const std::vector<ViewGL::Color> ViewGL::COLORS = 
+{
+    {"white", 1, 1, 1},
+    {"red", 1, 0, 0},
+    {"green", 0, 1, 0},
+    {"blue", 0, 0, 1},
+    {"cyan", 0, 1, 1},
+    {"magenta", 1, 0, 1},
+    {"yellow", 1, 1, 0}
+};
 
 ViewGL::ViewGL(Game & refGame, View & refView, int& argc, char** argv) :
     _refGame(refGame),
@@ -68,21 +79,22 @@ void ViewGL::init()
 
 bool ViewGL::on_expose_event(GdkEventExpose* ) 
 {
+    // begin drawing
 	_glwindow->gl_begin(_glcontext);
-
     glClearColor(0.5, 0.5, 0.5, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
     glPushMatrix();
 
+    // camera transformation
     glRotatef(_theta, 0, 1, 0);
     glRotatef(_phi, cos(M_PI*_theta/180.0), 0, sin(M_PI*_theta/180.0));
 
+    // update light position
     float lightPosition[4] = {0, 100, 0, 1};
     glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 
     // TODO display game elements
-
+    // draw balls
     float jackDiffuse[4] = {1, 0, 0, 1};
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, jackDiffuse);
     glPushMatrix();
@@ -90,21 +102,22 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
     gluSphere(gluNewQuadric(), 0.5, 32, 32);
     glPopMatrix();
 
-    float groundDiffuse[4] = {0, 1, 0, 1};
+    // draw ground
+    const Ground & ground = _refGame.getGround();
+    float groundDiffuse[4] = {0.2, 0.6, 0.2, 1};
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, groundDiffuse);
     glBegin(GL_QUADS);
     glNormal3f(0, 1, 0);
-    glVertex3f(-5, 0, -1);
-    glVertex3f(-5, 0, 1);
-    glVertex3f(5, 0, 1);
-    glVertex3f(5, 0, -1);
+    glVertex3f(ground._xMin, 0, ground._zMin);
+    glVertex3f(ground._xMin, 0, ground._zMax);
+    glVertex3f(ground._xMax, 0, ground._zMax);
+    glVertex3f(ground._xMax, 0, ground._zMin);
     glEnd();
 
+    // end drawing
     glPopMatrix();
-
 	_glwindow->gl_end();
     _glwindow->swap_buffers();
-
 	return true;
 }
 

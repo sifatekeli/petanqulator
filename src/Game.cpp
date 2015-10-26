@@ -17,10 +17,10 @@ void Game::newGame()
     _physics._ground._mass = INFINITY;
     _physics._ground._position = {0, 0, 0};
     _physics._ground._velocity = {0, 0, 0};
-    _physics._ground._xMin = -6;
-    _physics._ground._xMax = 6;
-    _physics._ground._zMin = -10;
-    _physics._ground._zMax = 10;
+    _physics._ground._xMin = -10;
+    _physics._ground._xMax = 10;
+    _physics._ground._zMin = -6;
+    _physics._ground._zMax = 6;
     _physics._ground._damping = 0.05;
 
     _physics._balls.clear();
