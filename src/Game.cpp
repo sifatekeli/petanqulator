@@ -8,16 +8,77 @@ Game::Game()
 
 void Game::newGame()
 {
-    _nbRemainingRedBalls = 3;
-    _redBalls.clear();
-    _nbRemainingBlueBalls = 3;
-    _blueBalls.clear();
-    _currentPlayer = "red";
-    _status = "current player: red";
+    _remainingBalls = {3, 3};
+    _teamOfPlayers = {1, 2};
+    _currentPlayer = 1;
+
+    // TODO init ground
+    _physics._ground._player = 0;
+    _physics._ground._mass = INFINITY;
+    _physics._ground._position = {0, 0, 0};
+    _physics._ground._velocity = {0, 0, 0};
+    _physics._ground._xMin = -6;
+    _physics._ground._xMax = 6;
+    _physics._ground._zMin = -10;
+    _physics._ground._zMax = 10;
+    _physics._ground._damping = 0.05;
+
+    _physics._balls.clear();
+    Ball jack;
+    jack._player = 0;
+    jack._mass = 0.05;
+    // TODO init jack at a random position
+    jack._position = {0,1,0};
+    jack._velocity = {0,0,0};
+    jack._radius = 0.1;
+    _physics._balls.push_back(jack);
 }
 
-const std::string & Game::getStatus() const
+bool Game::isGameFinished() const
 {
-    return _status;
+    return _remainingBalls[0] == 0 and _remainingBalls[1] == 0;
+}
+
+int Game::getCurrentPlayer() const
+{
+    return _currentPlayer;
+}
+
+void Game::getBestPlayerStats(int & team, int & nbBalls) const
+{
+    // TODO getBestPlayerStats
+    team = 1;
+    nbBalls = 0;
+}
+
+void Game::throwBall()
+{
+    // TODO throwBall
+}
+
+void Game::interactiveThrowStart()
+{
+    // TODO interactiveThrowStart
+}
+
+bool Game::interactiveThrowFinished() const
+{
+    // TODO interactiveThrowFinished
+    return true;
+}
+
+void Game::interactiveThrowContinue()
+{
+    // TODO interactiveThrowContinue
+}
+
+const Ground & Game::getGround() const
+{
+    return _physics._ground;
+}
+
+const std::vector<Ball> & Game::getBalls() const
+{
+    return _physics._balls;
 }
 

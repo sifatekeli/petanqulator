@@ -10,4 +10,3 @@ float Ground::getVolume() const
 {
     return INFINITY;
 }
-

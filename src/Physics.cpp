@@ -24,12 +24,12 @@ void Physics::computeSimulation(float duration)
     for (Ball & b : _balls)
     {
         // calcule toutes les forces
-        vec3 sumF = {0, 0, 0};
+        vec3 resultingForce = {0, 0, 0};
         for (const auto & uptrF : _uptrForces)
-            sumF += uptrF->computeForce(b);
+            resultingForce += uptrF->computeForce(b);
 
         // calcule l'acceleration
-        vec3 acceleration = sumF / b._mass;
+        vec3 acceleration = resultingForce / b._mass;
 
         // met a jour la vitesse
         b._velocity += acceleration * duration;

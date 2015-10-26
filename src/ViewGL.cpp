@@ -81,6 +81,8 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
     float lightPosition[4] = {0, 100, 0, 1};
     glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 
+    // TODO display game elements
+
     float jackDiffuse[4] = {1, 0, 0, 1};
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, jackDiffuse);
     glPushMatrix();

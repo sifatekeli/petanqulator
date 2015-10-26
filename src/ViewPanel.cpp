@@ -42,11 +42,12 @@ ViewPanel::ViewPanel(Game & refGame, View & refView) :
 
     pack_start(_teamLabel, Gtk::PACK_SHRINK);
     _teamLabel.set_label("\nTODO teams");
+    // TODO display teams inside GUI
 }
 
 void ViewPanel::update()
 {
-    _refView.displayStatus(_refGame.getStatus());
+    _refView.displayStatus("TODO display game status");
 }
 
 void ViewPanel::handleNew()

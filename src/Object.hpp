@@ -6,6 +6,7 @@
 
 struct Object 
 {
+    int _player;
     float _mass;
     vec3 _position;
     vec3 _velocity;
