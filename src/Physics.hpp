@@ -5,8 +5,8 @@
 #include "Force.hpp"
 #include "Object.hpp"
 
-#include <list>
 #include <memory>
+#include <vector>
 
 class Physics
 {
@@ -14,8 +14,8 @@ class Physics
         bool _isComputing;
 
     public:
-        std::list<Ball> _balls;
-        std::list<std::unique_ptr<Force>> _uptrForces;
+        std::vector<Ball> _balls;
+        std::vector<std::unique_ptr<Force>> _uptrForces;
         Ground _ground;
         float _velocityThreshold;
 
