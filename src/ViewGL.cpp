@@ -4,6 +4,7 @@
 #include "ViewGL.hpp"
 #include "Utils.hpp"
 
+// Use old OpenGL so it should even run on bread toasters
 #include <GL/glu.h>
 
 #include <iostream>
