@@ -9,7 +9,7 @@ _viewPanel(_game, *this),
 _viewGL(_game, *this, argc, argv) 
 {
 	_window.set_title("PETANQue simULATOR");
-	_window.set_size_request(800, 600);
+	_window.resize(800, 600);
 	_window.move(0, 0);
 
     Gtk::VBox * ptrVBox = Gtk::manage(new Gtk::VBox());
