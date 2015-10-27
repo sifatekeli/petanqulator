@@ -2,15 +2,16 @@
 #include "View.hpp"
 #include "Utils.hpp"
 
-View::View(int & argc, char** argv) :
-_kit(argc, argv),
-_window(),
-_viewPanel(_game, *this),
-_viewGL(_game, *this, argc, argv) 
+View::View(Controller & refController, int & argc, char** argv) :
+    _refController(refController),
+    _kit(argc, argv),
+    _window(),
+    _viewPanel(refController, *this),
+    _viewGL(refController, *this, argc, argv) 
 {
-	_window.set_title("PETANQue simULATOR");
-	_window.resize(800, 600);
-	_window.move(0, 0);
+    _window.set_title("PETANQue simULATOR");
+    _window.resize(800, 600);
+    _window.move(0, 0);
 
     Gtk::VBox * ptrVBox = Gtk::manage(new Gtk::VBox());
 	_window.add(*ptrVBox);

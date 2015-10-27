@@ -4,13 +4,13 @@
 
 #include <gtkmm.h>
 
-class Game;
+class Controller;
 class View;
 
 class ViewPanel : public Gtk::VBox 
 {
     private:
-        Game & _refGame;
+        Controller & _refController;
         View & _refView;
 
         Gtk::Button _newButton;
@@ -22,7 +22,7 @@ class ViewPanel : public Gtk::VBox
         Gtk::Button _throwBallButton;
 
     public:
-        ViewPanel(Game & refGame, View & refView);
+        ViewPanel(Controller & refController, View & refView);
         void update();
 
     private:

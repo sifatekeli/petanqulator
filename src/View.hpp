@@ -2,17 +2,17 @@
 #ifndef _VIEW_HPP_
 #define _VIEW_HPP_
 
-#include "Game.hpp"
 #include "ViewPanel.hpp"
 #include "ViewGL.hpp"
 
 #include <gtkmm.h>
 
+class Controller;
+
 class View 
 {
     private:
-        Game _game;
-
+        Controller & _refController;
         Gtk::Main _kit;
         Gtk::Window _window;
         Gtk::Statusbar _statusbar;
@@ -21,7 +21,7 @@ class View
         ViewGL _viewGL;
 
     public :
-        View (int & argc, char ** argv);
+        View (Controller & refController, int & argc, char ** argv);
         void run();
         void quit();
         void update();

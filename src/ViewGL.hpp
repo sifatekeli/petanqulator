@@ -5,13 +5,13 @@
 #include <gtkmm.h>
 #include <gtkglmm.h>
 
-class Game;
+class Controller;
 class View;
 
 class ViewGL : public Gtk::GL::DrawingArea 
 {
     private:
-        Game & _refGame;
+        Controller & _refController;
         View & _refView;
 
         Glib::RefPtr< Gdk::Window > _window;
@@ -26,7 +26,8 @@ class ViewGL : public Gtk::GL::DrawingArea
         bool _motionThetaPhi;
 
     public:
-        ViewGL(Game & refGame, View & refView, int & argc, char** argv);
+        ViewGL(Controller & refController, View & refView, 
+                int & argc, char** argv);
         void init();
         void update();
 

@@ -1,5 +1,5 @@
 
-#include "Game.hpp"
+#include "Controller.hpp"
 #include "View.hpp"
 #include "ViewGL.hpp"
 #include "Utils.hpp"
@@ -17,8 +17,8 @@ const std::vector<std::array<float,4>> ViewGL::COLORS =
     {0.6, 0.6, 0.2, 1}   // none (ground)
 };
 
-ViewGL::ViewGL(Game & refGame, View & refView, int& argc, char** argv) :
-    _refGame(refGame),
+ViewGL::ViewGL(Controller & refController, View & refView, int& argc, char** argv) :
+    _refController(refController),
     _refView(refView),
     _theta(0),
     _phi(0),
@@ -91,7 +91,7 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
     glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 
     // draw balls
-    for (const Ball & b : _refGame.getBalls())
+    for (const Ball & b : _refController.getBalls())
     {
         glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, COLORS[b._player].data());
         glPushMatrix();
@@ -101,7 +101,7 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
     }
 
     // draw ground
-    const Ground & ground = _refGame.getGround();
+    const Ground & ground = _refController.getGround();
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, COLORS[PLAYER_NONE].data());
     glBegin(GL_QUADS);
     glNormal3f(0, 1, 0);

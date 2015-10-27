@@ -1,11 +1,11 @@
-#include "View.hpp"
+#include "Controller.hpp"
 
 // TODO add camera zoom and camera translation 
 
 int main(int argc, char ** argv) 
 {
-    View view(argc, argv);
-    view.run();
+    Controller controller(argc, argv);
+    controller.run();
     return 0;
 }
 

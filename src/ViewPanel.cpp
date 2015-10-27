@@ -1,5 +1,5 @@
 
-#include "Game.hpp"
+#include "Controller.hpp"
 #include "View.hpp"
 #include "ViewPanel.hpp"
 #include "Utils.hpp"
@@ -7,8 +7,8 @@
 #include <set>
 #include <sstream>
 
-ViewPanel::ViewPanel(Game & refGame, View & refView) :
-    _refGame(refGame),
+ViewPanel::ViewPanel(Controller & refController, View & refView) :
+    _refController(refController),
     _refView(refView),
     _newButton("new"),
     _quitButton("quit"),
@@ -52,15 +52,12 @@ void ViewPanel::update()
 void ViewPanel::handleNew()
 {
     UTILS_INFO("new game");
-    _refGame.newGame();
-    _refView.update();
+    _refController.newGame();
 }
 
 void ViewPanel::handleThrowBall()
 {
-    // TODO
-    _refGame.throwBall();
-    _refView.update();
+    _refController.throwBall();
 }
 
 void ViewPanel::packLabel(const char * str)
