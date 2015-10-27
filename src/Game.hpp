@@ -32,6 +32,7 @@ class Game
 
         const Ground & getGround() const;
         const std::vector<Ball> & getBalls() const;
+        const std::vector<int> & getTeamOfPlayers() const;
 };
 
 #endif

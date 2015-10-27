@@ -13,6 +13,7 @@ void Game::newGame()
     _currentPlayer = 1;
 
     // TODO init ground
+    // ground
     _physics._ground._player = 0;
     _physics._ground._mass = INFINITY;
     _physics._ground._position = {0, 0, 0};
@@ -23,6 +24,7 @@ void Game::newGame()
     _physics._ground._zMax = 6;
     _physics._ground._damping = 0.05;
 
+    // jack
     _physics._balls.clear();
     Ball jack;
     jack._player = 0;
@@ -32,6 +34,18 @@ void Game::newGame()
     jack._velocity = {0,0,0};
     jack._radius = 0.1;
     _physics._balls.push_back(jack);
+
+    // TODO test
+    Ball b1;
+    b1._player = 1;
+    b1._mass = 0.05;
+    b1._position = {1,1,0};
+    b1._velocity = {0,0,0};
+    b1._radius = 0.1;
+    _physics._balls.push_back(b1);
+    b1._player = 2;
+    b1._position = {-1,1,0};
+    _physics._balls.push_back(b1);
 }
 
 bool Game::isGameFinished() const
@@ -80,5 +94,10 @@ const Ground & Game::getGround() const
 const std::vector<Ball> & Game::getBalls() const
 {
     return _physics._balls;
+}
+
+const std::vector<int> & Game::getTeamOfPlayers() const
+{
+    return _teamOfPlayers;
 }
 

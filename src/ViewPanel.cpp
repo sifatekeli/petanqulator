@@ -4,6 +4,9 @@
 #include "ViewPanel.hpp"
 #include "Utils.hpp"
 
+#include <set>
+#include <sstream>
+
 ViewPanel::ViewPanel(Game & refGame, View & refView) :
     _refGame(refGame),
     _refView(refView),
@@ -11,7 +14,6 @@ ViewPanel::ViewPanel(Game & refGame, View & refView) :
     _quitButton("quit"),
     _throwBallButton("   throw ball   ")
 {
-
 	pack_start(_newButton, Gtk::PACK_SHRINK);
 	_newButton.signal_clicked().connect(
             sigc::mem_fun(*this, &ViewPanel::handleNew));
@@ -20,16 +22,16 @@ ViewPanel::ViewPanel(Game & refGame, View & refView) :
 	_quitButton.signal_clicked().connect(
             sigc::mem_fun(_refView, &View::quit));
 
-    packLabel("\npitch:");
+    packLabel("\n pitch:");
     _pitchSpin.set_range(-180, 180);
     _pitchSpin.set_increments(1, 5);
     pack_start(_pitchSpin, Gtk::PACK_SHRINK);
-    packLabel("yaw:");
+    packLabel(" yaw:");
     _yawSpin.set_range(-180, 180);
     _yawSpin.set_increments(1, 5);
     _yawSpin.set_value(20);
     pack_start(_yawSpin, Gtk::PACK_SHRINK);
-    packLabel("velocity:");
+    packLabel(" velocity:");
     _velocitySpin.set_digits(1);
     _velocitySpin.set_range(0, 20);
     _velocitySpin.set_increments(0.1, 5);
@@ -40,13 +42,27 @@ ViewPanel::ViewPanel(Game & refGame, View & refView) :
 	_throwBallButton.signal_clicked().connect(
             sigc::mem_fun(*this, &ViewPanel::handleThrowBall));
 
+    // display teams
     pack_start(_teamLabel, Gtk::PACK_SHRINK);
-    _teamLabel.set_label("\nTODO teams");
-    // TODO display teams inside GUI
+    _teamLabel.set_alignment(Gtk::ALIGN_START);
+    std::set<int> teams;
+    for (int t : _refGame.getTeamOfPlayers())
+        teams.insert(t);
+    std::stringstream ss;
+    for (int t : teams)
+    {
+        ss << "\n team " << t << ":\n";
+        for (int p : _refGame.getTeamOfPlayers())
+            if (t == p)
+                ss << "  - " << ViewGL::COLORS[p]._name;
+        ss << "\n";
+    }
+    _teamLabel.set_label(ss.str());
 }
 
 void ViewPanel::update()
 {
+    // TODO status bar
     _refView.displayStatus("TODO display game status");
 }
 
@@ -65,6 +81,7 @@ void ViewPanel::handleThrowBall()
 void ViewPanel::packLabel(const char * str)
 {
     Gtk::Label * ptrLabel = Gtk::manage(new Gtk::Label(str));
+    ptrLabel->set_alignment(Gtk::ALIGN_START);
     pack_start(*ptrLabel, Gtk::PACK_SHRINK);
 }
 

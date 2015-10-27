@@ -11,13 +11,13 @@
 
 const std::vector<ViewGL::Color> ViewGL::COLORS = 
 {
-    {"white", 1, 1, 1},
-    {"red", 1, 0, 0},
-    {"green", 0, 1, 0},
-    {"blue", 0, 0, 1},
-    {"cyan", 0, 1, 1},
-    {"magenta", 1, 0, 1},
-    {"yellow", 1, 1, 0}
+    {"white", {1, 1, 1, 1}},
+    {"red", {1, 0, 0, 1}},
+    {"green", {0, 1, 0, 1}},
+    {"blue", {0, 0, 1, 1}},
+    {"cyan", {0, 1, 1, 1}},
+    {"magenta", {1, 0, 1, 1}},
+    {"yellow", {1, 1, 0, 1}}
 };
 
 ViewGL::ViewGL(Game & refGame, View & refView, int& argc, char** argv) :
@@ -93,18 +93,19 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
     float lightPosition[4] = {0, 100, 0, 1};
     glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 
-    // TODO display game elements
     // draw balls
-    float jackDiffuse[4] = {1, 0, 0, 1};
-    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, jackDiffuse);
-    glPushMatrix();
-    glTranslatef(0, 0.5, 0);
-    gluSphere(gluNewQuadric(), 0.5, 32, 32);
-    glPopMatrix();
+    for (const Ball & b : _refGame.getBalls())
+    {
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, COLORS[b._player]._color);
+        glPushMatrix();
+        glTranslatef(b._position(0), b._position(1), b._position(2));
+        gluSphere(gluNewQuadric(), b._radius, 16, 16);
+        glPopMatrix();
+    }
 
     // draw ground
     const Ground & ground = _refGame.getGround();
-    float groundDiffuse[4] = {0.2, 0.6, 0.2, 1};
+    float groundDiffuse[4] = {0.6, 0.6, 0.2, 1};
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, groundDiffuse);
     glBegin(GL_QUADS);
     glNormal3f(0, 1, 0);

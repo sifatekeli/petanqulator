@@ -34,9 +34,7 @@ class ViewGL : public Gtk::GL::DrawingArea
         struct Color
         {
             std::string _name;
-            float _r;
-            float _g;
-            float _b;
+            float _color[4];
         };
         static const std::vector<Color> COLORS;
 
