@@ -12,6 +12,10 @@ void Game::newGame()
     _teamOfPlayers = {1, 2};
     _currentPlayer = 1;
 
+    // forces
+    _physics._uptrForces.emplace_back(new Gravity(0, -9.8f, 0));
+    _physics._uptrForces.emplace_back(new Viscosity(20));
+
     // TODO init ground
     // ground
     _physics._ground._player = 0;
@@ -22,13 +26,13 @@ void Game::newGame()
     _physics._ground._xMax = 10;
     _physics._ground._zMin = -6;
     _physics._ground._zMax = 6;
-    _physics._ground._damping = 0.05;
+    _physics._ground._damping = 0.4;
 
     // jack
     _physics._balls.clear();
     Ball jack;
     jack._player = 0;
-    jack._mass = 0.05;
+    jack._mass = 0.01;
     // TODO init jack at a random position
     jack._position = {0,1,0};
     jack._velocity = {0,0,0};
@@ -68,6 +72,10 @@ void Game::getBestPlayerStats(int & team, int & nbBalls) const
 void Game::throwBall()
 {
     // TODO throwBall
+
+    _physics.startSimulation();
+    //while (not _physics.isSimulationFinished())
+        _physics.computeSimulation(0.1);
 }
 
 void Game::interactiveThrowStart()

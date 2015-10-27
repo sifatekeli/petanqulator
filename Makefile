@@ -1,4 +1,4 @@
-PACKAGES = glew gtkglextmm-1.2 gtkmm-2.4 eigen3
+PACKAGES = glu gtkglextmm-1.2 gtkmm-2.4 eigen3
 CXXFLAGS += -std=c++11 -Wall -Wextra 
 MAINSRC = ./src/petanqulator.cpp 
 ifeq ($(DEBUG), 1)

@@ -13,12 +13,14 @@ struct Force
 struct Viscosity : Force
 {
     float _viscosity;
+    Viscosity(float viscosity);
     vec3 computeForce(Object & object);
 };
 
 struct Gravity : Force
 {
     vec3 _gravity;
+    Gravity(float x, float y, float z);
     vec3 computeForce(Object & object);
 };
 

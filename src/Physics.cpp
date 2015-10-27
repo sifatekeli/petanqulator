@@ -1,5 +1,6 @@
 
 #include "Physics.hpp"
+#include "Utils.hpp"
 
 void Physics::startSimulation()
 {
@@ -8,14 +9,20 @@ void Physics::startSimulation()
 
 bool Physics::isSimulationFinished()
 {
-    return _isComputing;
+    return not _isComputing;
 }
 
 void Physics::computeSimulation(float duration)
 {
+    _isComputing = false;
+
     // met a jour la _position
     for (Ball & b : _balls)
+    {
+        std::cout << b._position(1) << ' ';
         b._position += b._velocity * duration;
+        std::cout << b._position(1) << '\n';
+    }
 
     // met a jour la vitesse selon les collisions
     computeCollisions();
@@ -33,6 +40,11 @@ void Physics::computeSimulation(float duration)
 
         // met a jour la vitesse
         b._velocity += acceleration * duration;
+
+        // TODO 
+        if (b._velocity.squaredNorm() > 1e-3
+                or acceleration.squaredNorm() > 1e-3)
+            _isComputing = true;
     }
 }
 

@@ -75,6 +75,8 @@ void ViewPanel::handleNew()
 
 void ViewPanel::handleThrowBall()
 {
+    // TODO
+    _refGame.throwBall();
     _refView.update();
 }
 
