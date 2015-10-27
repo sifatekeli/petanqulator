@@ -2,6 +2,8 @@
 #ifndef _VIEWGL_HPP_
 #define _VIEWGL_HPP_
 
+#include "Chrono.hpp"
+
 #include <gtkmm.h>
 #include <gtkglmm.h>
 
@@ -46,7 +48,7 @@ class ViewGL : public Gtk::GL::DrawingArea
         bool on_motion_notify_event(GdkEventMotion * event);
 
         // new handlers
-        // TODO add a chrono
+        Chrono _chrono;
         sigc::connection _timeoutConnection;
         bool handleTimeout();
 };

@@ -176,20 +176,26 @@ void ViewGL::update()
 
 void ViewGL::startAnimation()
 {
+    _chrono.start();
     _timeoutConnection = Glib::signal_timeout().connect(
             sigc::mem_fun(*this, &ViewGL::handleTimeout), 30);
 }
 
 void ViewGL::stopAnimation()
 {
+    _chrono.stop();
     _timeoutConnection.disconnect();
+
+    std::stringstream ss;
+    ss << "animation duration = " << _chrono.elapsedStopped();
+    UTILS_INFO(ss.str());
 }
 
 bool ViewGL::handleTimeout()
 {
     update();
-    // TODO chrono
-    _refController.updateThrow(0.02);
+    float duration = _chrono.elapsedRunning();
+    _refController.updateThrow(duration);
     return true;
 }
 

@@ -25,13 +25,13 @@ void Game::newGame()
 
     // ground
     _physics._ground = Ground(PLAYER_NONE, INFINITY, vec3(0,0,0), 
-            vec3(0,0,0), -10, 10, -6, 6, 0.4);
+            vec3(0,0,0), -10, 10, -6, 6, 0.99);
 
     // jack
     _physics._balls.clear();
     // TODO init jack at a random position
     _physics._balls.emplace_back(
-            PLAYER_JACK, 0.01, vec3(0,1,0), vec3(0,0,0), 0.1);
+            PLAYER_JACK, 0.01, vec3(0,5,0), vec3(0,0,0), 0.1);
 
     // TODO test
     _physics._balls.emplace_back(
