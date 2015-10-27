@@ -4,10 +4,12 @@
 
 #include "Utils.hpp"
 
+enum player_t {PLAYER_RED, PLAYER_BLUE, PLAYER_JACK, PLAYER_NONE};
+
 class Object 
 {
     public:
-        int _player;
+        player_t _player;
         float _mass;
         vec3 _position;
         vec3 _velocity;
@@ -20,7 +22,7 @@ class Object
 
     public:
         Object();
-        Object(int player, float mass, vec3 position, vec3 velocity);
+        Object(player_t player, float mass, vec3 position, vec3 velocity);
         ~Object();
         virtual float getVolume() const = 0;
 
@@ -32,7 +34,7 @@ class Ball : public Object
     public:
         float _radius;
 
-        Ball(int player, float mass, vec3 position, vec3 velocity, 
+        Ball(player_t player, float mass, vec3 position, vec3 velocity, 
                 float radius);
         float getVolume() const;
 };
@@ -47,7 +49,7 @@ class Ground : public Object
         float _damping;
 
         Ground();
-        Ground(int player, float mass, vec3 position, vec3 velocity, 
+        Ground(player_t player, float mass, vec3 position, vec3 velocity, 
                 float xMin, float xMax, float zMin, float zMax, float damping);
         float getVolume() const;
 };

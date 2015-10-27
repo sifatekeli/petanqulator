@@ -9,15 +9,12 @@
 
 #include <iostream>
 
-const std::vector<ViewGL::Color> ViewGL::COLORS = 
+const std::vector<std::array<float,4>> ViewGL::COLORS = 
 {
-    {"white", {1, 1, 1, 1}},
-    {"red", {1, 0, 0, 1}},
-    {"green", {0, 1, 0, 1}},
-    {"blue", {0, 0, 1, 1}},
-    {"cyan", {0, 1, 1, 1}},
-    {"magenta", {1, 0, 1, 1}},
-    {"yellow", {1, 1, 0, 1}}
+    {1, 0, 0, 1},        // player red
+    {0, 0, 1, 1},        // player blue
+    {1, 1, 1, 1},        // jack
+    {0.6, 0.6, 0.2, 1}   // none (ground)
 };
 
 ViewGL::ViewGL(Game & refGame, View & refView, int& argc, char** argv) :
@@ -70,7 +67,7 @@ void ViewGL::init()
 
         float specular[4] = {0.8f, 0.8f, 0.8f, 1.f};
         glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular);
-        float shininess[4] = {50.f, 50.f, 50.f, 1.f};
+        float shininess[4] = {10.f, 10.f, 10.f, 1.f};
         glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, shininess);
 
         _glwindow->gl_end();
@@ -96,7 +93,7 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
     // draw balls
     for (const Ball & b : _refGame.getBalls())
     {
-        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, COLORS[b._player]._color);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, COLORS[b._player].data());
         glPushMatrix();
         glTranslatef(b._position(0), b._position(1), b._position(2));
         gluSphere(gluNewQuadric(), b._radius, 16, 16);
@@ -105,8 +102,7 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
 
     // draw ground
     const Ground & ground = _refGame.getGround();
-    float groundDiffuse[4] = {0.6, 0.6, 0.2, 1};
-    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, groundDiffuse);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, COLORS[PLAYER_NONE].data());
     glBegin(GL_QUADS);
     glNormal3f(0, 1, 0);
     glVertex3f(ground._xMin, 0, ground._zMin);

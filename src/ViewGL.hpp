@@ -31,12 +31,7 @@ class ViewGL : public Gtk::GL::DrawingArea
         void update();
 
     public:
-        struct Color
-        {
-            std::string _name;
-            float _color[4];
-        };
-        static const std::vector<Color> COLORS;
+        static const std::vector<std::array<float,4>> COLORS;
 
     private:
         // override signal handlers

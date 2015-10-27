@@ -9,12 +9,14 @@ Game::Game()
 void Game::newGame()
 {
     // players and teams
-    _remainingBalls = {3, 3};
-    _teamOfPlayers = {1, 2};
-    _currentPlayer = 1;
+    _remainingBallsRed = 6;
+    _remainingBallsBlue = 6;
+    _currentPlayer = PLAYER_RED;
+    _opponentPlayer = PLAYER_BLUE;
 
     // physics
     _physics._motionThreshold = 1e-4;
+    _timeStep = 1e-2;
 
     // forces
     _physics._uptrForces.clear();
@@ -22,34 +24,36 @@ void Game::newGame()
     _physics._uptrForces.emplace_back(new Viscosity(20));
 
     // ground
-    _physics._ground = 
-        Ground(0, INFINITY, vec3(0,0,0), vec3(0,0,0), -10, 10, -6, 6, 0.4);
+    _physics._ground = Ground(PLAYER_NONE, INFINITY, vec3(0,0,0), 
+            vec3(0,0,0), -10, 10, -6, 6, 0.4);
 
     // jack
     _physics._balls.clear();
     // TODO init jack at a random position
-    _physics._balls.emplace_back(0, 0.01, vec3(0,1,0), vec3(0,0,0), 0.1);
+    _physics._balls.emplace_back(
+            PLAYER_JACK, 0.01, vec3(0,1,0), vec3(0,0,0), 0.1);
 
     // TODO test
-    _physics._balls.emplace_back(1, 0.05, vec3(1,1,0), vec3(0,0,0), 0.1);
-    _physics._balls.emplace_back(2, 0.05, vec3(-1,1,0), vec3(0,0,0), 0.1);
+    _physics._balls.emplace_back(
+            PLAYER_RED, 0.05, vec3(1,1,0), vec3(0,0,0), 0.1);
+    _physics._balls.emplace_back(
+            PLAYER_BLUE, 0.05, vec3(-1,1,0), vec3(0,0,0), 0.1);
 }
 
 bool Game::isGameFinished() const
 {
-    return std::all_of(_remainingBalls.begin(), _remainingBalls.end(), 
-            [](int n) {return n==0;});
+    return _remainingBallsBlue == 0 and _remainingBallsRed == 0;
 }
 
-int Game::getCurrentPlayer() const
+player_t Game::getCurrentPlayer() const
 {
     return _currentPlayer;
 }
 
-void Game::getBestPlayerStats(int & team, int & nbBalls) const
+void Game::getBestPlayerStats(player_t & player, int & nbBalls) const
 {
     // TODO getBestPlayerStats
-    team = 1;
+    player = PLAYER_RED;
     nbBalls = 0;
 }
 
@@ -59,7 +63,7 @@ void Game::throwBall()
 
     _physics.startSimulation();
     while (not _physics.isSimulationFinished())
-        _physics.computeSimulation(0.01);
+        _physics.computeSimulation(_timeStep);
 }
 
 void Game::interactiveThrowStart()
@@ -86,10 +90,5 @@ const Ground & Game::getGround() const
 const std::vector<Ball> & Game::getBalls() const
 {
     return _physics._balls;
-}
-
-const std::vector<int> & Game::getTeamOfPlayers() const
-{
-    return _teamOfPlayers;
 }
 

@@ -10,17 +10,19 @@ class Game
 {
     private:
         Physics _physics;
-        std::vector<int> _remainingBalls;
-        std::vector<int> _teamOfPlayers;
-        int _currentPlayer;
+        float _timeStep;
+        int _remainingBallsRed;
+        int _remainingBallsBlue;
+        player_t _currentPlayer;
+        player_t _opponentPlayer;
 
     public:
         Game();
 
         void newGame();
         bool isGameFinished() const;
-        int getCurrentPlayer() const;
-        void getBestPlayerStats(int & team, int & nbBalls) const;
+        player_t getCurrentPlayer() const;
+        void getBestPlayerStats(player_t & player, int & nbBalls) const;
 
         // throw one ball and compute physics simulation till stationnarity
         void throwBall();
@@ -32,7 +34,6 @@ class Game
 
         const Ground & getGround() const;
         const std::vector<Ball> & getBalls() const;
-        const std::vector<int> & getTeamOfPlayers() const;
 };
 
 #endif

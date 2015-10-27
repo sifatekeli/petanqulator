@@ -8,12 +8,13 @@ Object::Object():
 Object::~Object()
 {}
 
-Object::Object(int player, float mass, vec3 position, vec3 velocity):
+Object::Object(player_t player, float mass, vec3 position, vec3 velocity):
     _player(player), _mass(mass), _position(position), _velocity(velocity),
     _delta(1,1,1)
 {}
 
-Ball::Ball(int player, float mass, vec3 position, vec3 velocity, float radius):
+Ball::Ball(player_t player, float mass, vec3 position, vec3 velocity, 
+        float radius):
     Object(player, mass, position, velocity), _radius(radius)
 {}
 
@@ -26,7 +27,7 @@ Ground::Ground():
     Object()
 {}
 
-Ground::Ground(int player, float mass, vec3 position, vec3 velocity, 
+Ground::Ground(player_t player, float mass, vec3 position, vec3 velocity, 
         float xMin, float xMax, float zMin, float zMax, float damping):
     Object(player, mass, position, velocity),
     _xMin(xMin), _xMax(xMax), _zMin(zMin), _zMax(zMax), _damping(damping)

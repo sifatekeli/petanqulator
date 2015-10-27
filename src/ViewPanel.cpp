@@ -41,23 +41,6 @@ ViewPanel::ViewPanel(Game & refGame, View & refView) :
     pack_start(_throwBallButton, Gtk::PACK_SHRINK);
 	_throwBallButton.signal_clicked().connect(
             sigc::mem_fun(*this, &ViewPanel::handleThrowBall));
-
-    // display teams
-    pack_start(_teamLabel, Gtk::PACK_SHRINK);
-    _teamLabel.set_alignment(Gtk::ALIGN_START);
-    std::set<int> teams;
-    for (int t : _refGame.getTeamOfPlayers())
-        teams.insert(t);
-    std::stringstream ss;
-    for (int t : teams)
-    {
-        ss << "\n team " << t << ":\n";
-        for (int p : _refGame.getTeamOfPlayers())
-            if (t == p)
-                ss << "  - " << ViewGL::COLORS[p]._name;
-        ss << "\n";
-    }
-    _teamLabel.set_label(ss.str());
 }
 
 void ViewPanel::update()
