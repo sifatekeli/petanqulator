@@ -17,7 +17,7 @@ class Physics
         std::vector<Ball> _balls;
         std::vector<std::unique_ptr<Force>> _uptrForces;
         Ground _ground;
-        float _velocityThreshold;
+        float _motionThreshold;
 
     public:
         // compute simulation step by step 
@@ -31,11 +31,11 @@ class Physics
 
         // compute elastic collision between two balls
         // do not test contact
-        void computeCollision(Ball & ball1, Ball & ball2) const;
+        void computeBounce(Ball & ball1, Ball & ball2) const;
 
         // compute elastic collision between a ball and the ground
         // do not test contact
-        void computeCollision(Ball & ball, Ground & ground) const;
+        void computeBounce(Ball & ball, Ground & ground) const;
 };
 
 #endif

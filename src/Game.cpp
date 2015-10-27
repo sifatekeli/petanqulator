@@ -8,53 +8,37 @@ Game::Game()
 
 void Game::newGame()
 {
+    // players and teams
     _remainingBalls = {3, 3};
     _teamOfPlayers = {1, 2};
     _currentPlayer = 1;
 
+    // physics
+    _physics._motionThreshold = 1e-4;
+
     // forces
+    _physics._uptrForces.clear();
     _physics._uptrForces.emplace_back(new Gravity(0, -9.8f, 0));
     _physics._uptrForces.emplace_back(new Viscosity(20));
 
-    // TODO init ground
     // ground
-    _physics._ground._player = 0;
-    _physics._ground._mass = INFINITY;
-    _physics._ground._position = {0, 0, 0};
-    _physics._ground._velocity = {0, 0, 0};
-    _physics._ground._xMin = -10;
-    _physics._ground._xMax = 10;
-    _physics._ground._zMin = -6;
-    _physics._ground._zMax = 6;
-    _physics._ground._damping = 0.4;
+    _physics._ground = 
+        Ground(0, INFINITY, vec3(0,0,0), vec3(0,0,0), -10, 10, -6, 6, 0.4);
 
     // jack
     _physics._balls.clear();
-    Ball jack;
-    jack._player = 0;
-    jack._mass = 0.01;
     // TODO init jack at a random position
-    jack._position = {0,1,0};
-    jack._velocity = {0,0,0};
-    jack._radius = 0.1;
-    _physics._balls.push_back(jack);
+    _physics._balls.emplace_back(0, 0.01, vec3(0,1,0), vec3(0,0,0), 0.1);
 
     // TODO test
-    Ball b1;
-    b1._player = 1;
-    b1._mass = 0.05;
-    b1._position = {1,1,0};
-    b1._velocity = {0,0,0};
-    b1._radius = 0.1;
-    _physics._balls.push_back(b1);
-    b1._player = 2;
-    b1._position = {-1,1,0};
-    _physics._balls.push_back(b1);
+    _physics._balls.emplace_back(1, 0.05, vec3(1,1,0), vec3(0,0,0), 0.1);
+    _physics._balls.emplace_back(2, 0.05, vec3(-1,1,0), vec3(0,0,0), 0.1);
 }
 
 bool Game::isGameFinished() const
 {
-    return _remainingBalls[0] == 0 and _remainingBalls[1] == 0;
+    return std::all_of(_remainingBalls.begin(), _remainingBalls.end(), 
+            [](int n) {return n==0;});
 }
 
 int Game::getCurrentPlayer() const
@@ -74,8 +58,8 @@ void Game::throwBall()
     // TODO throwBall
 
     _physics.startSimulation();
-    //while (not _physics.isSimulationFinished())
-        _physics.computeSimulation(0.1);
+    while (not _physics.isSimulationFinished())
+        _physics.computeSimulation(0.01);
 }
 
 void Game::interactiveThrowStart()

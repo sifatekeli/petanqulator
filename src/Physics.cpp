@@ -16,12 +16,12 @@ void Physics::computeSimulation(float duration)
 {
     _isComputing = false;
 
-    // met a jour la _position
+    // met a jour la position
     for (Ball & b : _balls)
     {
-        std::cout << b._position(1) << ' ';
+        b._oldDelta = b._delta;
+        b._oldPosition = b._position;
         b._position += b._velocity * duration;
-        std::cout << b._position(1) << '\n';
     }
 
     // met a jour la vitesse selon les collisions
@@ -41,15 +41,18 @@ void Physics::computeSimulation(float duration)
         // met a jour la vitesse
         b._velocity += acceleration * duration;
 
-        // TODO 
-        if (b._velocity.squaredNorm() > 1e-3
-                or acceleration.squaredNorm() > 1e-3)
+        // verifie si la boule est en mouvement
+        b._delta = b._position - b._oldPosition;
+        if (b._delta.squaredNorm() > _motionThreshold
+                or b._oldDelta.squaredNorm() > _motionThreshold)
             _isComputing = true;
     }
 }
 
 void Physics::computeCollisions()
 {
+    // TODO implement a more robust collision detection 
+
     unsigned nbBalls = _balls.size();
 
     // memorise si les spheres subissent deja une collision
@@ -73,7 +76,8 @@ void Physics::computeCollisions()
             vec3 c1c2 = ball2._position - ball1._position;
             float distance = c1c2.squaredNorm() - ball1._radius - ball2._radius;
 
-            // retient la sphere la plus proche qui n'a pas deja subit une collision
+            // retient la sphere la plus proche 
+            // qui n'a pas deja subit une collision
             if (distance < distanceMin and not isColliding[j])
             {
                 k = j;
@@ -92,7 +96,7 @@ void Physics::computeCollisions()
             if (distanceMin < 0)
             {
                 isColliding[k] = true;
-                computeCollision(ball1, _balls[k]);
+                computeBounce(ball1, _balls[k]);
             }
         }
         // distanceMin > distanceToGround
@@ -101,13 +105,13 @@ void Physics::computeCollisions()
             // collision avec le sol
             if (distanceToGround < 0)
             {
-                computeCollision(ball1, _ground);
+                computeBounce(ball1, _ground);
             }
         }
     }
 }
 
-void Physics::computeCollision(Ball & ball1, Ball & ball2) const
+void Physics::computeBounce(Ball & ball1, Ball & ball2) const
 {
     float m1 = ball1._mass;
     float m2 = ball2._mass;
@@ -142,7 +146,7 @@ void Physics::computeCollision(Ball & ball1, Ball & ball2) const
         ball1._position = p2 + u2 * distance;
 }
 
-void Physics::computeCollision(Ball & ball, Ground & ground) const
+void Physics::computeBounce(Ball & ball, Ground & ground) const
 {
     // empeche la sphere de traverser le sol
     ball._position(1) = ball._radius;
