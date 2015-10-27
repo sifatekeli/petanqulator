@@ -15,7 +15,7 @@ void Game::newGame()
     _opponentPlayer = PLAYER_BLUE;
 
     // physics
-    _physics._motionThreshold = 1e-4;
+    _physics._motionThreshold = 1e-6;
     _timeStep = 1e-2;
 
     // forces
@@ -59,27 +59,35 @@ void Game::getBestPlayerStats(player_t & player, int & nbBalls) const
 
 void Game::throwBall()
 {
-    // TODO throwBall
+    // TODO throw ball
 
     _physics.startSimulation();
-    while (not _physics.isSimulationFinished())
+    while (_physics.isSimulationRunning())
         _physics.computeSimulation(_timeStep);
 }
 
 void Game::interactiveThrowStart()
 {
-    // TODO interactiveThrowStart
+    // TODO throw ball
+
+    _physics.startSimulation();
 }
 
-bool Game::interactiveThrowFinished() const
+bool Game::interactiveThrowRunning() const
 {
-    // TODO interactiveThrowFinished
-    return true;
+    return _physics.isSimulationRunning();
 }
 
-void Game::interactiveThrowContinue()
+void Game::interactiveThrowContinue(float duration)
 {
-    // TODO interactiveThrowContinue
+    float t = duration;
+    while (t - _timeStep > 0 and interactiveThrowRunning())
+    {
+        _physics.computeSimulation(_timeStep);
+        t -= _timeStep;
+    }
+    if (t > 1e-4 and interactiveThrowRunning())
+        _physics.computeSimulation(t);
 }
 
 const Ground & Game::getGround() const

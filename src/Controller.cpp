@@ -26,9 +26,17 @@ void Controller::newGame()
     _view.update();
 }
 
-void Controller::throwBall()
+void Controller::startThrow()
 {
-    _game.throwBall();
-    _view.update();
+    _game.interactiveThrowStart();
+    _view.startAnimation();
+}
+
+void Controller::updateThrow(float duration)
+{
+    if (_game.interactiveThrowRunning())
+        _game.interactiveThrowContinue(duration);
+    else
+        _view.stopAnimation();
 }
 

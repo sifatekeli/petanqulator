@@ -49,6 +49,18 @@ void ViewPanel::update()
     _refView.displayStatus("TODO display game status");
 }
 
+void ViewPanel::startAnimation()
+{
+    _newButton.set_sensitive(false);
+    _throwBallButton.set_sensitive(false);
+}
+
+void ViewPanel::stopAnimation()
+{
+    _newButton.set_sensitive(true);
+    _throwBallButton.set_sensitive(true);
+}
+
 void ViewPanel::handleNew()
 {
     UTILS_INFO("new game");
@@ -57,7 +69,8 @@ void ViewPanel::handleNew()
 
 void ViewPanel::handleThrowBall()
 {
-    _refController.throwBall();
+    UTILS_INFO("throw ball");
+    _refController.startThrow();
 }
 
 void ViewPanel::packLabel(const char * str)

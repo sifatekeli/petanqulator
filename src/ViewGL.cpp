@@ -174,3 +174,22 @@ void ViewGL::update()
     _window->invalidate(false);
 }
 
+void ViewGL::startAnimation()
+{
+    _timeoutConnection = Glib::signal_timeout().connect(
+            sigc::mem_fun(*this, &ViewGL::handleTimeout), 30);
+}
+
+void ViewGL::stopAnimation()
+{
+    _timeoutConnection.disconnect();
+}
+
+bool ViewGL::handleTimeout()
+{
+    update();
+    // TODO chrono
+    _refController.updateThrow(0.02);
+    return true;
+}
+

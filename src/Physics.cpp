@@ -7,9 +7,9 @@ void Physics::startSimulation()
     _isComputing = true;
 }
 
-bool Physics::isSimulationFinished()
+bool Physics::isSimulationRunning() const
 {
-    return not _isComputing;
+    return _isComputing;
 }
 
 void Physics::computeSimulation(float duration)

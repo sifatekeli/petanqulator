@@ -29,8 +29,8 @@ class Game
 
         // step-by-step simulation (for interactive display)
         void interactiveThrowStart();
-        bool interactiveThrowFinished() const;
-        void interactiveThrowContinue();
+        bool interactiveThrowRunning() const;
+        void interactiveThrowContinue(float duration);
 
         const Ground & getGround() const;
         const std::vector<Ball> & getBalls() const;

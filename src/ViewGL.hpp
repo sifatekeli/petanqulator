@@ -28,10 +28,13 @@ class ViewGL : public Gtk::GL::DrawingArea
     public:
         ViewGL(Controller & refController, View & refView, 
                 int & argc, char** argv);
+
         void init();
         void update();
 
-    public:
+        void startAnimation();
+        void stopAnimation();
+
         static const std::vector<std::array<float,4>> COLORS;
 
     private:
@@ -43,7 +46,9 @@ class ViewGL : public Gtk::GL::DrawingArea
         bool on_motion_notify_event(GdkEventMotion * event);
 
         // new handlers
-        //bool handle_idle();
+        // TODO add a chrono
+        sigc::connection _timeoutConnection;
+        bool handleTimeout();
 };
 
 #endif

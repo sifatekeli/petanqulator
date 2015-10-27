@@ -22,7 +22,7 @@ class Physics
     public:
         // compute simulation step by step 
         void startSimulation();
-        bool isSimulationFinished();
+        bool isSimulationRunning() const;
         void computeSimulation(float duration);
 
     private:

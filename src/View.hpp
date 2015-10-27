@@ -28,6 +28,9 @@ class View
         void messageBox(const std::string & title, const std::string & message);
         bool confirmBox(const std::string & title, const std::string & message);
         void displayStatus(const std::string & message);
+
+        void startAnimation();
+        void stopAnimation();
 };
 
 #endif

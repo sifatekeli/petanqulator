@@ -49,6 +49,18 @@ void View::update()
     _viewGL.update();
 }
 
+void View::startAnimation()
+{
+    _viewPanel.startAnimation();
+    _viewGL.startAnimation();
+}
+
+void View::stopAnimation()
+{
+    _viewPanel.stopAnimation();
+    _viewGL.stopAnimation();
+}
+
 void View::messageBox(const std::string & title, const std::string & message) 
 {
     Glib::ustring uTitle(title.c_str());

@@ -19,7 +19,8 @@ class Controller
         const std::vector<Ball> & getBalls() const;
 
         void newGame();
-        void throwBall();
+        void startThrow();
+        void updateThrow(float duration);
 };
 
 #endif
