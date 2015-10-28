@@ -104,7 +104,19 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
     glVertex3f(ground._xMax, 0, ground._zMin);
     glEnd();
 
-    // TODO draw shooter
+    // draw shooter
+    player_t currentPlayer = _refController.getCurrentPlayer();
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, 
+            View::COLORS[currentPlayer]._rgba.data());
+    glPushMatrix();
+    vec3 shooterPosition = _refController.getShooterPosition();
+    glTranslatef(shooterPosition(0), shooterPosition(1), shooterPosition(2));
+    glRotatef(90 + _refView.getYaw(), 0, 1, 0);
+    glRotatef(_refView.getPitch(), -1, 0, 0);
+    gluCylinder(gluNewQuadric(), 0.06, 0.06, 1, 16, 2);
+    glTranslatef(0, 0, 1);
+    gluCylinder(gluNewQuadric(), 0.12, 0, 0.3, 16, 2);
+    glPopMatrix();
 
     // end drawing
     glPopMatrix();

@@ -25,17 +25,19 @@ ViewPanel::ViewPanel(Controller & refController, View & refView) :
     packLabel("\n pitch:");
     _pitchSpin.set_range(-180, 180);
     _pitchSpin.set_increments(1, 5);
-    _pitchSpin.set_value(30);
+    _pitchSpin.set_value(45);
     pack_start(_pitchSpin, Gtk::PACK_SHRINK);
+	_pitchSpin.signal_changed().connect(sigc::mem_fun(_refView, &View::update));
     packLabel(" yaw:");
     _yawSpin.set_range(-180, 180);
     _yawSpin.set_increments(1, 5);
     pack_start(_yawSpin, Gtk::PACK_SHRINK);
+	_yawSpin.signal_changed().connect(sigc::mem_fun(_refView, &View::update));
     packLabel(" velocity:");
     _velocitySpin.set_digits(1);
-    _velocitySpin.set_range(0, 20);
+    _velocitySpin.set_range(0, 10);
     _velocitySpin.set_increments(0.1, 5);
-    _velocitySpin.set_value(10);
+    _velocitySpin.set_value(5);
     pack_start(_velocitySpin, Gtk::PACK_SHRINK);
 
     pack_start(_throwBallButton, Gtk::PACK_SHRINK);
@@ -63,9 +65,9 @@ void ViewPanel::handleNew()
 void ViewPanel::handleThrowBall()
 {
     // get velocity vector from the interface
-    double radPitch = degToRad(_pitchSpin.get_value());
-    double radYaw = degToRad(_yawSpin.get_value());
-    double velocity = _velocitySpin.get_value();
+    double radPitch = degToRad(getPitch());
+    double radYaw = degToRad(getYaw());
+    double velocity = getVelocity();
     double vx = velocity * cos(radPitch) * cos(radYaw);
     double vy = velocity * sin(radPitch);
     double vz = velocity * cos(radPitch) * sin(radYaw);
@@ -84,5 +86,20 @@ void ViewPanel::packLabel(const char * str)
     Gtk::Label * ptrLabel = Gtk::manage(new Gtk::Label(str));
     ptrLabel->set_alignment(Gtk::ALIGN_START);
     pack_start(*ptrLabel, Gtk::PACK_SHRINK);
+}
+
+double ViewPanel::getPitch() const
+{
+    return _pitchSpin.get_value();
+}
+
+double ViewPanel::getYaw() const
+{
+    return _yawSpin.get_value();
+}
+
+double ViewPanel::getVelocity() const
+{
+    return _velocitySpin.get_value();
 }
 

@@ -25,12 +25,18 @@ class View
         void run();
         void quit();
         void update();
-        void displayMessage(const std::string & title, const std::string & message);
-        bool displayConfirm(const std::string & title, const std::string & message);
+        void displayMessage(const std::string & title, 
+                const std::string & message);
+        bool displayConfirm(const std::string & title, 
+                const std::string & message);
         void displayStatus(const std::string & message);
 
         void startAnimation();
         void stopAnimation();
+
+        double getPitch() const;
+        double getYaw() const;
+        double getVelocity() const;
 
         struct Color
         {

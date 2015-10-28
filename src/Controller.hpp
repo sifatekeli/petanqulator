@@ -22,6 +22,9 @@ class Controller
         void startThrow(double vx, double vy, double vz);
         void updateThrow(double duration);
 
+        vec3 getShooterPosition() const;
+        const Ball & getJack() const;
+
         bool isGameFinished() const;
         player_t getCurrentPlayer() const;
         void getBestPlayerStats(player_t & player, 

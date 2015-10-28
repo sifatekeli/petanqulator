@@ -15,6 +15,7 @@ class Game
         int _remainingBallsBlue;
         player_t _currentPlayer;
         player_t _opponentPlayer;
+        vec3 _shooterPosition;
 
     public:
         Game();
@@ -34,6 +35,9 @@ class Game
 
         const Ground & getGround() const;
         const std::vector<Ball> & getBalls() const;
+
+        vec3 getShooterPosition() const;
+        const Ball & getJack() const;
 
     private:
         void createBall(double vx, double vy, double vz);

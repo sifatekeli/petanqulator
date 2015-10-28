@@ -60,4 +60,13 @@ void Controller::getBestPlayerStats(player_t & player,
     _game.getBestPlayerStats(player, nbBalls);
 }
 
+vec3 Controller::getShooterPosition() const
+{
+    return _game.getShooterPosition();
+}
+
+const Ball & Controller::getJack() const
+{
+    return _game.getJack();
+}
 

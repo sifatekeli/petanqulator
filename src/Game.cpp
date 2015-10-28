@@ -15,6 +15,7 @@ void Game::newGame()
     _remainingBallsBlue = 1;
     _currentPlayer = PLAYER_RED;
     _opponentPlayer = PLAYER_BLUE;
+    _shooterPosition = vec3(-8,1,0);
 
     // physics
     _physics._motionThreshold = 1e-9;
@@ -49,9 +50,7 @@ player_t Game::getCurrentPlayer() const
 void Game::getBestPlayerStats(player_t & player, int & nbBalls) const
 {
     // get jack
-    Ball jack = _physics._balls.front();
-    if (jack._player != PLAYER_JACK)
-        UTILS_ERROR("invalid jack");
+    const Ball & jack = getJack();
 
     // sort balls according to their distance to the jack
     std::vector<Ball> balls(_physics._balls.size()-1);
@@ -121,11 +120,24 @@ const std::vector<Ball> & Game::getBalls() const
     return _physics._balls;
 }
 
+vec3 Game::getShooterPosition() const
+{
+    return _shooterPosition;
+}
+
+const Ball & Game::getJack() const
+{
+    const Ball & jack = _physics._balls.front();
+    if (jack._player != PLAYER_JACK)
+        UTILS_ERROR("invalid jack");
+    return jack;
+}
+
 void Game::createBall(double vx, double vy, double vz)
 {
     // create ball
     _physics._balls.emplace_back(
-            _currentPlayer, 5, vec3(-8,1,0), vec3(vx,vy,vz), 0.1);
+            _currentPlayer, 5, _shooterPosition, vec3(vx,vy,vz), 0.1);
 
     // update game data
     if (_currentPlayer == PLAYER_RED)
