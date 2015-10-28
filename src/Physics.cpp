@@ -2,8 +2,6 @@
 #include "Physics.hpp"
 #include "Utils.hpp"
 
-// TODO ground limits
-
 void Physics::startSimulation()
 {
     _isComputing = true;

@@ -14,7 +14,6 @@ class Game
         int _remainingBallsRed;
         int _remainingBallsBlue;
         player_t _currentPlayer;
-        player_t _opponentPlayer;
         vec3 _shooterPosition;
 
     public:
@@ -30,7 +29,7 @@ class Game
 
         // step-by-step simulation (for interactive display)
         void interactiveThrowStart(double vx, double vy, double vz);
-        bool interactiveThrowRunning() const;
+        bool interactiveThrowRunning();
         void interactiveThrowContinue(double duration);
 
         const Ground & getGround() const;
@@ -41,6 +40,7 @@ class Game
 
     private:
         void createBall(double vx, double vy, double vz);
+        void updatePlayer();
 };
 
 #endif

@@ -9,12 +9,9 @@ Game::Game()
 void Game::newGame()
 {
     // players and teams
-    //TODO _remainingBallsRed = 6;
-    //_remainingBallsBlue = 6;
-    _remainingBallsRed = 1;
-    _remainingBallsBlue = 1;
+    _remainingBallsRed = 2;
+    _remainingBallsBlue = 2;
     _currentPlayer = PLAYER_RED;
-    _opponentPlayer = PLAYER_BLUE;
     _shooterPosition = vec3(-8,1,0);
 
     // physics
@@ -35,6 +32,8 @@ void Game::newGame()
     // TODO init jack at a random position
     _physics._balls.emplace_back(
             PLAYER_JACK, 1, vec3(0,5,0), vec3(0,0,0), 0.1);
+
+    // TODO ground limits for physics
 }
 
 bool Game::isGameFinished() const
@@ -82,6 +81,8 @@ void Game::throwBall(double vx, double vy, double vz)
     _physics.startSimulation();
     while (_physics.isSimulationRunning())
         _physics.computeSimulation(_timeStep);
+
+    updatePlayer();
 }
 
 void Game::interactiveThrowStart(double vx, double vy, double vz)
@@ -93,9 +94,17 @@ void Game::interactiveThrowStart(double vx, double vy, double vz)
     _physics.startSimulation();
 }
 
-bool Game::interactiveThrowRunning() const
+bool Game::interactiveThrowRunning() 
 {
-    return _physics.isSimulationRunning();
+    if (_physics.isSimulationRunning())
+    {
+        return true;
+    }
+    else
+    {
+        updatePlayer();
+        return false;
+    }
 }
 
 void Game::interactiveThrowContinue(double duration)
@@ -135,15 +144,38 @@ const Ball & Game::getJack() const
 
 void Game::createBall(double vx, double vy, double vz)
 {
-    // create ball
-    _physics._balls.emplace_back(
-            _currentPlayer, 5, _shooterPosition, vec3(vx,vy,vz), 0.1);
-
     // update game data
-    if (_currentPlayer == PLAYER_RED)
+    if (_currentPlayer == PLAYER_NONE)
+        return;
+    else if (_currentPlayer == PLAYER_RED)
         _remainingBallsRed--;
     else
         _remainingBallsBlue--;
-    std::swap(_currentPlayer, _opponentPlayer);
+
+    // create ball
+    _physics._balls.emplace_back(
+            _currentPlayer, 5, _shooterPosition, vec3(vx,vy,vz), 0.1);
+}
+
+void Game::updatePlayer()
+{
+    // first throw (jack + red ball), switch to blue
+    if (_physics._balls.size() <= 2)
+    {
+        _currentPlayer = PLAYER_BLUE;
+    }
+    // each player has played one or more ball, switch to looser
+    else
+    {
+        player_t bestPlayer;
+        int nbBalls;
+        getBestPlayerStats(bestPlayer, nbBalls);
+        if (bestPlayer == PLAYER_RED and _remainingBallsBlue > 0)
+            _currentPlayer = PLAYER_BLUE;
+        else if (_remainingBallsRed > 0)
+            _currentPlayer = PLAYER_RED;
+        else 
+            _currentPlayer = PLAYER_NONE;
+    }
 }
 

@@ -111,7 +111,7 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
     glPushMatrix();
     vec3 shooterPosition = _refController.getShooterPosition();
     glTranslatef(shooterPosition(0), shooterPosition(1), shooterPosition(2));
-    glRotatef(90 + _refView.getYaw(), 0, 1, 0);
+    glRotatef(90 - _refView.getYaw(), 0, 1, 0);
     glRotatef(_refView.getPitch(), -1, 0, 0);
     gluCylinder(gluNewQuadric(), 0.06, 0.06, 1, 16, 2);
     glTranslatef(0, 0, 1);
