@@ -31,6 +31,13 @@ class View
 
         void startAnimation();
         void stopAnimation();
+
+        struct Color
+        {
+            std::string _name;
+            std::array<float,4> _rgba;
+        };
+        static const std::vector<Color> COLORS;
 };
 
 #endif

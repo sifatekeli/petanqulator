@@ -37,8 +37,6 @@ class ViewGL : public Gtk::GL::DrawingArea
         void startAnimation();
         void stopAnimation();
 
-        static const std::vector<std::array<float,4>> COLORS;
-
     private:
         // override signal handlers
         bool on_expose_event(GdkEventExpose * event);

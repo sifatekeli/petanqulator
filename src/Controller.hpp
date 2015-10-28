@@ -21,6 +21,11 @@ class Controller
         void newGame();
         void startThrow();
         void updateThrow(double duration);
+
+        bool isGameFinished() const;
+        player_t getCurrentPlayer() const;
+        void getBestPlayerStats(player_t & player, 
+                int & nbBalls) const;
 };
 
 #endif

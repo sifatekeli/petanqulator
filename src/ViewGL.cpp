@@ -9,14 +9,6 @@
 
 #include <iostream>
 
-const std::vector<std::array<float,4>> ViewGL::COLORS = 
-{
-    {1, 0, 0, 1},        // player red
-    {0, 0, 1, 1},        // player blue
-    {1, 1, 1, 1},        // jack
-    {0.6, 0.6, 0.2, 1}   // none (ground)
-};
-
 ViewGL::ViewGL(Controller & refController, View & refView, int& argc, char** argv) :
     _refController(refController),
     _refView(refView),
@@ -93,7 +85,8 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
     // draw balls
     for (const Ball & b : _refController.getBalls())
     {
-        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, COLORS[b._player].data());
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, 
+                View::COLORS[b._player]._rgba.data());
         glPushMatrix();
         glTranslatef(b._position(0), b._position(1), b._position(2));
         gluSphere(gluNewQuadric(), b._radius, 16, 16);
@@ -102,7 +95,8 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
 
     // draw ground
     const Ground & ground = _refController.getGround();
-    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, COLORS[PLAYER_NONE].data());
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, 
+            View::COLORS[PLAYER_NONE]._rgba.data());
     glBegin(GL_QUADS);
     glNormal3f(0, 1, 0);
     glVertex3f(ground._xMin, 0, ground._zMin);
@@ -183,12 +177,15 @@ void ViewGL::startAnimation()
 
 void ViewGL::stopAnimation()
 {
-    _chrono.stop();
-    _timeoutConnection.disconnect();
+    if (_timeoutConnection.connected())
+    {
+        _chrono.stop();
+        _timeoutConnection.disconnect();
 
-    std::stringstream ss;
-    ss << "animation duration = " << _chrono.elapsedStopped();
-    UTILS_INFO(ss.str());
+        std::stringstream ss;
+        ss << "animation duration = " << _chrono.elapsedStopped();
+        UTILS_INFO(ss.str());
+    }
 }
 
 bool ViewGL::handleTimeout()

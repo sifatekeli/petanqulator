@@ -43,21 +43,13 @@ ViewPanel::ViewPanel(Controller & refController, View & refView) :
             sigc::mem_fun(*this, &ViewPanel::handleThrowBall));
 }
 
-void ViewPanel::update()
-{
-    // TODO status bar
-    _refView.displayStatus("TODO display game status");
-}
-
 void ViewPanel::startAnimation()
 {
-    _newButton.set_sensitive(false);
     _throwBallButton.set_sensitive(false);
 }
 
 void ViewPanel::stopAnimation()
 {
-    _newButton.set_sensitive(true);
     _throwBallButton.set_sensitive(true);
 }
 

@@ -2,9 +2,7 @@
 #include "Game.hpp"
 
 Game::Game()
-{
-    newGame();
-}
+{}
 
 void Game::newGame()
 {

@@ -23,6 +23,7 @@ const std::vector<Ball> & Controller::getBalls() const
 void Controller::newGame()
 {
     _game.newGame();
+    _view.stopAnimation();
     _view.update();
 }
 
@@ -39,4 +40,21 @@ void Controller::updateThrow(double duration)
     else
         _view.stopAnimation();
 }
+
+bool Controller::isGameFinished() const
+{
+    return _game.isGameFinished();
+}
+
+player_t Controller::getCurrentPlayer() const
+{
+    return _game.getCurrentPlayer();
+}
+
+void Controller::getBestPlayerStats(player_t & player, 
+        int & nbBalls) const
+{
+    _game.getBestPlayerStats(player, nbBalls);
+}
+
 

@@ -1,6 +1,15 @@
 
+#include "Controller.hpp"
 #include "View.hpp"
 #include "Utils.hpp"
+
+const std::vector<View::Color> View::COLORS = 
+{
+    {"red", {1, 0, 0, 1}},           // player red
+    {"blue", {0, 0, 1, 1}},          // player blue
+    {"white", {1, 1, 1, 1}},         // jack
+    {"yellow", {0.6, 0.6, 0.2, 1}}   // none (ground)
+};
 
 View::View(Controller & refController, int & argc, char** argv) :
     _refController(refController),
@@ -30,6 +39,7 @@ void View::run()
 {
     UTILS_INFO("run");
 	_viewGL.init();
+    _refController.newGame();
     update();
 	_kit.run(_window);
 }
@@ -45,12 +55,12 @@ void View::quit()
 
 void View::update()
 {
-    _viewPanel.update();
     _viewGL.update();
 }
 
 void View::startAnimation()
 {
+    displayStatus("Simulation in progress...");
     _viewPanel.startAnimation();
     _viewGL.startAnimation();
 }
@@ -59,6 +69,14 @@ void View::stopAnimation()
 {
     _viewPanel.stopAnimation();
     _viewGL.stopAnimation();
+
+    if (not _refController.isGameFinished())
+    {
+        std::stringstream ss;
+        player_t p = _refController.getCurrentPlayer();
+        ss << "current player: " << COLORS[p]._name;
+        displayStatus(ss.str());
+    }
 }
 
 void View::messageBox(const std::string & title, const std::string & message) 

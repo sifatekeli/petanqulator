@@ -23,7 +23,6 @@ class ViewPanel : public Gtk::VBox
 
     public:
         ViewPanel(Controller & refController, View & refView);
-        void update();
         void startAnimation();
         void stopAnimation();
 
