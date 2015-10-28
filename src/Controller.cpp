@@ -29,8 +29,11 @@ void Controller::newGame()
 
 void Controller::startThrow(double vx, double vy, double vz)
 {
-    _game.interactiveThrowStart(vx, vy, vz);
-    _view.startAnimation();
+    if (not _game.isGameFinished())
+    {
+        _game.interactiveThrowStart(vx, vy, vz);
+        _view.startAnimation();
+    }
 }
 
 void Controller::updateThrow(double duration)

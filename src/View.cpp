@@ -46,7 +46,8 @@ void View::run()
 
 void View::quit()
 {
-    if (confirmBox("Quit ?","Do you really want to quit this wonderful game ?"))
+    if (displayConfirm("Quit ?",
+                "Do you really want to quit this wonderful game ?"))
     {
         UTILS_INFO("quit");
         _kit.quit();
@@ -72,18 +73,26 @@ void View::stopAnimation()
 
     if (_refController.isGameFinished())
     {
-        // TODO display winner
+        player_t player;
+        int nbBalls; 
+        _refController.getBestPlayerStats(player, nbBalls);
+        std::stringstream ss;
+        ss << "We've got a winner: " << COLORS[player]._name 
+            << " with " << nbBalls << " ball(s) !";
+
+        displayStatus(ss.str());
+        displayMessage("Game finished", ss.str());
     }
     else
     {
         std::stringstream ss;
-        player_t p = _refController.getCurrentPlayer();
-        ss << "current player: " << COLORS[p]._name;
+        player_t player = _refController.getCurrentPlayer();
+        ss << "current player: " << COLORS[player]._name;
         displayStatus(ss.str());
     }
 }
 
-void View::messageBox(const std::string & title, const std::string & message) 
+void View::displayMessage(const std::string & title, const std::string & message) 
 {
     Glib::ustring uTitle(title.c_str());
     Glib::ustring uMessage(message.c_str());
@@ -92,7 +101,7 @@ void View::messageBox(const std::string & title, const std::string & message)
     dialog.run();
 }
 
-bool View::confirmBox(const std::string & title, const std::string & message) 
+bool View::displayConfirm(const std::string & title, const std::string & message) 
 {
     Glib::ustring uTitle(title.c_str());
     Glib::ustring uMessage(message.c_str());

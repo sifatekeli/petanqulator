@@ -25,11 +25,11 @@ ViewPanel::ViewPanel(Controller & refController, View & refView) :
     packLabel("\n pitch:");
     _pitchSpin.set_range(-180, 180);
     _pitchSpin.set_increments(1, 5);
+    _pitchSpin.set_value(30);
     pack_start(_pitchSpin, Gtk::PACK_SHRINK);
     packLabel(" yaw:");
     _yawSpin.set_range(-180, 180);
     _yawSpin.set_increments(1, 5);
-    _yawSpin.set_value(20);
     pack_start(_yawSpin, Gtk::PACK_SHRINK);
     packLabel(" velocity:");
     _velocitySpin.set_digits(1);
@@ -55,15 +55,28 @@ void ViewPanel::stopAnimation()
 
 void ViewPanel::handleNew()
 {
-    UTILS_INFO("new game");
     _refController.newGame();
+    // TODO print jack position
+    UTILS_INFO("new game");
 }
 
 void ViewPanel::handleThrowBall()
 {
-    UTILS_INFO("throw ball");
-    // TODO throw ball
-    _refController.startThrow(1,1,0);
+    // get velocity vector from the interface
+    double radPitch = degToRad(_pitchSpin.get_value());
+    double radYaw = degToRad(_yawSpin.get_value());
+    double velocity = _velocitySpin.get_value();
+    double vx = velocity * cos(radPitch) * cos(radYaw);
+    double vy = velocity * sin(radPitch);
+    double vz = velocity * cos(radPitch) * sin(radYaw);
+
+    // output log
+    std::stringstream ss;
+    ss << "throw ball, velocity=[" << vx << ' ' << vy << ' ' << vz << ']';
+    UTILS_INFO(ss.str());
+
+    // throw ball
+    _refController.startThrow(vx, vy, vz);
 }
 
 void ViewPanel::packLabel(const char * str)

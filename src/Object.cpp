@@ -13,6 +13,10 @@ Object::Object(player_t player, double mass, vec3 position, vec3 velocity):
     _delta(1,1,1)
 {}
 
+Ball::Ball():
+    Object()
+{}
+
 Ball::Ball(player_t player, double mass, vec3 position, vec3 velocity, 
         double radius):
     Object(player, mass, position, velocity), _radius(radius)

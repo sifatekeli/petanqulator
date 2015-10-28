@@ -34,6 +34,7 @@ class Ball : public Object
     public:
         double _radius;
 
+        Ball();
         Ball(player_t player, double mass, vec3 position, vec3 velocity, 
                 double radius);
         double getVolume() const;

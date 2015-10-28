@@ -1,6 +1,9 @@
 #ifndef _UTILS_HPP_
 #define _UTILS_HPP_
 
+#define _USE_MATH_DEFINES
+#include <cmath>
+
 #include <Eigen/Dense>
 typedef Eigen::Vector3d vec3;
 
@@ -19,9 +22,11 @@ typedef Eigen::Vector3d vec3;
         << " (" << __FILE__ << ' ' << __LINE__ << ")" << std::endl; \
 } 
 
+//TODO remove eigen ?
+//TODO use linear algebra from bullet ?
+double degToRad(double degAngle);
+
 /*
-#define _USE_MATH_DEFINES
-#include <cmath>
 */
 
 /*
