@@ -1,11 +1,15 @@
 #ifndef _UTILS_HPP_
 #define _UTILS_HPP_
 
+/*
+
 #define _USE_MATH_DEFINES
 #include <cmath>
 
-#include <Eigen/Dense>
-typedef Eigen::Vector3d vec3;
+*/
+
+#include <btBulletDynamicsCommon.h>
+typedef btVector3 vec3;
 
 #include <iostream>
 

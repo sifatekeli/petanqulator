@@ -57,7 +57,7 @@ void Game::getBestPlayerStats(player_t & player, int & nbBalls) const
     {
         vec3 d1 = b1._position - jack._position;
         vec3 d2 = b2._position - jack._position;
-        return d1.squaredNorm() < d2.squaredNorm();
+        return d1.length2() < d2.length2();
     };
     std::partial_sort_copy(_physics._balls.begin()+1, _physics._balls.end(),
             balls.begin(), balls.end(), cmpBalls);

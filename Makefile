@@ -1,5 +1,5 @@
-PACKAGES = glu gtkglextmm-1.2 gtkmm-2.4 eigen3
-CXXFLAGS += -std=c++11 -Wall -Wextra 
+PACKAGES = glu gtkglextmm-1.2 gtkmm-2.4 bullet
+CXXFLAGS += -std=c++14 -Wall -Wextra 
 MAINSRC = ./src/petanqulator.cpp 
 ifeq ($(DEBUG), 1)
 	override CXXFLAGS += -O0 -g

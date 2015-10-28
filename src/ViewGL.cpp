@@ -87,7 +87,8 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
         glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, 
                 View::COLORS[b._player]._rgba.data());
         glPushMatrix();
-        glTranslatef(b._position(0), b._position(1), b._position(2));
+        glTranslatef(b._position.getX(), b._position.getY(), 
+                b._position.getZ());
         gluSphere(gluNewQuadric(), b._radius, 16, 16);
         glPopMatrix();
     }
@@ -110,7 +111,8 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
             View::COLORS[currentPlayer]._rgba.data());
     glPushMatrix();
     vec3 shooterPosition = _refController.getShooterPosition();
-    glTranslatef(shooterPosition(0), shooterPosition(1), shooterPosition(2));
+    glTranslatef(shooterPosition.getX(), shooterPosition.getY(), 
+            shooterPosition.getZ());
     glRotatef(90 - _refView.getYaw(), 0, 1, 0);
     glRotatef(_refView.getPitch(), -1, 0, 0);
     gluCylinder(gluNewQuadric(), 0.06, 0.06, 1, 16, 2);

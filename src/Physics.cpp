@@ -43,8 +43,8 @@ void Physics::computeSimulation(double duration)
 
         // verifie si la boule est en mouvement
         b._delta = b._position - b._oldPosition;
-        if (b._delta.squaredNorm() > _motionThreshold
-                or b._oldDelta.squaredNorm() > _motionThreshold)
+        if (b._delta.length2() > _motionThreshold
+                or b._oldDelta.length2() > _motionThreshold)
             _isComputing = true;
     }
 }
@@ -74,7 +74,8 @@ void Physics::computeCollisions()
 
             // calcule la distance entre les spheres
             vec3 c1c2 = ball2._position - ball1._position;
-            double distance = c1c2.squaredNorm() - ball1._radius - ball2._radius;
+            double distance 
+                = c1c2.length2() - ball1._radius - ball2._radius;
 
             // retient la sphere la plus proche 
             // qui n'a pas deja subit une collision
@@ -86,7 +87,8 @@ void Physics::computeCollisions()
         }
 
         // calcule la distance au sol
-        double distanceToGround = ball1._position(1) - ball1._radius;
+        double distanceToGround 
+            = ball1._position.getY() - ball1._radius;
 
         // traite la collision la plus proche
         // considere les spheres et le sol
@@ -149,9 +151,9 @@ void Physics::computeBounce(Ball & ball1, Ball & ball2) const
 void Physics::computeBounce(Ball & ball, Ground & ground) const
 {
     // empeche la sphere de traverser le sol
-    ball._position(1) = ball._radius;
+    ball._position.setY(ball._radius);
 
     // met a jour la vitesse
-    ball._velocity(1) = - (ball._velocity(1) * ground._damping);
+    ball._velocity.setY(- (ball._velocity.getY() * ground._damping));
 }
 
