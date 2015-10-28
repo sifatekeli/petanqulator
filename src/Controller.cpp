@@ -32,7 +32,7 @@ void Controller::startThrow()
     _view.startAnimation();
 }
 
-void Controller::updateThrow(float duration)
+void Controller::updateThrow(double duration)
 {
     if (_game.interactiveThrowRunning())
         _game.interactiveThrowContinue(duration);

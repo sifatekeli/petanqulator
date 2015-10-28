@@ -10,7 +10,7 @@ class Game
 {
     private:
         Physics _physics;
-        float _timeStep;
+        double _timeStep;
         int _remainingBallsRed;
         int _remainingBallsBlue;
         player_t _currentPlayer;
@@ -30,7 +30,7 @@ class Game
         // step-by-step simulation (for interactive display)
         void interactiveThrowStart();
         bool interactiveThrowRunning() const;
-        void interactiveThrowContinue(float duration);
+        void interactiveThrowContinue(double duration);
 
         const Ground & getGround() const;
         const std::vector<Ball> & getBalls() const;

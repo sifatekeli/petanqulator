@@ -1,14 +1,14 @@
 
 #include "Chrono.hpp"
 
-float Chrono::elapsedRunning() 
+double Chrono::elapsedRunning() 
 {
     _t1 = std::chrono::system_clock::now();
     return 1e-3 * std::chrono::duration_cast < std::chrono::milliseconds > 
         (_t1 - _t0).count();
 }
 
-float Chrono::elapsedStopped() const 
+double Chrono::elapsedStopped() const 
 {
     return 1e-3 * std::chrono::duration_cast < std::chrono::milliseconds > 
         (_t1 - _t0).count();

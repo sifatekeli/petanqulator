@@ -15,8 +15,8 @@ void Game::newGame()
     _opponentPlayer = PLAYER_BLUE;
 
     // physics
-    _physics._motionThreshold = 1e-6;
-    _timeStep = 1e-2;
+    _physics._motionThreshold = 1e-9;
+    _timeStep = 1e-4;
 
     // forces
     _physics._uptrForces.clear();
@@ -25,19 +25,19 @@ void Game::newGame()
 
     // ground
     _physics._ground = Ground(PLAYER_NONE, INFINITY, vec3(0,0,0), 
-            vec3(0,0,0), -10, 10, -6, 6, 0.99);
+            vec3(0,0,0), -10, 10, -6, 6, 0.5);
 
     // jack
     _physics._balls.clear();
     // TODO init jack at a random position
     _physics._balls.emplace_back(
-            PLAYER_JACK, 0.01, vec3(0,5,0), vec3(0,0,0), 0.1);
+            PLAYER_JACK, 1, vec3(0,5,0), vec3(0,0,0), 0.1);
 
     // TODO test
     _physics._balls.emplace_back(
-            PLAYER_RED, 0.05, vec3(1,1,0), vec3(0,0,0), 0.1);
+            PLAYER_RED, 5, vec3(1,1,0), vec3(0,0,0), 0.1);
     _physics._balls.emplace_back(
-            PLAYER_BLUE, 0.05, vec3(-1,1,0), vec3(0,0,0), 0.1);
+            PLAYER_BLUE, 5, vec3(-1,1,0), vec3(2,0,0), 0.1);
 }
 
 bool Game::isGameFinished() const
@@ -78,9 +78,9 @@ bool Game::interactiveThrowRunning() const
     return _physics.isSimulationRunning();
 }
 
-void Game::interactiveThrowContinue(float duration)
+void Game::interactiveThrowContinue(double duration)
 {
-    float t = duration;
+    double t = duration;
     while (t - _timeStep > 0 and interactiveThrowRunning())
     {
         _physics.computeSimulation(_timeStep);

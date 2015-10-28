@@ -2,7 +2,7 @@
 #define _UTILS_HPP_
 
 #include <Eigen/Dense>
-typedef Eigen::Vector3f vec3;
+typedef Eigen::Vector3d vec3;
 
 #include <iostream>
 

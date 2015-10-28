@@ -194,8 +194,9 @@ void ViewGL::stopAnimation()
 bool ViewGL::handleTimeout()
 {
     update();
-    float duration = _chrono.elapsedRunning();
-    _refController.updateThrow(duration);
+    double duration = _chrono.elapsedRunning();
+    // TODO
+    _refController.updateThrow(0.1*duration);
     return true;
 }
 

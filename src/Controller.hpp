@@ -20,7 +20,7 @@ class Controller
 
         void newGame();
         void startThrow();
-        void updateThrow(float duration);
+        void updateThrow(double duration);
 };
 
 #endif

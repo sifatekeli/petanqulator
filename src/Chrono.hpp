@@ -14,8 +14,8 @@ class Chrono
     public:
         void start();
         void stop();
-        float elapsedStopped() const;
-        float elapsedRunning();
+        double elapsedStopped() const;
+        double elapsedRunning();
 };
 
 #endif

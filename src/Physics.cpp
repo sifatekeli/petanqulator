@@ -12,7 +12,7 @@ bool Physics::isSimulationRunning() const
     return _isComputing;
 }
 
-void Physics::computeSimulation(float duration)
+void Physics::computeSimulation(double duration)
 {
     _isComputing = false;
 
@@ -67,14 +67,14 @@ void Physics::computeCollisions()
 
         // trouve la collision la plus proche
         unsigned k = 0;
-        float distanceMin = 1;
+        double distanceMin = 1;
         for (unsigned j=i+1; j<nbBalls; j++)
         {
             Ball & ball2 = _balls[j];
 
             // calcule la distance entre les spheres
             vec3 c1c2 = ball2._position - ball1._position;
-            float distance = c1c2.squaredNorm() - ball1._radius - ball2._radius;
+            double distance = c1c2.squaredNorm() - ball1._radius - ball2._radius;
 
             // retient la sphere la plus proche 
             // qui n'a pas deja subit une collision
@@ -86,7 +86,7 @@ void Physics::computeCollisions()
         }
 
         // calcule la distance au sol
-        float distanceToGround = ball1._position(1) - ball1._radius;
+        double distanceToGround = ball1._position(1) - ball1._radius;
 
         // traite la collision la plus proche
         // considere les spheres et le sol
@@ -113,8 +113,8 @@ void Physics::computeCollisions()
 
 void Physics::computeBounce(Ball & ball1, Ball & ball2) const
 {
-    float m1 = ball1._mass;
-    float m2 = ball2._mass;
+    double m1 = ball1._mass;
+    double m2 = ball2._mass;
 
     vec3 p1 = ball1._position;
     vec3 p2 = ball2._position; 
@@ -139,7 +139,7 @@ void Physics::computeBounce(Ball & ball1, Ball & ball2) const
     ball2._velocity = v2y + v2x - ((v2x-v1x) / (1 + m2/m1)) * 2; 
 
     // deplace la plus petite sphere pour stabiliser la scene
-    float distance = ball1._radius + ball2._radius;
+    double distance = ball1._radius + ball2._radius;
     if (ball1._radius > ball2._radius)
         ball2._position = p1 + u1 * distance;
     else

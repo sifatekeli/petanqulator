@@ -17,13 +17,13 @@ class Physics
         std::vector<Ball> _balls;
         std::vector<std::unique_ptr<Force>> _uptrForces;
         Ground _ground;
-        float _motionThreshold;
+        double _motionThreshold;
 
     public:
         // compute simulation step by step 
         void startSimulation();
         bool isSimulationRunning() const;
-        void computeSimulation(float duration);
+        void computeSimulation(double duration);
 
     private:
         // compute all collisions at current time

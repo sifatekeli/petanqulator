@@ -10,7 +10,7 @@ class Object
 {
     public:
         player_t _player;
-        float _mass;
+        double _mass;
         vec3 _position;
         vec3 _velocity;
 
@@ -22,9 +22,9 @@ class Object
 
     public:
         Object();
-        Object(player_t player, float mass, vec3 position, vec3 velocity);
+        Object(player_t player, double mass, vec3 position, vec3 velocity);
         ~Object();
-        virtual float getVolume() const = 0;
+        virtual double getVolume() const = 0;
 
         friend class Physics;
 };
@@ -32,26 +32,27 @@ class Object
 class Ball : public Object
 {
     public:
-        float _radius;
+        double _radius;
 
-        Ball(player_t player, float mass, vec3 position, vec3 velocity, 
-                float radius);
-        float getVolume() const;
+        Ball(player_t player, double mass, vec3 position, vec3 velocity, 
+                double radius);
+        double getVolume() const;
 };
 
 class Ground : public Object
 {
     public:
-        float _xMin;
-        float _xMax;
-        float _zMin;
-        float _zMax;
-        float _damping;
+        double _xMin;
+        double _xMax;
+        double _zMin;
+        double _zMax;
+        double _damping;
 
         Ground();
-        Ground(player_t player, float mass, vec3 position, vec3 velocity, 
-                float xMin, float xMax, float zMin, float zMax, float damping);
-        float getVolume() const;
+        Ground(player_t player, double mass, vec3 position, vec3 velocity, 
+                double xMin, double xMax, double zMin, double zMax, 
+                double damping);
+        double getVolume() const;
 };
 
 #endif

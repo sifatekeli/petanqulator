@@ -1,7 +1,7 @@
 
 #include "Force.hpp"
 
-Viscosity::Viscosity(float viscosity):
+Viscosity::Viscosity(double viscosity):
     _viscosity(viscosity)
 {}
 
@@ -10,7 +10,7 @@ vec3 Viscosity::computeForce(Object & object)
     return -(object._velocity * _viscosity * object.getVolume());
 }
 
-Gravity::Gravity(float x, float y, float z):
+Gravity::Gravity(double x, double y, double z):
     _gravity(x, y, z)
 {}
 
