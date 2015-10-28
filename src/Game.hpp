@@ -25,15 +25,18 @@ class Game
         void getBestPlayerStats(player_t & player, int & nbBalls) const;
 
         // throw one ball and compute physics simulation till stationnarity
-        void throwBall();
+        void throwBall(double vx, double vy, double vz);
 
         // step-by-step simulation (for interactive display)
-        void interactiveThrowStart();
+        void interactiveThrowStart(double vx, double vy, double vz);
         bool interactiveThrowRunning() const;
         void interactiveThrowContinue(double duration);
 
         const Ground & getGround() const;
         const std::vector<Ball> & getBalls() const;
+
+    private:
+        void createBall(double vx, double vy, double vz);
 };
 
 #endif

@@ -19,7 +19,7 @@ class Controller
         const std::vector<Ball> & getBalls() const;
 
         void newGame();
-        void startThrow();
+        void startThrow(double vx, double vy, double vz);
         void updateThrow(double duration);
 
         bool isGameFinished() const;

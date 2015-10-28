@@ -9,7 +9,8 @@
 
 #include <iostream>
 
-ViewGL::ViewGL(Controller & refController, View & refView, int& argc, char** argv) :
+ViewGL::ViewGL(Controller & refController, View & refView, int& argc, 
+        char** argv) :
     _refController(refController),
     _refView(refView),
     _theta(0),
@@ -31,8 +32,6 @@ ViewGL::ViewGL(Controller & refController, View & refView, int& argc, char** arg
 	set_gl_capability(_glconfig);
 
 	// initialize event handling
-	//Glib::signal_idle().connect(sigc::mem_fun(*this, &ViewGL::handle_idle));
-	//Glib::signal_timeout().connect(sigc::mem_fun(*this, &ViewGL::handle_idle), 20);
 	add_events(Gdk::BUTTON_PRESS_MASK);
 	add_events(Gdk::BUTTON_RELEASE_MASK);
 	add_events(Gdk::BUTTON1_MOTION_MASK);
@@ -105,6 +104,8 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
     glVertex3f(ground._xMax, 0, ground._zMin);
     glEnd();
 
+    // TODO draw shooter
+
     // end drawing
     glPopMatrix();
 	_glwindow->gl_end();
@@ -126,8 +127,8 @@ bool ViewGL::on_configure_event(GdkEventConfigure * event)
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     gluLookAt(0, 12, 10,      // position
-            0, 2, 0,         // center
-            0, 0.77, -0.77); // up vector
+            0, 2, 0,          // center
+            0, 0.77, -0.77);  // up vector
 
     return true;
 }
@@ -192,7 +193,6 @@ bool ViewGL::handleTimeout()
 {
     update();
     double duration = _chrono.elapsedRunning();
-    // TODO
     _refController.updateThrow(0.1*duration);
     return true;
 }

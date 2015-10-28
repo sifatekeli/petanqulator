@@ -13,7 +13,7 @@ void Game::newGame()
     _opponentPlayer = PLAYER_BLUE;
 
     // physics
-    _physics._motionThreshold = 1e-9;
+    _physics._motionThreshold = 1e-10;
     _timeStep = 1e-4;
 
     // forces
@@ -35,7 +35,7 @@ void Game::newGame()
     _physics._balls.emplace_back(
             PLAYER_RED, 5, vec3(1,1,0), vec3(0,0,0), 0.1);
     _physics._balls.emplace_back(
-            PLAYER_BLUE, 5, vec3(-1,1,0), vec3(2,0,0), 0.1);
+            PLAYER_BLUE, 5, vec3(-1,1,0), vec3(1,0,0), 0.1);
 }
 
 bool Game::isGameFinished() const
@@ -55,19 +55,23 @@ void Game::getBestPlayerStats(player_t & player, int & nbBalls) const
     nbBalls = 0;
 }
 
-void Game::throwBall()
+void Game::throwBall(double vx, double vy, double vz)
 {
-    // TODO throw ball
+    // create ball
+    createBall(vx, vy, vz);
 
+    // run simulation
     _physics.startSimulation();
     while (_physics.isSimulationRunning())
         _physics.computeSimulation(_timeStep);
 }
 
-void Game::interactiveThrowStart()
+void Game::interactiveThrowStart(double vx, double vy, double vz)
 {
-    // TODO throw ball
+    // create ball
+    createBall(vx, vy, vz);
 
+    // start simulation
     _physics.startSimulation();
 }
 
@@ -96,5 +100,19 @@ const Ground & Game::getGround() const
 const std::vector<Ball> & Game::getBalls() const
 {
     return _physics._balls;
+}
+
+void Game::createBall(double vx, double vy, double vz)
+{
+    // create ball
+    _physics._balls.emplace_back(
+            _currentPlayer, 5, vec3(-8,1,0), vec3(vx,vy,vz), 0.1);
+
+    // update game data
+    if (_currentPlayer == PLAYER_RED)
+        _remainingBallsRed--;
+    else
+        _remainingBallsBlue--;
+    std::swap(_currentPlayer, _opponentPlayer);
 }
 

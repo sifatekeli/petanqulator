@@ -62,7 +62,8 @@ void ViewPanel::handleNew()
 void ViewPanel::handleThrowBall()
 {
     UTILS_INFO("throw ball");
-    _refController.startThrow();
+    // TODO throw ball
+    _refController.startThrow(1,1,0);
 }
 
 void ViewPanel::packLabel(const char * str)

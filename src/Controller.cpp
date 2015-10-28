@@ -27,9 +27,9 @@ void Controller::newGame()
     _view.update();
 }
 
-void Controller::startThrow()
+void Controller::startThrow(double vx, double vy, double vz)
 {
-    _game.interactiveThrowStart();
+    _game.interactiveThrowStart(vx, vy, vz);
     _view.startAnimation();
 }
 

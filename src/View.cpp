@@ -70,7 +70,11 @@ void View::stopAnimation()
     _viewPanel.stopAnimation();
     _viewGL.stopAnimation();
 
-    if (not _refController.isGameFinished())
+    if (_refController.isGameFinished())
+    {
+        // TODO display winner
+    }
+    else
     {
         std::stringstream ss;
         player_t p = _refController.getCurrentPlayer();
