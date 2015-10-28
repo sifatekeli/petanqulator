@@ -12,7 +12,7 @@ ViewPanel::ViewPanel(Controller & refController, View & refView) :
     _refView(refView),
     _newButton("new"),
     _quitButton("quit"),
-    _throwBallButton("   throw ball   ")
+    _throwBallButton("         throw ball          ")
 {
 	pack_start(_newButton, Gtk::PACK_SHRINK);
 	_newButton.signal_clicked().connect(
@@ -45,6 +45,7 @@ ViewPanel::ViewPanel(Controller & refController, View & refView) :
             sigc::mem_fun(*this, &ViewPanel::handleThrowBall));
 
     pack_start(_infoLabel, Gtk::PACK_SHRINK);
+    _infoLabel.set_alignment(Gtk::ALIGN_START);
 }
 
 void ViewPanel::startAnimation()
@@ -56,8 +57,8 @@ void ViewPanel::stopAnimation()
 {
     _throwBallButton.set_sensitive(true);
     std::stringstream ss;
-    ss << "\n remaining red  = " << _refController.getRemainingBallsRed();
-    ss << "\n remaining blue = " << _refController.getRemainingBallsBlue();
+    ss << "\n remaining red:  " << _refController.getRemainingBallsRed();
+    ss << "\n remaining blue: " << _refController.getRemainingBallsBlue();
     _infoLabel.set_label(ss.str());
 }
 
