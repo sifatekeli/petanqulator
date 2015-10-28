@@ -38,6 +38,9 @@ class Game
         vec3 getShooterPosition() const;
         const Ball & getJack() const;
 
+        int getRemainingBallsRed() const;
+        int getRemainingBallsBlue() const;
+
     private:
         void createBall(double vx, double vy, double vz);
         void updatePlayer();

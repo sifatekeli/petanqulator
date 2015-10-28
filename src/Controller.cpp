@@ -70,3 +70,13 @@ const Ball & Controller::getJack() const
     return _game.getJack();
 }
 
+int Controller::getRemainingBallsRed() const
+{
+    return _game.getRemainingBallsRed();
+}
+
+int Controller::getRemainingBallsBlue() const
+{
+    return _game.getRemainingBallsBlue();
+}
+

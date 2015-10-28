@@ -25,6 +25,9 @@ class Controller
         vec3 getShooterPosition() const;
         const Ball & getJack() const;
 
+        int getRemainingBallsRed() const;
+        int getRemainingBallsBlue() const;
+
         bool isGameFinished() const;
         player_t getCurrentPlayer() const;
         void getBestPlayerStats(player_t & player, 

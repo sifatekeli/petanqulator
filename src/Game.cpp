@@ -142,6 +142,16 @@ const Ball & Game::getJack() const
     return jack;
 }
 
+int Game::getRemainingBallsRed() const
+{
+    return _remainingBallsRed;
+}
+
+int Game::getRemainingBallsBlue() const
+{
+    return _remainingBallsBlue;
+}
+
 void Game::createBall(double vx, double vy, double vz)
 {
     // update game data
@@ -161,21 +171,21 @@ void Game::updatePlayer()
 {
     // first throw (jack + red ball), switch to blue
     if (_physics._balls.size() <= 2)
-    {
         _currentPlayer = PLAYER_BLUE;
-    }
-    // each player has played one or more ball, switch to looser
+    // one or more player cannot play
+    else if (_remainingBallsRed == 0 and _remainingBallsBlue > 0)
+        _currentPlayer = PLAYER_BLUE;
+    else if (_remainingBallsBlue == 0 and _remainingBallsRed > 0)
+        _currentPlayer = PLAYER_RED;
+    else if (_remainingBallsBlue == 0 and _remainingBallsRed == 0)
+        _currentPlayer = PLAYER_NONE;
+    // all player can play, switch to looser
     else
     {
         player_t bestPlayer;
         int nbBalls;
         getBestPlayerStats(bestPlayer, nbBalls);
-        if (bestPlayer == PLAYER_RED and _remainingBallsBlue > 0)
-            _currentPlayer = PLAYER_BLUE;
-        else if (_remainingBallsRed > 0)
-            _currentPlayer = PLAYER_RED;
-        else 
-            _currentPlayer = PLAYER_NONE;
+        _currentPlayer = bestPlayer == PLAYER_RED ? PLAYER_BLUE : PLAYER_RED;
     }
 }
 

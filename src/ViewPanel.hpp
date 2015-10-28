@@ -20,6 +20,7 @@ class ViewPanel : public Gtk::VBox
         Gtk::SpinButton _yawSpin;
         Gtk::SpinButton _velocitySpin;
         Gtk::Button _throwBallButton;
+        Gtk::Label _infoLabel;
 
     public:
         ViewPanel(Controller & refController, View & refView);
