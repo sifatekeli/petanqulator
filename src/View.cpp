@@ -3,14 +3,6 @@
 #include "View.hpp"
 #include "Utils.hpp"
 
-const std::vector<View::Color> View::COLORS = 
-{
-    {"red", {1, 0, 0, 1}},           // player red
-    {"blue", {0, 0, 1, 1}},          // player blue
-    {"white", {1, 1, 1, 1}},         // jack
-    {"yellow", {0.6, 0.6, 0.2, 1}}   // none (ground)
-};
-
 View::View(Controller & refController, int & argc, char** argv) :
     _refController(refController),
     _kit(argc, argv),
@@ -59,6 +51,16 @@ void View::update()
     _viewGL.update();
 }
 
+std::string View::getPlayerName(Game::player_t player) const
+{
+    switch (player)
+    {
+        case Game::PLAYER_RED: return "red";
+        case Game::PLAYER_BLUE: return "blue";
+        default: return "none";
+    }
+}
+
 void View::startAnimation()
 {
     displayStatus("Simulation in progress...");
@@ -73,11 +75,11 @@ void View::stopAnimation()
 
     if (_refController.isGameFinished())
     {
-        player_t player;
+        Game::player_t player;
         int nbBalls; 
         _refController.getBestPlayerStats(player, nbBalls);
         std::stringstream ss;
-        ss << "We've got a winner: " << COLORS[player]._name 
+        ss << "We've got a winner: " << getPlayerName(player)
             << " with " << nbBalls << " ball(s) !";
 
         displayStatus(ss.str());
@@ -86,8 +88,8 @@ void View::stopAnimation()
     else
     {
         std::stringstream ss;
-        player_t player = _refController.getCurrentPlayer();
-        ss << "current player: " << COLORS[player]._name;
+        Game::player_t player = _refController.getCurrentPlayer();
+        ss << "current player: " << getPlayerName(player);
         displayStatus(ss.str());
     }
 }

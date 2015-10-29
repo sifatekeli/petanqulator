@@ -31,19 +31,14 @@ class View
                 const std::string & message);
         void displayStatus(const std::string & message);
 
+        std::string getPlayerName(Game::player_t player) const;
+
         void startAnimation();
         void stopAnimation();
 
         double getPitch() const;
         double getYaw() const;
         double getVelocity() const;
-
-        struct Color
-        {
-            std::string _name;
-            std::array<float,4> _rgba;
-        };
-        static const std::vector<Color> COLORS;
 };
 
 #endif

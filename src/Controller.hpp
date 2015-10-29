@@ -15,22 +15,22 @@ class Controller
         Controller(int argc, char ** argv);
         void run();
 
-        const Ground & getGround() const;
-        const std::vector<Ball> & getBalls() const;
+        const Game::Ball & getJack() const;
+        const Game::Ground & getGround() const;
+        const std::vector<Game::Ball> & getRedBalls() const;
+        const std::vector<Game::Ball> & getBlueBalls() const;
+
+        vec3 getShooterPosition() const;
+        int getRemainingBallsRed() const;
+        int getRemainingBallsBlue() const;
 
         void newGame();
         void startThrow(double vx, double vy, double vz);
         void updateThrow(double duration);
 
-        vec3 getShooterPosition() const;
-        const Ball & getJack() const;
-
-        int getRemainingBallsRed() const;
-        int getRemainingBallsBlue() const;
-
         bool isGameFinished() const;
-        player_t getCurrentPlayer() const;
-        void getBestPlayerStats(player_t & player, 
+        Game::player_t getCurrentPlayer() const;
+        void getBestPlayerStats(Game::player_t & player, 
                 int & nbBalls) const;
 };
 

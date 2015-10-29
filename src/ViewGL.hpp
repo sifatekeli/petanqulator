@@ -49,6 +49,8 @@ class ViewGL : public Gtk::GL::DrawingArea
         Chrono _chrono;
         sigc::connection _timeoutConnection;
         bool handleTimeout();
+
+        void setGlColor(GLenum type, std::array<float,4> colorv);
 };
 
 #endif

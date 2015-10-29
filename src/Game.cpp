@@ -14,6 +14,7 @@ void Game::newGame()
     _currentPlayer = PLAYER_RED;
     _shooterPosition = vec3(-8,1,0);
 
+    /*
     // physics
     _physics._motionThreshold = 1e-9;
     _timeStep = 1e-3;
@@ -22,18 +23,18 @@ void Game::newGame()
     _physics._uptrForces.clear();
     _physics._uptrForces.emplace_back(new Gravity(0, -9.8f, 0));
     _physics._uptrForces.emplace_back(new Viscosity(200));
+    */
 
     // ground
-    _physics._ground = Ground(PLAYER_NONE, INFINITY, vec3(0,0,0), 
-            vec3(0,0,0), -10, 10, -6, 6, 0.5);
+    _ground = {-10, 10, -6, 6};
 
     // jack
-    _physics._balls.clear();
     // TODO init jack at a random position
-    _physics._balls.emplace_back(
-            PLAYER_JACK, 1, vec3(0,5,0), vec3(0,0,0), 0.1);
+    _jack = {vec3(0, 1, 0), vec3(0, 0, 0), 0.1, 0.1};
 
-    // TODO ground limits for physics
+    _redBalls.clear();
+    _blueBalls.clear();
+
 }
 
 bool Game::isGameFinished() const
@@ -41,13 +42,10 @@ bool Game::isGameFinished() const
     return _remainingBallsBlue == 0 and _remainingBallsRed == 0;
 }
 
-player_t Game::getCurrentPlayer() const
-{
-    return _currentPlayer;
-}
-
 void Game::getBestPlayerStats(player_t & player, int & nbBalls) const
 {
+    // TODO
+    /*
     // get jack
     const Ball & jack = getJack();
 
@@ -63,24 +61,67 @@ void Game::getBestPlayerStats(player_t & player, int & nbBalls) const
             balls.begin(), balls.end(), cmpBalls);
 
     // get the first balls from the same player
-    player = balls.front()._player;
+    player = (player_t) balls.front()._player;
     nbBalls = 0;
     for (const Ball & b : balls)
         if (b._player == player)
             nbBalls++;
         else
             break;
+            */
+}
+
+Game::player_t Game::getCurrentPlayer() const
+{
+    return _currentPlayer;
+}
+
+int Game::getRemainingBallsRed() const
+{
+    return _remainingBallsRed;
+}
+
+int Game::getRemainingBallsBlue() const
+{
+    return _remainingBallsBlue;
+}
+
+const std::vector<Game::Ball> & Game::getRedBalls() const
+{
+    return _redBalls;
+}
+
+const std::vector<Game::Ball> & Game::getBlueBalls() const
+{
+    return _blueBalls;
+}
+
+const Game::Ground & Game::getGround() const
+{
+    return _ground;
+}
+
+const Game::Ball & Game::getJack() const
+{
+    return _jack;
+}
+
+vec3 Game::getShooterPosition() const
+{
+    return _shooterPosition;
 }
 
 void Game::throwBall(double vx, double vy, double vz)
 {
+    // TODO ground limits for physics
     // create ball
     createBall(vx, vy, vz);
 
     // run simulation
     _physics.startSimulation();
     while (_physics.isSimulationRunning())
-        _physics.computeSimulation(_timeStep);
+        // TODO tune that
+        _physics.computeSimulation(0.2);
 
     updatePlayer();
 }
@@ -96,6 +137,7 @@ void Game::interactiveThrowStart(double vx, double vy, double vz)
 
 bool Game::interactiveThrowRunning() 
 {
+    // TODO ground limits for physics
     if (_physics.isSimulationRunning())
     {
         return true;
@@ -109,6 +151,8 @@ bool Game::interactiveThrowRunning()
 
 void Game::interactiveThrowContinue(double duration)
 {
+    // TODO
+    /*
     double t = duration;
     while (t - _timeStep > 0 and interactiveThrowRunning())
     {
@@ -117,58 +161,28 @@ void Game::interactiveThrowContinue(double duration)
     }
     if (t > 1e-4 and interactiveThrowRunning())
         _physics.computeSimulation(t);
-}
-
-const Ground & Game::getGround() const
-{
-    return _physics._ground;
-}
-
-const std::vector<Ball> & Game::getBalls() const
-{
-    return _physics._balls;
-}
-
-vec3 Game::getShooterPosition() const
-{
-    return _shooterPosition;
-}
-
-const Ball & Game::getJack() const
-{
-    const Ball & jack = _physics._balls.front();
-    if (jack._player != PLAYER_JACK)
-        UTILS_ERROR("invalid jack");
-    return jack;
-}
-
-int Game::getRemainingBallsRed() const
-{
-    return _remainingBallsRed;
-}
-
-int Game::getRemainingBallsBlue() const
-{
-    return _remainingBallsBlue;
+        */
 }
 
 void Game::createBall(double vx, double vy, double vz)
 {
     // update game data
-    if (_currentPlayer == PLAYER_NONE)
-        return;
-    else if (_currentPlayer == PLAYER_RED)
-        _remainingBallsRed--;
-    else
+    if (_currentPlayer == PLAYER_BLUE)
+    {
+        _blueBalls.push_back({_shooterPosition, vec3(vx, vy, vz), 0.2, 0.2});
         _remainingBallsBlue--;
-
-    // create ball
-    _physics._balls.emplace_back(
-            _currentPlayer, 5, _shooterPosition, vec3(vx,vy,vz), 0.1);
+    }
+    else if (_currentPlayer == PLAYER_RED)
+    {
+        _redBalls.push_back({_shooterPosition, vec3(vx, vy, vz), 0.2, 0.2});
+        _remainingBallsRed--;
+    }
 }
 
 void Game::updatePlayer()
 {
+    // TODO
+    /*
     // first throw (jack + red ball), switch to blue
     if (_physics._balls.size() <= 2)
         _currentPlayer = PLAYER_BLUE;
@@ -187,5 +201,6 @@ void Game::updatePlayer()
         getBestPlayerStats(bestPlayer, nbBalls);
         _currentPlayer = bestPlayer == PLAYER_RED ? PLAYER_BLUE : PLAYER_RED;
     }
+    */
 }
 
