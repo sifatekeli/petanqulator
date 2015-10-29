@@ -65,8 +65,6 @@ void ViewPanel::stopAnimation()
 void ViewPanel::handleNew()
 {
     _refController.newGame();
-    // TODO print jack position
-    UTILS_INFO("new game");
 }
 
 void ViewPanel::handleThrowBall()
@@ -75,14 +73,11 @@ void ViewPanel::handleThrowBall()
     double radPitch = degToRad(getPitch());
     double radYaw = degToRad(getYaw());
     double velocity = getVelocity();
-    double vx = velocity * cos(radPitch) * cos(radYaw);
-    double vy = velocity * sin(radPitch);
-    double vz = velocity * cos(radPitch) * sin(radYaw);
 
-    // output log
-    std::stringstream ss;
-    ss << "throw ball, velocity=[" << vx << ' ' << vy << ' ' << vz << ']';
-    UTILS_INFO(ss.str());
+    // compute velocity vector from pitch/yaw
+    double vx = velocity * cos(radPitch) * sin(radYaw);
+    double vy = velocity * cos(radPitch) * cos(radYaw);
+    double vz = velocity * sin(radPitch);
 
     // throw ball
     _refController.startThrow(vx, vy, vz);

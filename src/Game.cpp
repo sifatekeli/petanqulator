@@ -12,25 +12,14 @@ void Game::newGame()
     _remainingBallsRed = 2;
     _remainingBallsBlue = 2;
     _currentPlayer = PLAYER_RED;
-    _shooterPosition = vec3(-8,1,0);
-
-    /*
-    // physics
-    _physics._motionThreshold = 1e-9;
-    _timeStep = 1e-3;
-
-    // forces
-    _physics._uptrForces.clear();
-    _physics._uptrForces.emplace_back(new Gravity(0, -9.8f, 0));
-    _physics._uptrForces.emplace_back(new Viscosity(200));
-    */
+    _shooterPosition = vec3(0, -8, 1);
 
     // ground
-    _ground = {-10, 10, -6, 6};
+    _ground = {-6, 6, -10, 10};
 
     // jack
     // TODO init jack at a random position
-    _jack = {vec3(0, 1, 0), vec3(0, 0, 0), 0.1, 0.1};
+    _jack = {vec3(0, 4, 1), vec3(0, 0, 0), 0.1, 0.1};
 
     _redBalls.clear();
     _blueBalls.clear();
@@ -113,7 +102,6 @@ vec3 Game::getShooterPosition() const
 
 void Game::throwBall(double vx, double vy, double vz)
 {
-    // TODO ground limits for physics
     // create ball
     createBall(vx, vy, vz);
 
@@ -122,6 +110,7 @@ void Game::throwBall(double vx, double vy, double vz)
     while (_physics.isSimulationRunning())
         // TODO tune that
         _physics.computeSimulation(0.2);
+    // TODO ground limits for physics
 
     updatePlayer();
 }
@@ -181,19 +170,17 @@ void Game::createBall(double vx, double vy, double vz)
 
 void Game::updatePlayer()
 {
-    // TODO
-    /*
-    // first throw (jack + red ball), switch to blue
-    if (_physics._balls.size() <= 2)
-        _currentPlayer = PLAYER_BLUE;
-    // one or more player cannot play
-    else if (_remainingBallsRed == 0 and _remainingBallsBlue > 0)
+    if (_redBalls.empty())
+        _currentPlayer = PLAYER_RED;
+    else if (_blueBalls.empty())
         _currentPlayer = PLAYER_BLUE;
     else if (_remainingBallsBlue == 0 and _remainingBallsRed > 0)
         _currentPlayer = PLAYER_RED;
+    else if (_remainingBallsRed == 0 and _remainingBallsBlue > 0)
+        _currentPlayer = PLAYER_BLUE;
     else if (_remainingBallsBlue == 0 and _remainingBallsRed == 0)
         _currentPlayer = PLAYER_NONE;
-    // all player can play, switch to looser
+    // if all player can play, find looser
     else
     {
         player_t bestPlayer;
@@ -201,6 +188,5 @@ void Game::updatePlayer()
         getBestPlayerStats(bestPlayer, nbBalls);
         _currentPlayer = bestPlayer == PLAYER_RED ? PLAYER_BLUE : PLAYER_RED;
     }
-    */
 }
 

@@ -14,7 +14,7 @@ ViewGL::ViewGL(Controller & refController, View & refView, int& argc,
     _refController(refController),
     _refView(refView),
     _theta(0),
-    _phi(0),
+    _phi(20),
     _motionThetaPhi(false)
 {
     Gtk::GL::init(argc, argv);
@@ -72,11 +72,11 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
     glPushMatrix();
 
     // camera transformation
-    glRotatef(_theta, 0, 1, 0);
-    glRotatef(_phi, cos(M_PI*_theta/180.0), 0, sin(M_PI*_theta/180.0));
+    glRotatef(_theta, 0, 0, 1);
+    glRotatef(_phi, sin(M_PI*_theta/180.0), cos(M_PI*_theta/180.0), 0);
 
     // update light position
-    float lightPosition[4] = {0, 100, 0, 1};
+    float lightPosition[4] = {0, 0, 100, 1};
     glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 
     // draw red balls
@@ -114,12 +114,11 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
     const Game::Ground & ground = _refController.getGround();
     setGlColor(GL_DIFFUSE, {0.6f, 0.6f, 0.2f, 1.f});
     glBegin(GL_QUADS);
-    glNormal3f(0, 1, 0);
-    // TODO use bullet coordinate system
-    glVertex3f(ground._xMin, 0, ground._yMin);
-    glVertex3f(ground._xMin, 0, ground._yMax);
-    glVertex3f(ground._xMax, 0, ground._yMax);
-    glVertex3f(ground._xMax, 0, ground._yMin);
+    glNormal3f(0, 0, 1);
+    glVertex3f(ground._xMin, ground._yMin, 0);
+    glVertex3f(ground._xMin, ground._yMax, 0);
+    glVertex3f(ground._xMax, ground._yMax, 0);
+    glVertex3f(ground._xMax, ground._yMin, 0);
     glEnd();
 
     // draw shooter
@@ -132,8 +131,8 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
     vec3 shooterPosition = _refController.getShooterPosition();
     glTranslatef(shooterPosition.getX(), shooterPosition.getY(), 
             shooterPosition.getZ());
-    glRotatef(90 - _refView.getYaw(), 0, 1, 0);
-    glRotatef(_refView.getPitch(), -1, 0, 0);
+    glRotatef(90 - _refView.getYaw(), 0, 0, 1);
+    glRotatef(_refView.getPitch(), 0, 1, 0);
     gluCylinder(gluNewQuadric(), 0.06, 0.06, 1, 16, 2);
     glTranslatef(0, 0, 1);
     gluCylinder(gluNewQuadric(), 0.12, 0, 0.3, 16, 2);
@@ -159,9 +158,9 @@ bool ViewGL::on_configure_event(GdkEventConfigure * event)
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt(0, 12, 10,      // position
-            0, 2, 0,          // center
-            0, 0.77, -0.77);  // up vector
+    gluLookAt(10, 0, 2,      // position
+            0, 0, 2,          // center
+            0, 0, 1);  // up vector
 
     return true;
 }

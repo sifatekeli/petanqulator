@@ -33,16 +33,27 @@ const std::vector<Game::Ball> & Controller::getBlueBalls() const
 void Controller::newGame()
 {
     _game.newGame();
+
+    vec3 jackPos = getJack()._position;
+    std::stringstream ss;
+    ss << "new game, jack=[" << jackPos.getX() << ' ' << jackPos.getY() << ' '
+        << jackPos.getZ() << ']';
+    UTILS_INFO(ss.str());
+
     _view.stopAnimation();
     _view.update();
 }
 
 void Controller::startThrow(double vx, double vy, double vz)
 {
+    // output log
+    std::stringstream ss;
+    ss << "throw ball, velocity=[" << vx << ' ' << vy << ' ' << vz << ']';
+    UTILS_INFO(ss.str());
+
     // TODO interactive simulation
     _game.throwBall(vx, vy, vz);
     _view.update();
-
     /*
     if (not _game.isGameFinished())
     {
