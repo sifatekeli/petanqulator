@@ -198,7 +198,7 @@ void ViewGL::stopAnimation()
         _timeoutConnection.disconnect();
 
         std::stringstream ss;
-        ss << "animation duration = " << _chrono.elapsedStopped();
+        ss << "animation, duration=" << _chrono.elapsedStopped();
         UTILS_INFO(ss.str());
     }
 }
@@ -207,7 +207,7 @@ bool ViewGL::handleTimeout()
 {
     update();
     double duration = _chrono.elapsedRunning();
-    _refController.updateThrow(0.1*duration);
+    _refController.updateThrow(duration);
     return true;
 }
 
