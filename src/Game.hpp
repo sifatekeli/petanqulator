@@ -5,7 +5,9 @@
 #include "Physics.hpp"
 #include "Utils.hpp"
 
+#include <memory>
 #include <string>
+#include <vector>
 
 class Game
 {
@@ -26,7 +28,6 @@ class Game
         };
 
     private:
-        Physics _physics;
         player_t _currentPlayer;
         int _remainingBallsRed;
         int _remainingBallsBlue;
@@ -35,6 +36,7 @@ class Game
         Ball _jack;
         Ground _ground;
         vec3 _shooterPosition;
+        std::unique_ptr<Physics> _uptrPhysics;
 
     public:
         Game();

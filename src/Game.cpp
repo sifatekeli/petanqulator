@@ -105,12 +105,15 @@ void Game::throwBall(double vx, double vy, double vz)
     // create ball
     createBall(vx, vy, vz);
 
+    // TODO _uptrPhysics = std::make_unique<Physics>();
     // run simulation
+    /*
     _physics.startSimulation();
     while (_physics.isSimulationRunning())
         // TODO tune that
         _physics.computeSimulation(0.2);
     // TODO ground limits for physics
+    */
 
     updatePlayer();
 }
@@ -121,12 +124,13 @@ void Game::interactiveThrowStart(double vx, double vy, double vz)
     createBall(vx, vy, vz);
 
     // start simulation
-    _physics.startSimulation();
+    // TODO _physics.startSimulation();
 }
 
 bool Game::interactiveThrowRunning() 
 {
     // TODO ground limits for physics
+    /*
     if (_physics.isSimulationRunning())
     {
         return true;
@@ -136,6 +140,7 @@ bool Game::interactiveThrowRunning()
         updatePlayer();
         return false;
     }
+    */
 }
 
 void Game::interactiveThrowContinue(double duration)
