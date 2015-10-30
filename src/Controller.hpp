@@ -15,10 +15,10 @@ class Controller
         Controller(int argc, char ** argv);
         void run();
 
-        const Game::Ball & getJack() const;
-        const Game::Ground & getGround() const;
-        const std::vector<Game::Ball> & getRedBalls() const;
-        const std::vector<Game::Ball> & getBlueBalls() const;
+        const GameBall & getJack() const;
+        const GameGround & getGround() const;
+        const std::vector<GameBall> & getRedBalls() const;
+        const std::vector<GameBall> & getBlueBalls() const;
 
         vec3 getShooterPosition() const;
         int getRemainingBallsRed() const;
@@ -29,8 +29,8 @@ class Controller
         void updateThrow(double duration);
 
         bool isGameFinished() const;
-        Game::player_t getCurrentPlayer() const;
-        void getBestPlayerStats(Game::player_t & player, 
+        player_t getCurrentPlayer() const;
+        void getBestPlayerStats(player_t & player, 
                 int & nbBalls) const;
 };
 

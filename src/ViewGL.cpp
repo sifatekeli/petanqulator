@@ -80,7 +80,7 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
     glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 
     // draw red balls
-    for (const Game::Ball & b : _refController.getRedBalls())
+    for (const GameBall & b : _refController.getRedBalls())
     {
         setGlColor(GL_DIFFUSE, {1.f, 0.f, 0.f, 1.f});
         glPushMatrix();
@@ -91,7 +91,7 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
     }
 
     // draw blue balls
-    for (const Game::Ball & b : _refController.getBlueBalls())
+    for (const GameBall & b : _refController.getBlueBalls())
     {
         setGlColor(GL_DIFFUSE, {0.f, 0.f, 1.f, 1.f});
         glPushMatrix();
@@ -102,7 +102,7 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
     }
 
     // draw jack
-    const Game::Ball & jack = _refController.getJack();
+    const GameBall & jack = _refController.getJack();
     setGlColor(GL_DIFFUSE, {1.f, 0.f, 1.f, 1.f});
     glPushMatrix();
     glTranslatef(jack._position.getX(), jack._position.getY(), 
@@ -111,7 +111,7 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
     glPopMatrix();
 
     // draw ground
-    const Game::Ground & ground = _refController.getGround();
+    const GameGround & ground = _refController.getGround();
     setGlColor(GL_DIFFUSE, {0.6f, 0.6f, 0.2f, 1.f});
     glBegin(GL_QUADS);
     glNormal3f(0, 0, 1);
@@ -122,7 +122,7 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
     glEnd();
 
     // draw shooter
-    Game::player_t currentPlayer = _refController.getCurrentPlayer();
+    player_t currentPlayer = _refController.getCurrentPlayer();
         if (currentPlayer == 0)
             setGlColor(GL_DIFFUSE, {1.f, 0.f, 0.f, 1.f});
         else

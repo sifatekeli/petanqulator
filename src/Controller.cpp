@@ -10,22 +10,22 @@ void Controller::run()
     _view.run();
 }
 
-const Game::Ball & Controller::getJack() const
+const GameBall & Controller::getJack() const
 {
     return _game.getJack();
 }
 
-const Game::Ground & Controller::getGround() const
+const GameGround & Controller::getGround() const
 {
     return _game.getGround();
 }
 
-const std::vector<Game::Ball> & Controller::getRedBalls() const
+const std::vector<GameBall> & Controller::getRedBalls() const
 {
     return _game.getRedBalls();
 }
 
-const std::vector<Game::Ball> & Controller::getBlueBalls() const
+const std::vector<GameBall> & Controller::getBlueBalls() const
 {
     return _game.getBlueBalls();
 }
@@ -51,16 +51,11 @@ void Controller::startThrow(double vx, double vy, double vz)
     ss << "throw ball, velocity=[" << vx << ' ' << vy << ' ' << vz << ']';
     UTILS_INFO(ss.str());
 
-    // TODO interactive simulation
-    _game.throwBall(vx, vy, vz);
-    _view.update();
-    /*
     if (not _game.isGameFinished())
     {
         _game.interactiveThrowStart(vx, vy, vz);
         _view.startAnimation();
     }
-    */
 }
 
 void Controller::updateThrow(double duration)
@@ -76,12 +71,12 @@ bool Controller::isGameFinished() const
     return _game.isGameFinished();
 }
 
-Game::player_t Controller::getCurrentPlayer() const
+player_t Controller::getCurrentPlayer() const
 {
     return _game.getCurrentPlayer();
 }
 
-void Controller::getBestPlayerStats(Game::player_t & player, 
+void Controller::getBestPlayerStats(player_t & player, 
         int & nbBalls) const
 {
     _game.getBestPlayerStats(player, nbBalls);

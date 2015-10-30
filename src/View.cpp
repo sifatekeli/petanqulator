@@ -51,12 +51,12 @@ void View::update()
     _viewGL.update();
 }
 
-std::string View::getPlayerName(Game::player_t player) const
+std::string View::getPlayerName(player_t player) const
 {
     switch (player)
     {
-        case Game::PLAYER_RED: return "red";
-        case Game::PLAYER_BLUE: return "blue";
+        case PLAYER_RED: return "red";
+        case PLAYER_BLUE: return "blue";
         default: return "none";
     }
 }
@@ -75,7 +75,7 @@ void View::stopAnimation()
 
     if (_refController.isGameFinished())
     {
-        Game::player_t player;
+        player_t player;
         int nbBalls; 
         _refController.getBestPlayerStats(player, nbBalls);
         std::stringstream ss;
@@ -88,7 +88,7 @@ void View::stopAnimation()
     else
     {
         std::stringstream ss;
-        Game::player_t player = _refController.getCurrentPlayer();
+        player_t player = _refController.getCurrentPlayer();
         ss << "current player: " << getPlayerName(player);
         displayStatus(ss.str());
     }

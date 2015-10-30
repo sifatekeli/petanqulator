@@ -31,7 +31,7 @@ class View
                 const std::string & message);
         void displayStatus(const std::string & message);
 
-        std::string getPlayerName(Game::player_t player) const;
+        std::string getPlayerName(player_t player) const;
 
         void startAnimation();
         void stopAnimation();

@@ -2,6 +2,7 @@
 #include "Game.hpp"
 
 #include <algorithm>
+#include <sstream>
 
 Game::Game()
 {}
@@ -60,7 +61,7 @@ void Game::getBestPlayerStats(player_t & player, int & nbBalls) const
             */
 }
 
-Game::player_t Game::getCurrentPlayer() const
+player_t Game::getCurrentPlayer() const
 {
     return _currentPlayer;
 }
@@ -75,22 +76,22 @@ int Game::getRemainingBallsBlue() const
     return _remainingBallsBlue;
 }
 
-const std::vector<Game::Ball> & Game::getRedBalls() const
+const std::vector<GameBall> & Game::getRedBalls() const
 {
     return _redBalls;
 }
 
-const std::vector<Game::Ball> & Game::getBlueBalls() const
+const std::vector<GameBall> & Game::getBlueBalls() const
 {
     return _blueBalls;
 }
 
-const Game::Ground & Game::getGround() const
+const GameGround & Game::getGround() const
 {
     return _ground;
 }
 
-const Game::Ball & Game::getJack() const
+const GameBall & Game::getJack() const
 {
     return _jack;
 }
@@ -103,7 +104,16 @@ vec3 Game::getShooterPosition() const
 void Game::throwBall(double vx, double vy, double vz)
 {
     // create ball
-    createBall(vx, vy, vz);
+    //createBall(vx, vy, vz);
+
+    _uptrPhysics.reset(new Physics(&_jack));
+    {
+    _uptrPhysics->computeSimulation(0.1);
+    std::stringstream ss;
+    ss << "position=[" << _jack._position.getX() << ' ' 
+        << _jack._position.getY() << ' ' << _jack._position.getZ() << ']';
+    UTILS_INFO(ss.str());
+    }
 
     // TODO _uptrPhysics = std::make_unique<Physics>();
     // run simulation
@@ -125,26 +135,36 @@ void Game::interactiveThrowStart(double vx, double vy, double vz)
 
     // start simulation
     // TODO _physics.startSimulation();
+    _uptrPhysics.reset(new Physics(&_jack));
 }
 
 bool Game::interactiveThrowRunning() 
 {
     // TODO ground limits for physics
-    /*
-    if (_physics.isSimulationRunning())
+    if (_uptrPhysics->isSimulationRunning())
     {
         return true;
     }
     else
     {
+        _uptrPhysics.reset();
         updatePlayer();
         return false;
     }
-    */
 }
 
 void Game::interactiveThrowContinue(double duration)
 {
+
+    _uptrPhysics->computeSimulation(duration);
+
+    /*
+    std::stringstream ss;
+    ss << "position=[" << _jack._position.getX() << ' ' 
+        << _jack._position.getY() << ' ' << _jack._position.getZ() << ']';
+    UTILS_INFO(ss.str());
+    */
+
     // TODO
     /*
     double t = duration;

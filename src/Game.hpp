@@ -2,6 +2,7 @@
 #ifndef _GAME_HPP_
 #define _GAME_HPP_
 
+#include "GameObject.hpp"
 #include "Physics.hpp"
 #include "Utils.hpp"
 
@@ -9,32 +10,18 @@
 #include <string>
 #include <vector>
 
+enum player_t {PLAYER_RED, PLAYER_BLUE, PLAYER_NONE};
+
 class Game
 {
-    public:
-        enum player_t {PLAYER_RED, PLAYER_BLUE, PLAYER_NONE};
-
-        struct Ball
-        {
-            vec3 _position;
-            vec3 _velocity;
-            real _mass;
-            real _radius;
-        };
-
-        struct Ground
-        {
-            real _xMin, _xMax, _yMin, _yMax;
-        };
-
     private:
         player_t _currentPlayer;
         int _remainingBallsRed;
         int _remainingBallsBlue;
-        std::vector<Ball> _redBalls;
-        std::vector<Ball> _blueBalls;
-        Ball _jack;
-        Ground _ground;
+        std::vector<GameBall> _redBalls;
+        std::vector<GameBall> _blueBalls;
+        GameBall _jack;
+        GameGround _ground;
         vec3 _shooterPosition;
         std::unique_ptr<Physics> _uptrPhysics;
 
@@ -48,10 +35,10 @@ class Game
 
         int getRemainingBallsRed() const;
         int getRemainingBallsBlue() const;
-        const std::vector<Ball> & getRedBalls() const;
-        const std::vector<Ball> & getBlueBalls() const;
-        const Ground & getGround() const;
-        const Ball & getJack() const;
+        const std::vector<GameBall> & getRedBalls() const;
+        const std::vector<GameBall> & getBlueBalls() const;
+        const GameGround & getGround() const;
+        const GameBall & getJack() const;
         vec3 getShooterPosition() const;
 
         // throw one ball and compute physics simulation till stationnarity

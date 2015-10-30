@@ -2,37 +2,53 @@
 #ifndef _PHYSICS_HPP_
 #define _PHYSICS_HPP_
 
+#include "GameObject.hpp"
 #include "Utils.hpp"
 
 #include <btBulletDynamicsCommon.h>
 
-class Physics;
-
-class PhysicsGround
+template <typename T>
+class PhysicsObject
 {
     private:
-        btStaticPlaneShape _shape;
-        btDefaultMotionState _motionState;
-        btRigidBody::btRigidBodyConstructionInfo _constructionInfo;
-        btRigidBody _rigidBody;
-
-    public:
-        PhysicsGround(btDiscreteDynamicsWorld & world);
-};
-
-class PhysicsBall
-{
-    private:
-        btSphereShape _shape;
-        btDefaultMotionState _motionState;
+        T _shape;
         btScalar _mass;
         btVector3 _inertia;
+        btDefaultMotionState _motionState;
         btRigidBody::btRigidBodyConstructionInfo _constructionInfo;
         btRigidBody _rigidBody;
+        GameBall * _ptrBall;
 
     public:
-        PhysicsBall(btDiscreteDynamicsWorld & world);
-        btTransform getTransform();
+        PhysicsObject(btDiscreteDynamicsWorld & world, const T & shape, 
+                btScalar mass, const btVector3 & inertia,
+                const btTransform & transform, GameBall * ptrBall):
+            _shape(shape),
+            _mass(mass),
+            _inertia(inertia),
+            _motionState(transform),
+            _constructionInfo(_mass, &_motionState, &_shape, _inertia),
+            _rigidBody(_constructionInfo),
+            _ptrBall(ptrBall)
+    {
+        _shape.calculateLocalInertia(_mass, _inertia);
+        world.addRigidBody(&_rigidBody);
+    }
+
+        void updateBall()
+        {
+            if (_ptrBall)
+            {
+                btTransform transformation;
+                _rigidBody.getMotionState()->getWorldTransform(transformation);
+                _ptrBall->_position = transformation.getOrigin();
+            }
+        }
+
+        const GameBall * getPtrBall() const
+        {
+            return _ptrBall;
+        }
 };
 
 class Physics
@@ -44,13 +60,15 @@ class Physics
         btSequentialImpulseConstraintSolver _solver;
         btDiscreteDynamicsWorld _world;
 
-        PhysicsGround _ground;
-        PhysicsBall _ball;
+        PhysicsObject<btStaticPlaneShape> _groundObject;
+
+        // TODO vector
+        PhysicsObject<btSphereShape> _ballObject;
 
         bool _isComputing;
 
     public:
-        Physics();
+        Physics(GameBall * ptrBall);
         bool isSimulationRunning() const;
         void computeSimulation(real duration);
 };
