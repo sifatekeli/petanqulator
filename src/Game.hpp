@@ -4,9 +4,9 @@
 
 #include "GameObject.hpp"
 #include "Physics.hpp"
-#include "Utils.hpp"
 
 #include <memory>
+#include <random>
 #include <string>
 #include <vector>
 
@@ -15,6 +15,8 @@ enum player_t {PLAYER_RED, PLAYER_BLUE, PLAYER_NONE};
 class Game
 {
     private:
+        std::mt19937 _engine;
+        std::uniform_real_distribution<btScalar> _distribution;
         player_t _currentPlayer;
         int _remainingBallsRed;
         int _remainingBallsBlue;

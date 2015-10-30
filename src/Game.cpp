@@ -4,7 +4,9 @@
 #include <algorithm>
 #include <sstream>
 
-Game::Game()
+Game::Game():
+    _engine(std::random_device()()),
+    _distribution(-4, 4)
 {}
 
 void Game::newGame()
@@ -19,13 +21,13 @@ void Game::newGame()
     _ground = {-6, 6, -10, 10};
 
     // jack
-    // TODO init jack at a random position
-    _jack = {btTransform(btQuaternion(0,0,0,1),btVector3(0,0,0.2)), 
+    btScalar x = _distribution(_engine);
+    btScalar y = _distribution(_engine);
+    _jack = {btTransform(btQuaternion(0,0,0,1),btVector3(x,y,0.2)), 
         btVector3(0, 0, 0), 0.1, 0.2};
 
     _redBalls.clear();
     _blueBalls.clear();
-
 }
 
 bool Game::isGameFinished() const
@@ -177,13 +179,6 @@ void Game::createBall(double vx, double vy, double vz)
 {
     if (_currentPlayer == PLAYER_NONE)
         return;
-
-    // log
-    std::stringstream ss;
-    ss << "create ball, player=" 
-        << (_currentPlayer == PLAYER_RED ? "red" : "blue")
-        << ", velocity=[" << vx << ' ' << vy << ' ' << vz << ']';
-    UTILS_INFO(ss.str());
 
     // update game data
     if (_currentPlayer == PLAYER_BLUE)

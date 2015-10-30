@@ -46,9 +46,11 @@ void Controller::newGame()
 
 void Controller::startThrow(double vx, double vy, double vz)
 {
-    // output log
+    // log
     std::stringstream ss;
-    ss << "throw ball, velocity=[" << vx << ' ' << vy << ' ' << vz << ']';
+    ss << "throw ball, player=" 
+        << (_game.getCurrentPlayer() == PLAYER_RED ? "red" : "blue")
+        << ", velocity=[" << vx << ' ' << vy << ' ' << vz << ']';
     UTILS_INFO(ss.str());
 
     if (not _game.isGameFinished())
