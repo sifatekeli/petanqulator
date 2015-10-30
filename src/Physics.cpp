@@ -2,23 +2,29 @@
 #include "Physics.hpp"
 #include "Utils.hpp"
 
-Physics::Physics(GameBall * ptrBall):
+Physics::Physics(GameGround * ptrGround):
     _broadphase(),
     _configuration(),
     _dispatcher(&_configuration),
     _solver(),
     _world(&_dispatcher, &_broadphase, &_solver, &_configuration),
+    // TODO game ground / physics ground
     _groundObject(_world, btStaticPlaneShape(btVector3(0, 0, 1), 0),
-            0, 
+            0, btVector3(0, 0, 0),
             btTransform(btQuaternion(0,0,0,1), btVector3(0,0,0)),
-            nullptr),
-    _ballObject(_world, btSphereShape(ptrBall->_radius),
-            1, 
-            btTransform(btQuaternion(0,0,0,1), ptrBall->_position),
-            ptrBall)
+            nullptr)
 {
     _world.setGravity(btVector3(0, 0, -10));
     _isComputing = true;
+}
+
+void Physics::addBall(GameBall * ptrBall)
+{
+    _ballObjects.emplace_back(_world, btSphereShape(ptrBall->_radius),
+            1, ptrBall->_velocity,
+            btTransform(btQuaternion(0,0,0,1), ptrBall->_position),
+            ptrBall);
+    ptrBall->_velocity = btVector3(0, 0, 0);
 }
 
 bool Physics::isSimulationRunning() const
@@ -28,12 +34,10 @@ bool Physics::isSimulationRunning() const
 
 void Physics::computeSimulation(real duration)
 {
-    _world.stepSimulation(0.1*duration, 100);
+    _world.stepSimulation(duration);
 
-    // TODO vector of balls
-    _ballObject.updateBall();
-
-    // TODO remove balls outside limits
+    for (auto & b : _ballObjects)
+        b.updateBall();
     
     // detect end of simulation 
     _isComputing = false;

@@ -8,6 +8,7 @@ struct GameBall
 {
     // TODO btTransform
     vec3 _position;
+    vec3 _velocity;
     real _mass;
     real _radius;
 };

@@ -20,7 +20,7 @@ void Game::newGame()
 
     // jack
     // TODO init jack at a random position
-    _jack = {vec3(0, 4, 4), 0.1, 0.1};
+    _jack = {vec3(0, 2, 0.2), vec3(0, 0, 0), 0.1, 0.2};
 
     _redBalls.clear();
     _blueBalls.clear();
@@ -104,28 +104,24 @@ vec3 Game::getShooterPosition() const
 void Game::throwBall(double vx, double vy, double vz)
 {
     // create ball
-    //createBall(vx, vy, vz);
+    createBall(vx, vy, vz);
 
-    _uptrPhysics.reset(new Physics(&_jack));
-    {
+    _uptrPhysics.reset(new Physics(&_ground));
+    _uptrPhysics->addBall(&_jack);
+    for (GameBall & b : _redBalls)
+        _uptrPhysics->addBall(std::addressof(b));
+    for (GameBall & b : _blueBalls)
+        _uptrPhysics->addBall(std::addressof(b));
     _uptrPhysics->computeSimulation(0.1);
+
     std::stringstream ss;
     ss << "position=[" << _jack._position.getX() << ' ' 
         << _jack._position.getY() << ' ' << _jack._position.getZ() << ']';
     UTILS_INFO(ss.str());
-    }
 
-    // TODO _uptrPhysics = std::make_unique<Physics>();
-    // run simulation
-    /*
-    _physics.startSimulation();
-    while (_physics.isSimulationRunning())
-        // TODO tune that
-        _physics.computeSimulation(0.2);
     // TODO ground limits for physics
-    */
 
-    updatePlayer();
+    updateCurrentPlayer();
 }
 
 void Game::interactiveThrowStart(double vx, double vy, double vz)
@@ -133,31 +129,7 @@ void Game::interactiveThrowStart(double vx, double vy, double vz)
     // create ball
     createBall(vx, vy, vz);
 
-    // start simulation
-    // TODO _physics.startSimulation();
-    _uptrPhysics.reset(new Physics(&_jack));
-}
-
-bool Game::interactiveThrowRunning() 
-{
-    // TODO ground limits for physics
-    if (_uptrPhysics->isSimulationRunning())
-    {
-        return true;
-    }
-    else
-    {
-        _uptrPhysics.reset();
-        updatePlayer();
-        return false;
-    }
-}
-
-void Game::interactiveThrowContinue(double duration)
-{
-
-    _uptrPhysics->computeSimulation(duration);
-
+    // TODO 
     /*
     std::stringstream ss;
     ss << "position=[" << _jack._position.getX() << ' ' 
@@ -165,17 +137,33 @@ void Game::interactiveThrowContinue(double duration)
     UTILS_INFO(ss.str());
     */
 
-    // TODO
-    /*
-    double t = duration;
-    while (t - _timeStep > 0 and interactiveThrowRunning())
+    // create physics
+    _uptrPhysics.reset(new Physics(&_ground));
+    _uptrPhysics->addBall(&_jack);
+    for (GameBall & b : _redBalls)
+        _uptrPhysics->addBall(std::addressof(b));
+    for (GameBall & b : _blueBalls)
+        _uptrPhysics->addBall(std::addressof(b));
+}
+
+bool Game::interactiveThrowRunning() 
+{
+    if (_uptrPhysics->isSimulationRunning())
     {
-        _physics.computeSimulation(_timeStep);
-        t -= _timeStep;
+        return true;
     }
-    if (t > 1e-4 and interactiveThrowRunning())
-        _physics.computeSimulation(t);
-        */
+    else
+    {
+        _uptrPhysics.reset();
+    // TODO ground limits for physics
+        updateCurrentPlayer();
+        return false;
+    }
+}
+
+void Game::interactiveThrowContinue(double duration)
+{
+    _uptrPhysics->computeSimulation(duration);
 }
 
 void Game::createBall(double vx, double vy, double vz)
@@ -184,17 +172,17 @@ void Game::createBall(double vx, double vy, double vz)
     if (_currentPlayer == PLAYER_BLUE)
     {
         // TODO add ball in Physics
-        _blueBalls.push_back({_shooterPosition, 0.2, 0.2});
+        _blueBalls.push_back({_shooterPosition, vec3(vx,vy,vz), 0.2, 0.4});
         _remainingBallsBlue--;
     }
     else if (_currentPlayer == PLAYER_RED)
     {
-        _redBalls.push_back({_shooterPosition, 0.2, 0.2});
+        _redBalls.push_back({_shooterPosition, vec3(vx,vy,vz), 0.2, 0.4});
         _remainingBallsRed--;
     }
 }
 
-void Game::updatePlayer()
+void Game::updateCurrentPlayer()
 {
     if (_redBalls.empty())
         _currentPlayer = PLAYER_RED;

@@ -6,6 +6,7 @@
 #include "Utils.hpp"
 
 #include <btBulletDynamicsCommon.h>
+#include <list>
 
 template <typename T>
 class PhysicsObject
@@ -19,7 +20,7 @@ class PhysicsObject
 
     public:
         PhysicsObject(btDiscreteDynamicsWorld & world, const T & shape, 
-                btScalar mass, 
+                btScalar mass, btVector3 velocity,
                 const btTransform & transform, 
                 GameBall * ptrBall):
             _shape(shape),
@@ -27,8 +28,10 @@ class PhysicsObject
             _rigidBody(mass, &_motionState, &_shape),
             _ptrBall(ptrBall)
     {
-        //_shape.calculateLocalInertia(_mass, _inertia);
-        _rigidBody.setRestitution(0.8);
+        // TODO angular velocity ?
+        _rigidBody.setLinearVelocity(velocity);
+        _rigidBody.setDamping(0.1, 0.1);
+        _rigidBody.setRestitution(0.7);
         _rigidBody.setFriction(0.1);
         // TODO _rigidBody.setRollingFriction(0.01);
         world.addRigidBody(&_rigidBody);
@@ -42,11 +45,6 @@ class PhysicsObject
                 _rigidBody.getMotionState()->getWorldTransform(transformation);
                 _ptrBall->_position = transformation.getOrigin();
             }
-        }
-
-        const GameBall * getPtrBall() const
-        {
-            return _ptrBall;
         }
 };
 
@@ -62,12 +60,13 @@ class Physics
         PhysicsObject<btStaticPlaneShape> _groundObject;
 
         // TODO vector
-        PhysicsObject<btSphereShape> _ballObject;
+        std::list<PhysicsObject<btSphereShape>> _ballObjects;
 
         bool _isComputing;
 
     public:
-        Physics(GameBall * ptrBall);
+        Physics(GameGround * ptrGround);
+        void addBall(GameBall * ptrBall);
         bool isSimulationRunning() const;
         void computeSimulation(real duration);
 };

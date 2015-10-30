@@ -51,7 +51,7 @@ class Game
 
     private:
         void createBall(double vx, double vy, double vz);
-        void updatePlayer();
+        void updateCurrentPlayer();
 };
 
 #endif

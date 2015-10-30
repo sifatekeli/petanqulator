@@ -132,7 +132,7 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
     glTranslatef(shooterPosition.getX(), shooterPosition.getY(), 
             shooterPosition.getZ());
     glRotatef(90 - _refView.getYaw(), 0, 0, 1);
-    glRotatef(_refView.getPitch(), 0, 1, 0);
+    glRotatef(90 - _refView.getPitch(), 0, 1, 0);
     gluCylinder(gluNewQuadric(), 0.06, 0.06, 1, 16, 2);
     glTranslatef(0, 0, 1);
     gluCylinder(gluNewQuadric(), 0.12, 0, 0.3, 16, 2);
