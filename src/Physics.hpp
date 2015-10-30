@@ -11,28 +11,26 @@ template <typename T>
 class PhysicsObject
 {
     private:
+        // TODO use one shape for multiple collision objects
         T _shape;
-        btScalar _mass;
-        btVector3 _inertia;
         btDefaultMotionState _motionState;
-        btRigidBody::btRigidBodyConstructionInfo _constructionInfo;
         btRigidBody _rigidBody;
         GameBall * _ptrBall;
 
     public:
         PhysicsObject(btDiscreteDynamicsWorld & world, const T & shape, 
-                btScalar mass, const btVector3 & inertia,
-                const btTransform & transform, GameBall * ptrBall):
+                btScalar mass, 
+                const btTransform & transform, 
+                GameBall * ptrBall):
             _shape(shape),
-            _mass(mass),
-            _inertia(inertia),
             _motionState(transform),
-            _constructionInfo(_mass, &_motionState, &_shape, _inertia),
-            _rigidBody(_constructionInfo),
+            _rigidBody(mass, &_motionState, &_shape),
             _ptrBall(ptrBall)
     {
-        _shape.calculateLocalInertia(_mass, _inertia);
-        _rigidBody.setRestitution(0.7);
+        //_shape.calculateLocalInertia(_mass, _inertia);
+        _rigidBody.setRestitution(0.8);
+        _rigidBody.setFriction(0.1);
+        // TODO _rigidBody.setRollingFriction(0.01);
         world.addRigidBody(&_rigidBody);
     }
 

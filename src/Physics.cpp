@@ -9,11 +9,11 @@ Physics::Physics(GameBall * ptrBall):
     _solver(),
     _world(&_dispatcher, &_broadphase, &_solver, &_configuration),
     _groundObject(_world, btStaticPlaneShape(btVector3(0, 0, 1), 0),
-            0, btVector3(0, 0, 0), 
+            0, 
             btTransform(btQuaternion(0,0,0,1), btVector3(0,0,0)),
             nullptr),
     _ballObject(_world, btSphereShape(1),
-            1, btVector3(0, 0, 0), 
+            1, 
             btTransform(btQuaternion(0,0,0,1), btVector3(0,0,4)),
             ptrBall)
 {
@@ -35,8 +35,17 @@ void Physics::computeSimulation(real duration)
 
     // TODO remove balls outside limits
     
-    // TODO detect end of simulation
-    //_isComputing = 
-
+    // detect end of simulation 
+    _isComputing = false;
+    for (int i=0; i<_world.getNumCollisionObjects(); i++)
+    {
+        btCollisionObject * ptrColObj =  _world.getCollisionObjectArray()[i];
+        int activationState = ptrColObj->getActivationState();
+        if (activationState==ACTIVE_TAG or activationState==WANTS_DEACTIVATION)
+        {
+            _isComputing = true;
+            break;
+        }
+    }
 }
 
