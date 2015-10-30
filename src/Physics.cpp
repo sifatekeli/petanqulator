@@ -17,7 +17,7 @@ Physics::Physics(GameBall * ptrBall):
             btTransform(btQuaternion(0,0,0,1), btVector3(0,0,4)),
             ptrBall)
 {
-    _world.setGravity(btVector3(0, 0, -9));
+    _world.setGravity(btVector3(0, 0, -10));
     _isComputing = true;
 }
 

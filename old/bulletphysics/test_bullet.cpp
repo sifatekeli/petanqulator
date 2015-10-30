@@ -26,7 +26,10 @@ int main (void)
     btRigidBody::btRigidBodyConstructionInfo groundRigidBodyCI(
             0, &groundMotionState, &groundShape, btVector3(0, 0, 0));
     btRigidBody groundRigidBody (groundRigidBodyCI);
+    groundRigidBody.setRestitution(0.8);
     dynamicsWorld.addRigidBody(&groundRigidBody);
+
+
 
     // sphere
     btSphereShape fallShape(1);
@@ -38,6 +41,7 @@ int main (void)
     btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(mass, 
             &fallMotionState, &fallShape, fallInertia);
     btRigidBody fallRigidBody (fallRigidBodyCI);
+    fallRigidBody.setRestitution(0.8);
     dynamicsWorld.addRigidBody(&fallRigidBody);
 
     // begin octave output
@@ -46,7 +50,7 @@ int main (void)
     os << "figure;" << std::endl;
     os << "T=[";
 
-    for (int i = 0; i < 50; i++) {
+    for (int i = 0; i < 200; i++) {
         dynamicsWorld.stepSimulation(1 / 10.f, 10);
         btTransform trans;
         fallRigidBody.getMotionState()->getWorldTransform(trans);

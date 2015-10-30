@@ -32,6 +32,7 @@ class PhysicsObject
             _ptrBall(ptrBall)
     {
         _shape.calculateLocalInertia(_mass, _inertia);
+        _rigidBody.setRestitution(0.7);
         world.addRigidBody(&_rigidBody);
     }
 
