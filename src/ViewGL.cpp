@@ -158,7 +158,7 @@ bool ViewGL::on_configure_event(GdkEventConfigure * event)
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt(10, 0, 2,      // position
+    gluLookAt(15, 0, 2,      // position
             0, 0, 2,          // center
             0, 0, 1);  // up vector
 
