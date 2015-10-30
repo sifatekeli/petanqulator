@@ -13,14 +13,15 @@ void Game::newGame()
     _remainingBallsRed = 2;
     _remainingBallsBlue = 2;
     _currentPlayer = PLAYER_RED;
-    _shooterPosition = vec3(0, -8, 1);
+    _shooterPosition = btVector3(0, -8, 1);
 
     // ground
     _ground = {-6, 6, -10, 10};
 
     // jack
     // TODO init jack at a random position
-    _jack = {vec3(0, 2, 0.2), vec3(0, 0, 0), 0.1, 0.2};
+    _jack = {btTransform(btQuaternion(0,0,0,1),btVector3(0,0,0.2)), 
+        btVector3(0, 0, 0), 0.1, 0.2};
 
     _redBalls.clear();
     _blueBalls.clear();
@@ -34,31 +35,48 @@ bool Game::isGameFinished() const
 
 void Game::getBestPlayerStats(player_t & player, int & nbBalls) const
 {
-    // TODO
-    /*
-    // get jack
-    const Ball & jack = getJack();
-
-    // sort balls according to their distance to the jack
-    std::vector<Ball> balls(_physics._balls.size()-1);
-    auto cmpBalls = [&jack] (const Ball & b1, const Ball & b2)
+    if (_redBalls.empty() and _blueBalls.empty())
     {
-        vec3 d1 = b1._position - jack._position;
-        vec3 d2 = b2._position - jack._position;
-        return d1.length2() < d2.length2();
-    };
-    std::partial_sort_copy(_physics._balls.begin()+1, _physics._balls.end(),
-            balls.begin(), balls.end(), cmpBalls);
+        player = PLAYER_NONE;
+        nbBalls = 0;
+        return;
+    }
 
-    // get the first balls from the same player
-    player = (player_t) balls.front()._player;
-    nbBalls = 0;
-    for (const Ball & b : balls)
-        if (b._player == player)
-            nbBalls++;
-        else
-            break;
-            */
+    // get jack
+    const GameBall & jack = getJack();
+    btVector3 jackPos = jack._transform.getOrigin();
+
+    // compute red and blue vectors of distances to the jack
+    auto distanceFun = [&jackPos] (const GameBall & b)
+    {
+        btVector3 bPos = b._transform.getOrigin();
+        btVector3 v = bPos - jackPos;
+        return v.length2();
+    };
+    std::vector<btScalar> redDists(_redBalls.size());
+    std::transform(_redBalls.begin(), _redBalls.end(), redDists.begin(), 
+            distanceFun);
+    std::vector<btScalar> blueDists(_blueBalls.size());
+    std::transform(_blueBalls.begin(), _blueBalls.end(), blueDists.begin(), 
+            distanceFun);
+
+    // find minimum distances for red and blue
+    btScalar redMin = *std::min_element(redDists.begin(),redDists.end());
+    btScalar blueMin = *std::min_element(blueDists.begin(),blueDists.end());
+
+    // count numbers of winning balls
+    if (redMin < blueMin)
+    {
+        player = PLAYER_RED;
+        nbBalls = std::count_if(redDists.begin(), redDists.end(), 
+                [blueMin] (btScalar d) { return d < blueMin; });
+    }
+    else
+    {
+        player = PLAYER_BLUE;
+        nbBalls = std::count_if(blueDists.begin(), blueDists.end(), 
+                [redMin] (btScalar d) { return d < redMin; });
+    }
 }
 
 player_t Game::getCurrentPlayer() const
@@ -96,7 +114,7 @@ const GameBall & Game::getJack() const
     return _jack;
 }
 
-vec3 Game::getShooterPosition() const
+btVector3 Game::getShooterPosition() const
 {
     return _shooterPosition;
 }
@@ -106,18 +124,13 @@ void Game::throwBall(double vx, double vy, double vz)
     // create ball
     createBall(vx, vy, vz);
 
-    _uptrPhysics.reset(new Physics(&_ground));
+    _uptrPhysics.reset(new Physics);
     _uptrPhysics->addBall(&_jack);
     for (GameBall & b : _redBalls)
         _uptrPhysics->addBall(std::addressof(b));
     for (GameBall & b : _blueBalls)
         _uptrPhysics->addBall(std::addressof(b));
     _uptrPhysics->computeSimulation(0.1);
-
-    std::stringstream ss;
-    ss << "position=[" << _jack._position.getX() << ' ' 
-        << _jack._position.getY() << ' ' << _jack._position.getZ() << ']';
-    UTILS_INFO(ss.str());
 
     // TODO ground limits for physics
 
@@ -129,16 +142,8 @@ void Game::interactiveThrowStart(double vx, double vy, double vz)
     // create ball
     createBall(vx, vy, vz);
 
-    // TODO 
-    /*
-    std::stringstream ss;
-    ss << "position=[" << _jack._position.getX() << ' ' 
-        << _jack._position.getY() << ' ' << _jack._position.getZ() << ']';
-    UTILS_INFO(ss.str());
-    */
-
     // create physics
-    _uptrPhysics.reset(new Physics(&_ground));
+    _uptrPhysics.reset(new Physics);
     _uptrPhysics->addBall(&_jack);
     for (GameBall & b : _redBalls)
         _uptrPhysics->addBall(std::addressof(b));
@@ -155,7 +160,9 @@ bool Game::interactiveThrowRunning()
     else
     {
         _uptrPhysics.reset();
-    // TODO ground limits for physics
+
+        // TODO ground limits for physics
+
         updateCurrentPlayer();
         return false;
     }
@@ -168,16 +175,29 @@ void Game::interactiveThrowContinue(double duration)
 
 void Game::createBall(double vx, double vy, double vz)
 {
+    if (_currentPlayer == PLAYER_NONE)
+        return;
+
+    // log
+    std::stringstream ss;
+    ss << "create ball, player=" 
+        << (_currentPlayer == PLAYER_RED ? "red" : "blue")
+        << ", velocity=[" << vx << ' ' << vy << ' ' << vz << ']';
+    UTILS_INFO(ss.str());
+
     // update game data
     if (_currentPlayer == PLAYER_BLUE)
     {
-        // TODO add ball in Physics
-        _blueBalls.push_back({_shooterPosition, vec3(vx,vy,vz), 0.2, 0.4});
+        _blueBalls.push_back(
+                {btTransform(btQuaternion(0,0,0,1),_shooterPosition), 
+                btVector3(vx,vy,vz), 0.2, 0.4});
         _remainingBallsBlue--;
     }
     else if (_currentPlayer == PLAYER_RED)
     {
-        _redBalls.push_back({_shooterPosition, vec3(vx,vy,vz), 0.2, 0.4});
+        _redBalls.push_back(
+                {btTransform(btQuaternion(0,0,0,1),_shooterPosition), 
+                btVector3(vx,vy,vz), 0.2, 0.4});
         _remainingBallsRed--;
     }
 }

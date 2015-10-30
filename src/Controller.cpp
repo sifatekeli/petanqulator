@@ -34,7 +34,7 @@ void Controller::newGame()
 {
     _game.newGame();
 
-    vec3 jackPos = getJack()._position;
+    btVector3 jackPos = getJack()._transform.getOrigin();
     std::stringstream ss;
     ss << "new game, jack=[" << jackPos.getX() << ' ' << jackPos.getY() << ' '
         << jackPos.getZ() << ']';
@@ -82,7 +82,7 @@ void Controller::getBestPlayerStats(player_t & player,
     _game.getBestPlayerStats(player, nbBalls);
 }
 
-vec3 Controller::getShooterPosition() const
+btVector3 Controller::getShooterPosition() const
 {
     return _game.getShooterPosition();
 }

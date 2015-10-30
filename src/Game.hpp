@@ -22,7 +22,7 @@ class Game
         std::vector<GameBall> _blueBalls;
         GameBall _jack;
         GameGround _ground;
-        vec3 _shooterPosition;
+        btVector3 _shooterPosition;
         std::unique_ptr<Physics> _uptrPhysics;
 
     public:
@@ -39,7 +39,7 @@ class Game
         const std::vector<GameBall> & getBlueBalls() const;
         const GameGround & getGround() const;
         const GameBall & getJack() const;
-        vec3 getShooterPosition() const;
+        btVector3 getShooterPosition() const;
 
         // throw one ball and compute physics simulation till stationnarity
         void throwBall(double vx, double vy, double vz);

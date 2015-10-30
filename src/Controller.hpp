@@ -20,7 +20,7 @@ class Controller
         const std::vector<GameBall> & getRedBalls() const;
         const std::vector<GameBall> & getBlueBalls() const;
 
-        vec3 getShooterPosition() const;
+        btVector3 getShooterPosition() const;
         int getRemainingBallsRed() const;
         int getRemainingBallsBlue() const;
 

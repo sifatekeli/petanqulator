@@ -84,8 +84,8 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
     {
         setGlColor(GL_DIFFUSE, {1.f, 0.f, 0.f, 1.f});
         glPushMatrix();
-        glTranslatef(b._position.getX(), b._position.getY(), 
-                b._position.getZ());
+        btVector3 p = b._transform.getOrigin();
+        glTranslatef(p.getX(), p.getY(), p.getZ());
         gluSphere(gluNewQuadric(), b._radius, 16, 16);
         glPopMatrix();
     }
@@ -95,8 +95,8 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
     {
         setGlColor(GL_DIFFUSE, {0.f, 0.f, 1.f, 1.f});
         glPushMatrix();
-        glTranslatef(b._position.getX(), b._position.getY(), 
-                b._position.getZ());
+        btVector3 p = b._transform.getOrigin();
+        glTranslatef(p.getX(), p.getY(), p.getZ());
         gluSphere(gluNewQuadric(), b._radius, 16, 16);
         glPopMatrix();
     }
@@ -105,8 +105,8 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
     const GameBall & jack = _refController.getJack();
     setGlColor(GL_DIFFUSE, {1.f, 0.f, 1.f, 1.f});
     glPushMatrix();
-    glTranslatef(jack._position.getX(), jack._position.getY(), 
-            jack._position.getZ());
+    btVector3 pJack = jack._transform.getOrigin();
+    glTranslatef(pJack.getX(), pJack.getY(), pJack.getZ());
     gluSphere(gluNewQuadric(), jack._radius, 16, 16);
     glPopMatrix();
 
@@ -128,7 +128,7 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
         else
             setGlColor(GL_DIFFUSE, {0.f, 0.f, 1.f, 1.f});
     glPushMatrix();
-    vec3 shooterPosition = _refController.getShooterPosition();
+    btVector3 shooterPosition = _refController.getShooterPosition();
     glTranslatef(shooterPosition.getX(), shooterPosition.getY(), 
             shooterPosition.getZ());
     glRotatef(90 - _refView.getYaw(), 0, 0, 1);

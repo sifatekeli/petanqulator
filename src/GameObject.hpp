@@ -6,16 +6,15 @@
 
 struct GameBall 
 {
-    // TODO btTransform
-    vec3 _position;
-    vec3 _velocity;
-    real _mass;
-    real _radius;
+    btTransform _transform;
+    btVector3 _velocity;
+    btScalar _mass;
+    btScalar _radius;
 };
 
 struct GameGround 
 {
-    real _xMin, _xMax, _yMin, _yMax;
+    btScalar _xMin, _xMax, _yMin, _yMax;
 };
 
 #endif 

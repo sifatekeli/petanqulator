@@ -3,7 +3,6 @@
 #define _PHYSICS_HPP_
 
 #include "GameObject.hpp"
-#include "Utils.hpp"
 
 #include <btBulletDynamicsCommon.h>
 #include <list>
@@ -40,11 +39,9 @@ class PhysicsObject
         void updateBall()
         {
             if (_ptrBall)
-            {
-                btTransform transformation;
-                _rigidBody.getMotionState()->getWorldTransform(transformation);
-                _ptrBall->_position = transformation.getOrigin();
-            }
+                // TODO use _motionState ?
+                _rigidBody.getMotionState()->getWorldTransform(
+                        _ptrBall->_transform);
         }
 };
 
@@ -65,10 +62,10 @@ class Physics
         bool _isComputing;
 
     public:
-        Physics(GameGround * ptrGround);
+        Physics();
         void addBall(GameBall * ptrBall);
         bool isSimulationRunning() const;
-        void computeSimulation(real duration);
+        void computeSimulation(btScalar duration);
 };
 
 #endif

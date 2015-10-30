@@ -2,8 +2,6 @@
 #define _UTILS_HPP_
 
 #include <btBulletDynamicsCommon.h>
-typedef btVector3 vec3;
-typedef btScalar real;
 
 double degToRad(double degAngle);
 
