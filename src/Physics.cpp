@@ -12,9 +12,9 @@ Physics::Physics(GameBall * ptrBall):
             0, 
             btTransform(btQuaternion(0,0,0,1), btVector3(0,0,0)),
             nullptr),
-    _ballObject(_world, btSphereShape(1),
+    _ballObject(_world, btSphereShape(ptrBall->_radius),
             1, 
-            btTransform(btQuaternion(0,0,0,1), btVector3(0,0,4)),
+            btTransform(btQuaternion(0,0,0,1), ptrBall->_position),
             ptrBall)
 {
     _world.setGravity(btVector3(0, 0, -10));

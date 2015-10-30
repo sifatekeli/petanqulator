@@ -20,7 +20,7 @@ void Game::newGame()
 
     // jack
     // TODO init jack at a random position
-    _jack = {vec3(0, 4, 1), vec3(0, 0, 0), 0.1, 0.1};
+    _jack = {vec3(0, 4, 4), 0.1, 0.1};
 
     _redBalls.clear();
     _blueBalls.clear();
@@ -183,12 +183,13 @@ void Game::createBall(double vx, double vy, double vz)
     // update game data
     if (_currentPlayer == PLAYER_BLUE)
     {
-        _blueBalls.push_back({_shooterPosition, vec3(vx, vy, vz), 0.2, 0.2});
+        // TODO add ball in Physics
+        _blueBalls.push_back({_shooterPosition, 0.2, 0.2});
         _remainingBallsBlue--;
     }
     else if (_currentPlayer == PLAYER_RED)
     {
-        _redBalls.push_back({_shooterPosition, vec3(vx, vy, vz), 0.2, 0.2});
+        _redBalls.push_back({_shooterPosition, 0.2, 0.2});
         _remainingBallsRed--;
     }
 }
