@@ -1,3 +1,7 @@
+// Copyright © 2015 Dehos <dehos@lisic.univ-littoral.fr>
+// This work is free. You can redistribute it and/or modify it under the
+// terms of the Do What The Fuck You Want To Public License, Version 2,
+// as published by Sam Hocevar. See the COPYING.WTFPL file for more details.
 
 #ifndef _VIEWGL_HPP_
 #define _VIEWGL_HPP_
@@ -39,11 +43,11 @@ class ViewGL : public Gtk::GL::DrawingArea
 
     private:
         // override signal handlers
-        bool on_expose_event(GdkEventExpose * event);
-        bool on_configure_event(GdkEventConfigure * event);
-        bool on_button_press_event(GdkEventButton* event);
-        bool on_button_release_event(GdkEventButton* event);
-        bool on_motion_notify_event(GdkEventMotion * event);
+        bool on_expose_event(GdkEventExpose * event) override;
+        bool on_configure_event(GdkEventConfigure * event) override;
+        bool on_button_press_event(GdkEventButton* event) override;
+        bool on_button_release_event(GdkEventButton* event) override;
+        bool on_motion_notify_event(GdkEventMotion * event) override;
 
         // new handlers
         Chrono _chrono;

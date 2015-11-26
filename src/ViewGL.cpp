@@ -1,3 +1,7 @@
+// Copyright © 2015 Dehos <dehos@lisic.univ-littoral.fr>
+// This work is free. You can redistribute it and/or modify it under the
+// terms of the Do What The Fuck You Want To Public License, Version 2,
+// as published by Sam Hocevar. See the COPYING.WTFPL file for more details.
 
 #include "Controller.hpp"
 #include "View.hpp"
@@ -14,7 +18,9 @@ ViewGL::ViewGL(Controller & refController, View & refView, int& argc,
     _refController(refController),
     _refView(refView),
     _theta(0),
+    _thetaRef(0),
     _phi(20),
+    _phiRef(20),
     _motionThetaPhi(false)
 {
     Gtk::GL::init(argc, argv);

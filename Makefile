@@ -17,7 +17,7 @@ SRC = $(filter-out $(MAINSRC), $(shell find $(SRCDIR) -name "*.cpp"))
 OBJ = $(subst $(SRCDIR)/, $(OBJDIR)/, $(SRC:.cpp=.o))
 BIN = $(subst $(SRCDIR)/, $(BINDIR)/, $(MAINSRC:.cpp=.out))
 
-.PHONY : all clean 
+.PHONY : all clean cppcheck 
 .SECONDARY:
 
 ALL: tags $(BIN)
@@ -35,4 +35,9 @@ clean:
 # build ctags data (code navigation)
 tags: $(SRC) $(MAINSRC)
 	ctags -R
+
+# static analysis
+cppcheck:
+	cppcheck --enable=all --inconclusive src/*pp
+
 

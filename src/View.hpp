@@ -1,3 +1,7 @@
+// Copyright © 2015 Dehos <dehos@lisic.univ-littoral.fr>
+// This work is free. You can redistribute it and/or modify it under the
+// terms of the Do What The Fuck You Want To Public License, Version 2,
+// as published by Sam Hocevar. See the COPYING.WTFPL file for more details.
 
 #ifndef _VIEW_HPP_
 #define _VIEW_HPP_
@@ -31,7 +35,7 @@ class View
                 const std::string & message);
         void displayStatus(const std::string & message);
 
-        std::string getPlayerName(player_t player) const;
+        static std::string getPlayerName(player_t player);
 
         void startAnimation();
         void stopAnimation();
