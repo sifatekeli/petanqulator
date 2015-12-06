@@ -14,19 +14,14 @@
 #include <iostream>
 
 ViewGL::ViewGL(Controller & controller, View & view, int & argc, char** argv) :
-    _refController(controller),
-    _refView(view),
-    _theta(0),
-    _thetaRef(0),
-    _phi(20),
-    _phiRef(20),
+    _refController(controller), _refView(view),
+    _theta(0), _phi(10),
+    _thetaRef(_theta), _phiRef(_phi),
     _motionThetaPhi(false),
-    _x(0),
-    _xRef(0),
-    _y(0),
-    _yRef(0),
-    _motionXY(false),
-    _z(5)
+    _x(-10), _y(0), _z(6),
+    _dxRef(_x), _dyRef(_y),
+    _motionDxDy(false),
+    _distance(10)
 {
     Gtk::GL::init(argc, argv);
     _glconfig = Gdk::GL::Config::create(Gdk::GL::MODE_RGBA 
@@ -46,6 +41,7 @@ ViewGL::ViewGL(Controller & controller, View & view, int & argc, char** argv) :
     add_events(Gdk::BUTTON_PRESS_MASK);
     add_events(Gdk::BUTTON_RELEASE_MASK);
     add_events(Gdk::BUTTON1_MOTION_MASK);
+    add_events(Gdk::BUTTON3_MOTION_MASK);
 }
 
 void ViewGL::init() 
@@ -83,12 +79,21 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
 
     // camera transformation
     glLoadIdentity();
-    gluLookAt(0, 2, 15,      // position
-            0, 2, 0,          // center
-            0, 1, 0);  // up vector
-
-    glRotatef(_theta, 0, 1, 0);
-    glRotatef(_phi, cos(M_PI*_theta/180.0), 0, sin(M_PI*_theta/180.0));
+    float thetaRad = degToRad(_theta);
+    float phiRad = degToRad(_phi);
+    float ct = cos(thetaRad);
+    float st = sin(thetaRad);
+    float cp = cos(phiRad);
+    float sp = sin(phiRad);
+    float ex = _distance*cp*st;
+    float ey = _distance*sp;
+    float ez = _distance*cp*ct;
+    float ux = -sp*st;
+    float uy = cp;
+    float uz = -sp*ct;
+    gluLookAt(_x+ex, _y+ey, _z+ez,   // position
+            _x, _y, _z,              // center
+            ux, uy, uz);             // up vector
 
     // update light position
     float lightPosition[4] = {0, 100, 0, 1};
@@ -183,6 +188,12 @@ bool ViewGL::on_button_press_event(GdkEventButton * event)
         _phiRef = event->y;
         _motionThetaPhi = true;
     }
+    if (event->button == 3)
+    {
+        _dxRef = event->x;
+        _dyRef = event->y;
+        _motionDxDy = true;
+    }
     return true;
 }
 
@@ -190,6 +201,8 @@ bool ViewGL::on_button_release_event(GdkEventButton * event)
 {
     if (event->button == 1)
         _motionThetaPhi = false; 
+    if (event->button == 3) 
+        _motionDxDy = false; 
     return true;
 }
 
@@ -197,10 +210,21 @@ bool ViewGL::on_motion_notify_event(GdkEventMotion * event)
 {
     if (_motionThetaPhi)
     {
-        _theta += 0.5*(event->x - _thetaRef);
+        _theta += 0.2*(_thetaRef - event->x);
+        _phi += -0.2*(_phiRef - event->y);
         _thetaRef = event->x;
-        _phi += 0.5*(event->y - _phiRef);
         _phiRef = event->y;
+        update();
+    }
+    if (_motionDxDy)
+    {
+        float dx = 0.02*(_dxRef - event->x);
+        float dy = 0.02*(_dyRef - event->y);
+        _dxRef = event->x;
+        _dyRef = event->y;
+        float thetaRad = degToRad(_theta);
+        _x += dx*cos(thetaRad) + dy*sin(thetaRad); 
+        _z += -dx*sin(thetaRad) + dy*cos(thetaRad); 
         update();
     }
     return true;
