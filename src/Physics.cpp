@@ -12,12 +12,12 @@ Physics::Physics():
     _solver(),
     _world(&_dispatcher, &_broadphase, &_solver, &_configuration),
     // TODO match physics ground with game ground
-    _groundObject(_world, btStaticPlaneShape(btVector3(0, 0, 1), 0),
+    _groundObject(_world, btStaticPlaneShape(btVector3(0, 1, 0), 0),
             0, btVector3(0, 0, 0),
             btTransform(btQuaternion(0,0,0,1), btVector3(0,0,0)),
             nullptr)
 {
-    _world.setGravity(btVector3(0, 0, -10));
+    _world.setGravity(btVector3(0, -10, 0));
     _isComputing = true;
 }
 

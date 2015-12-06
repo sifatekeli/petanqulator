@@ -25,15 +25,26 @@ class ViewGL : public Gtk::GL::DrawingArea
         Glib::RefPtr< Gdk::GL::Context > _glcontext;
         Glib::RefPtr< Gdk::GL::Window > _glwindow;
 
+        // camera orbit
         float _theta;
         float _thetaRef;
         float _phi;
         float _phiRef;
         bool _motionThetaPhi;
 
+        // camera target
+        float _x;
+        float _xRef;
+        float _y;
+        float _yRef;
+        bool _motionXY;
+
+        // camera distance
+        float _z;
+        // TODO add camera zoom and camera translation
+
     public:
-        ViewGL(Controller & refController, View & refView, 
-                int & argc, char** argv);
+        ViewGL(Controller & controller, View & view, int & argc, char** argv);
 
         void init();
         void update();

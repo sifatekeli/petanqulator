@@ -79,9 +79,9 @@ void ViewPanel::handleThrowBall()
     double velocity = getVelocity();
 
     // compute velocity vector from pitch/yaw
-    double vx = velocity * cos(radPitch) * sin(radYaw);
-    double vy = velocity * cos(radPitch) * cos(radYaw);
-    double vz = velocity * sin(radPitch);
+    double vx = velocity * cos(radPitch) * cos(radYaw);
+    double vy = velocity * sin(radPitch);
+    double vz = velocity * cos(radPitch) * sin(radYaw);
 
     // throw ball
     _refController.startThrow(vx, vy, vz);

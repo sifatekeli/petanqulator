@@ -18,7 +18,7 @@ struct GameBall
 
 struct GameGround 
 {
-    btScalar _xMin, _xMax, _yMin, _yMax;
+    btScalar _xMin, _xMax, _zMin, _zMax;
 };
 
 #endif 

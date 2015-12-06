@@ -13,15 +13,20 @@
 
 #include <iostream>
 
-ViewGL::ViewGL(Controller & refController, View & refView, int& argc, 
-        char** argv) :
-    _refController(refController),
-    _refView(refView),
+ViewGL::ViewGL(Controller & controller, View & view, int & argc, char** argv) :
+    _refController(controller),
+    _refView(view),
     _theta(0),
     _thetaRef(0),
     _phi(20),
     _phiRef(20),
-    _motionThetaPhi(false)
+    _motionThetaPhi(false),
+    _x(0),
+    _xRef(0),
+    _y(0),
+    _yRef(0),
+    _motionXY(false),
+    _z(5)
 {
     Gtk::GL::init(argc, argv);
     _glconfig = Gdk::GL::Config::create(Gdk::GL::MODE_RGBA 
@@ -35,21 +40,21 @@ ViewGL::ViewGL(Controller & refController, View & refView, int& argc,
         UTILS_INFO("OpenGL init ok");
     }
 
-	set_gl_capability(_glconfig);
+    set_gl_capability(_glconfig);
 
-	// initialize event handling
-	add_events(Gdk::BUTTON_PRESS_MASK);
-	add_events(Gdk::BUTTON_RELEASE_MASK);
-	add_events(Gdk::BUTTON1_MOTION_MASK);
+    // initialize event handling
+    add_events(Gdk::BUTTON_PRESS_MASK);
+    add_events(Gdk::BUTTON_RELEASE_MASK);
+    add_events(Gdk::BUTTON1_MOTION_MASK);
 }
 
 void ViewGL::init() 
 {
     _window = get_window();
-	_glcontext = get_gl_context();
+    _glcontext = get_gl_context();
     _glwindow = get_gl_window();
 
-	if (not _glwindow->gl_begin(_glcontext))
+    if (not _glwindow->gl_begin(_glcontext))
     {
         UTILS_ERROR("OpenGL begin failed");
     }
@@ -72,17 +77,21 @@ void ViewGL::init()
 bool ViewGL::on_expose_event(GdkEventExpose* ) 
 {
     // begin drawing
-	_glwindow->gl_begin(_glcontext);
+    _glwindow->gl_begin(_glcontext);
     glClearColor(0.5, 0.5, 0.5, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glPushMatrix();
 
     // camera transformation
-    glRotatef(_theta, 0, 0, 1);
-    glRotatef(_phi, sin(M_PI*_theta/180.0), cos(M_PI*_theta/180.0), 0);
+    glLoadIdentity();
+    gluLookAt(0, 2, 15,      // position
+            0, 2, 0,          // center
+            0, 1, 0);  // up vector
+
+    glRotatef(_theta, 0, 1, 0);
+    glRotatef(_phi, cos(M_PI*_theta/180.0), 0, sin(M_PI*_theta/180.0));
 
     // update light position
-    float lightPosition[4] = {0, 0, 100, 1};
+    float lightPosition[4] = {0, 100, 0, 1};
     glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 
     // draw red balls
@@ -120,35 +129,34 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
     const GameGround & ground = _refController.getGround();
     setGlColor(GL_DIFFUSE, {0.6f, 0.6f, 0.2f, 1.f});
     glBegin(GL_QUADS);
-    glNormal3f(0, 0, 1);
-    glVertex3f(ground._xMin, ground._yMin, 0);
-    glVertex3f(ground._xMin, ground._yMax, 0);
-    glVertex3f(ground._xMax, ground._yMax, 0);
-    glVertex3f(ground._xMax, ground._yMin, 0);
+    glNormal3f(0, 1, 0);
+    glVertex3f(ground._xMin, 0, ground._zMin);
+    glVertex3f(ground._xMin, 0, ground._zMax);
+    glVertex3f(ground._xMax, 0, ground._zMax);
+    glVertex3f(ground._xMax, 0, ground._zMin);
     glEnd();
 
     // draw shooter
     player_t currentPlayer = _refController.getCurrentPlayer();
-        if (currentPlayer == 0)
-            setGlColor(GL_DIFFUSE, {1.f, 0.f, 0.f, 1.f});
-        else
-            setGlColor(GL_DIFFUSE, {0.f, 0.f, 1.f, 1.f});
+    if (currentPlayer == 0)
+        setGlColor(GL_DIFFUSE, {1.f, 0.f, 0.f, 1.f});
+    else
+        setGlColor(GL_DIFFUSE, {0.f, 0.f, 1.f, 1.f});
     glPushMatrix();
     btVector3 shooterPosition = _refController.getShooterPosition();
     glTranslatef(shooterPosition.getX(), shooterPosition.getY(), 
             shooterPosition.getZ());
-    glRotatef(90 - _refView.getYaw(), 0, 0, 1);
-    glRotatef(90 - _refView.getPitch(), 0, 1, 0);
+    glRotatef(90 - _refView.getYaw(), 0, 1, 0);
+    glRotatef(- _refView.getPitch(), 1, 0, 0);
     gluCylinder(gluNewQuadric(), 0.06, 0.06, 1, 16, 2);
     glTranslatef(0, 0, 1);
     gluCylinder(gluNewQuadric(), 0.12, 0, 0.3, 16, 2);
     glPopMatrix();
 
     // end drawing
-    glPopMatrix();
-	_glwindow->gl_end();
+    _glwindow->gl_end();
     _glwindow->swap_buffers();
-	return true;
+    return true;
 }
 
 bool ViewGL::on_configure_event(GdkEventConfigure * event) 
@@ -163,10 +171,6 @@ bool ViewGL::on_configure_event(GdkEventConfigure * event)
     gluPerspective(60, ratio, 1, 100);
 
     glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    gluLookAt(15, 0, 2,      // position
-            0, 0, 2,          // center
-            0, 0, 1);  // up vector
 
     return true;
 }

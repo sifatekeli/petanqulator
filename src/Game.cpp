@@ -22,15 +22,15 @@ void Game::newGame()
     _remainingBallsRed = 2;
     _remainingBallsBlue = 2;
     _currentPlayer = PLAYER_RED;
-    _shooterPosition = btVector3(0, -8, 1);
+    _shooterPosition = btVector3(-8, 1, 0);
 
     // ground
-    _ground = {-6, 6, -10, 10};
+    _ground = {-10, 10, -6, 6};
 
     // jack
     btScalar x = _distribution(_engine);
-    btScalar y = _distribution(_engine);
-    _jack = {btTransform(btQuaternion(0,0,0,1),btVector3(x,y,0.2)), 
+    btScalar z = _distribution(_engine);
+    _jack = {btTransform(btQuaternion(0,0,0,1),btVector3(x,0.2,z)), 
         btVector3(0, 0, 0), 0.1, 0.2};
 
     _redBalls.clear();

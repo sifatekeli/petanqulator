@@ -5,8 +5,6 @@
 
 #include "Controller.hpp"
 
-// TODO(dehos): add camera zoom and camera translation
-
 int main(int argc, char ** argv)
 {
     Controller controller(argc, argv);
