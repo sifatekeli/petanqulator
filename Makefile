@@ -1,6 +1,5 @@
 PACKAGES = glu gtkglextmm-1.2 gtkmm-2.4 bullet
-override CXXFLAGS += -std=c++14 -Wall -Wextra 
-
+CXXFLAGS += -std=c++14 -Wall -Wextra 
 MAINSRC = ./src/petanqulator.cpp 
 
 ifeq ($(DEBUG), 1)
@@ -9,9 +8,9 @@ else
 	override CXXFLAGS += -DNDEBUG -O2
 endif
 
-override CXXFLAGS += `pkg-config --cflags $(PACKAGES)`
-override LDFLAGS +=`pkg-config --libs-only-L --libs-only-other $(PACKAGES)`
-override LIBS +=`pkg-config --libs-only-l $(PACKAGES)`
+CXXFLAGS += `pkg-config --cflags $(PACKAGES)`
+LDFLAGS +=`pkg-config --libs-only-L --libs-only-other $(PACKAGES)`
+LIBS +=`pkg-config --libs-only-l $(PACKAGES)`
 BINDIR = ./bin
 OBJDIR = ./obj
 SRCDIR = ./src
@@ -24,7 +23,7 @@ UNIT_TESTS_TMP = unit_tests.cpp
 .PHONY: all clean unit_tests cppcheck
 .SECONDARY:
 
-all: tags $(BIN)
+all: $(BIN)
 $(BINDIR)/%.out: $(OBJ) $(OBJDIR)/%.o
 	mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
