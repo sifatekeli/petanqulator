@@ -84,10 +84,9 @@ player_t Controller::getCurrentPlayer() const
     return _game.getCurrentPlayer();
 }
 
-void Controller::getBestPlayerStats(player_t & player, 
-        int & nbBalls) const
+GameResult Controller::computeGameResult() const
 {
-    _game.getBestPlayerStats(player, nbBalls);
+    return _game.computeResult();
 }
 
 btVector3 Controller::getShooterPosition() const

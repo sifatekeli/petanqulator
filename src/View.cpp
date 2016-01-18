@@ -79,12 +79,10 @@ void View::stopAnimation()
 
     if (_refController.isGameFinished())
     {
-        player_t player;
-        int nbBalls; 
-        _refController.getBestPlayerStats(player, nbBalls);
+        GameResult res = _refController.computeGameResult();
         std::stringstream ss;
-        ss << "We've got a winner: " << getPlayerName(player)
-            << " with " << nbBalls << " ball(s) !";
+        ss << "We've got a winner: " << getPlayerName(res._winningPlayer)
+            << " with " << res._nbWinningBalls << " ball(s) !";
 
         displayStatus(ss.str());
         displayMessage("Game finished", ss.str());

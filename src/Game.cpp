@@ -42,50 +42,51 @@ bool Game::isGameFinished() const
     return _remainingBallsBlue == 0 and _remainingBallsRed == 0;
 }
 
-void Game::getBestPlayerStats(player_t & player, int & nbBalls) const
+GameResult Game::computeResult() const
 {
     if (_redBalls.empty() and _blueBalls.empty())
-    {
-        player = PLAYER_NONE;
-        nbBalls = 0;
-        return;
-    }
+        return {PLAYER_NONE, 0, {}};
+
+    GameResult res;
 
     // get jack
     const GameBall & jack = getJack();
     btVector3 jackPos = jack._transform.getOrigin();
 
-    // compute red and blue vectors of distances to the jack
-    auto distanceFun = [&jackPos] (const GameBall & b)
+    // compute ball results (distance from jack)
+    auto distanceFun = [&jackPos] (const GameBall & b, player_t p)
     {
         btVector3 bPos = b._transform.getOrigin();
         btVector3 v = bPos - jackPos;
-        return v.length2();
+        return BallResult{p, v.length2(), false};
     };
-    std::vector<btScalar> redDists(_redBalls.size());
-    std::transform(_redBalls.begin(), _redBalls.end(), redDists.begin(), 
-            distanceFun);
-    std::vector<btScalar> blueDists(_blueBalls.size());
-    std::transform(_blueBalls.begin(), _blueBalls.end(), blueDists.begin(), 
-            distanceFun);
+    std::transform(_redBalls.begin(), _redBalls.end(), 
+            std::back_inserter(res._ballResults), 
+            std::bind(distanceFun, std::placeholders::_1, PLAYER_RED));
+    std::transform(_blueBalls.begin(), _blueBalls.end(), 
+            std::back_inserter(res._ballResults), 
+            std::bind(distanceFun, std::placeholders::_1, PLAYER_BLUE));
+    assert(not res._ballResults.empty());
 
-    // find minimum distances for red and blue
-    btScalar redMin = *std::min_element(redDists.begin(),redDists.end());
-    btScalar blueMin = *std::min_element(blueDists.begin(),blueDists.end());
+    // sort balls by distance from jack
+    auto cmpFun = [] (const BallResult & b1, const BallResult & b2)
+    { return b1._distance < b2._distance; };
+    std::sort(res._ballResults.begin(), res._ballResults.end(), cmpFun);
 
-    // count numbers of winning balls
-    if (redMin < blueMin)
+    // find winning balls
+    res._winningPlayer = res._ballResults.front()._player;
+    res._nbWinningBalls = 0;
+    for (BallResult & b : res._ballResults) 
     {
-        player = PLAYER_RED;
-        nbBalls = std::count_if(redDists.begin(), redDists.end(), 
-                [blueMin] (btScalar d) { return d < blueMin; });
+        if (b._player == res._winningPlayer) 
+        {
+            b._isWinning = true;
+            res._nbWinningBalls++;
+        }
+        else break;
     }
-    else
-    {
-        player = PLAYER_BLUE;
-        nbBalls = std::count_if(blueDists.begin(), blueDists.end(), 
-                [redMin] (btScalar d) { return d < redMin; });
-    }
+
+    return res;
 }
 
 player_t Game::getCurrentPlayer() const
@@ -219,10 +220,9 @@ void Game::updateCurrentPlayer()
     // if all player can play, find looser
     else
     {
-        player_t bestPlayer;
-        int nbBalls;
-        getBestPlayerStats(bestPlayer, nbBalls);
-        _currentPlayer = bestPlayer == PLAYER_RED ? PLAYER_BLUE : PLAYER_RED;
+        GameResult res = computeResult();
+        _currentPlayer = 
+            res._winningPlayer == PLAYER_RED ? PLAYER_BLUE : PLAYER_RED;
     }
 }
 

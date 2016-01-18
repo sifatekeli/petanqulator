@@ -16,6 +16,20 @@
 
 enum player_t {PLAYER_RED, PLAYER_BLUE, PLAYER_NONE};
 
+struct BallResult
+{
+    player_t _player;
+    btScalar _distance;
+    bool _isWinning;
+};
+
+struct GameResult 
+{
+    player_t _winningPlayer;
+    int _nbWinningBalls;
+    std::vector<BallResult> _ballResults;
+};
+
 class Game
 {
     private:
@@ -31,12 +45,15 @@ class Game
         btVector3 _shooterPosition;
         std::unique_ptr<Physics> _uptrPhysics;
 
+        // TODO detect invalid jack -> draw
+        // TODO check memory usage 
+
     public:
         Game();
 
         void newGame();
         bool isGameFinished() const;
-        void getBestPlayerStats(player_t & player, int & nbBalls) const;
+        GameResult computeResult() const;
         player_t getCurrentPlayer() const;
 
         int getRemainingBallsRed() const;

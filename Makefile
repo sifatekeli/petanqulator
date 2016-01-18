@@ -3,9 +3,9 @@ CXXFLAGS += -std=c++14 -Wall -Wextra
 MAINSRC = ./src/petanqulator.cpp 
 
 ifeq ($(DEBUG), 1)
-	override CXXFLAGS += -DDEBUG -O0 -g
+	CXXFLAGS += -DDEBUG -O0 -g
 else
-	override CXXFLAGS += -DNDEBUG -O2
+	CXXFLAGS += -DNDEBUG -O2
 endif
 
 CXXFLAGS += `pkg-config --cflags $(PACKAGES)`
@@ -31,7 +31,7 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 clean:
-	find $(OBJDIR) -name "*.o" | xargs rm $(BIN) tags $(UNIT_TESTS_BIN)
+	find $(OBJDIR) -name "*.o" | xargs rm -rf $(BIN) tags $(UNIT_TESTS_BIN)
 
 # build ctags data (code navigation)
 tags: $(SRC) $(MAINSRC)
