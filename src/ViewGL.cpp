@@ -18,7 +18,7 @@ ViewGL::ViewGL(Controller & controller, View & view, int & argc, char** argv) :
     _theta(0), _phi(10),
     _thetaRef(_theta), _phiRef(_phi),
     _motionThetaPhi(false),
-    _x(0), _y(0), _z(6),
+    _x(-5), _y(0), _z(0),
     _dxRef(_x), _dyRef(_y),
     _motionDxDy(false),
     _distance(10)
