@@ -6,7 +6,7 @@
 #ifndef _VIEWGL_HPP_
 #define _VIEWGL_HPP_
 
-#include "Chrono.hpp"
+#include <petanqulator/Chrono.hpp>
 
 #include <gtkmm.h>
 #include <gtkglmm.h>

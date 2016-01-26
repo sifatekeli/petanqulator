@@ -6,7 +6,8 @@
 #ifndef _CONTROLLER_HPP_
 #define _CONTROLLER_HPP_
 
-#include "Game.hpp"
+#include <petanqulator/Game.hpp>
+
 #include "View.hpp"
 
 class Controller

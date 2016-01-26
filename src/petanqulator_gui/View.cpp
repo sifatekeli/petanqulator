@@ -5,7 +5,8 @@
 
 #include "Controller.hpp"
 #include "View.hpp"
-#include "Utils.hpp"
+
+#include <petanqulator/Utils.hpp>
 
 View::View(Controller & refController, int & argc, char** argv) :
     _refController(refController),

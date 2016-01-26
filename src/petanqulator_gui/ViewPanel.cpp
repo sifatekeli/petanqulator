@@ -6,7 +6,8 @@
 #include "Controller.hpp"
 #include "View.hpp"
 #include "ViewPanel.hpp"
-#include "Utils.hpp"
+
+#include <petanqulator/Utils.hpp>
 
 #include <set>
 #include <sstream>

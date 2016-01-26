@@ -6,7 +6,8 @@
 #include "Controller.hpp"
 #include "View.hpp"
 #include "ViewGL.hpp"
-#include "Utils.hpp"
+
+#include <petanqulator/Utils.hpp>
 
 // use old OpenGL so it should even run on bread toasters
 #include <GL/glu.h>
