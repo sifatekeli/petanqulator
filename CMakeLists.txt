@@ -2,12 +2,21 @@ cmake_minimum_required( VERSION 3.0 )
 project( petanqulator )
 set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -Wextra" )
 
-# common files
+# petanqulator library
 file( GLOB PETANQULATOR_SOURCE src/petanqulator/* )
 INCLUDE_DIRECTORIES( src )
 ADD_LIBRARY ( petanqulator STATIC ${PETANQULATOR_SOURCE} )
+# bullet
+find_package( Bullet REQUIRED )
+include_directories( ${BULLET_INCLUDE_DIRS} )
+target_link_libraries( petanqulator ${BULLET_LIBRARIES} )
 
-# GUI
+# test executable
+file( GLOB TEST_SOURCE src/petanqulator_test/* )
+add_executable( petanqulator_test.out ${TEST_SOURCE} )
+target_link_libraries( petanqulator_test.out petanqulator )
+
+# gui executable
 file( GLOB GUI_SOURCE src/petanqulator_gui/* )
 add_executable( petanqulator_gui.out ${GUI_SOURCE} )
 target_link_libraries( petanqulator_gui.out petanqulator )
@@ -18,8 +27,4 @@ include_directories( ${GTKMM_INCLUDE_DIRS} )
 target_link_libraries( petanqulator_gui.out ${GTKMM_LIBRARIES} )
 # glu
 find_package( GLU REQUIRED )
-# bullet
-find_package( Bullet REQUIRED )
-include_directories( ${BULLET_INCLUDE_DIRS} )
-target_link_libraries( petanqulator ${BULLET_LIBRARIES} )
 
