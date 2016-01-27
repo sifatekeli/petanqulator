@@ -14,7 +14,7 @@
 #include <string>
 #include <vector>
 
-enum player_t {PLAYER_RED, PLAYER_BLUE, PLAYER_NONE};
+enum player_t { PLAYER_RED, PLAYER_BLUE, PLAYER_NONE };
 
 struct BallResult
 {
@@ -47,6 +47,8 @@ class Game
 
         // TODO detect invalid jack -> draw
         // TODO check memory usage 
+
+        // TODO use phi/theta/velocity for throwing ball
 
     public:
         Game();

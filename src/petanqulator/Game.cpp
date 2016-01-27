@@ -9,9 +9,9 @@
 #include <sstream>
 
 Game::Game():
-    _engine(std::random_device()()),
+    _engine(std::random_device{}()),
     _distribution(-4, 4),
-    _currentPlayer(PLAYER_RED),
+    _currentPlayer{PLAYER_RED},
     _remainingBallsRed(0),
     _remainingBallsBlue(0)
 {}

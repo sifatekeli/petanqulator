@@ -3,11 +3,12 @@ PETANQue simULATOR
 
 https://en.wikipedia.org/wiki/P%C3%A9tanque
 
-## build
-install glu gtkglextmm-1.2 gtkmm-2.4 bullet ctags...
-then
+### Build ###
 ```
-make
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=RELEASE ..
+make 
 ```
 
 ## TODO
