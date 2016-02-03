@@ -67,15 +67,15 @@ class Game
         btVector3 getShooterPosition() const;
 
         // throw one ball and compute physics simulation till stationnarity
-        void throwBall(double vx, double vy, double vz);
+        void throwBall(double pitch, double yaw, double velocity);
 
         // step-by-step simulation (for interactive display)
-        void interactiveThrowStart(double vx, double vy, double vz);
+        void interactiveThrowStart(double pitch, double yaw, double velocity);
         bool interactiveThrowRunning();
         void interactiveThrowContinue(double duration);
 
     private:
-        void createBall(double vx, double vy, double vz);
+        void createBall(double pitch, double yaw, double velocity);
         void updateCurrentPlayer();
 };
 

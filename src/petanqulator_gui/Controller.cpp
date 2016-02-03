@@ -50,18 +50,18 @@ void Controller::newGame()
     _view.update();
 }
 
-void Controller::startThrow(double vx, double vy, double vz)
+void Controller::startThrow(double pitch, double yaw, double velocity)
 {
     // log
     std::stringstream ss;
     ss << "throw ball, player=" 
         << (_game.getCurrentPlayer() == PLAYER_RED ? "red" : "blue")
-        << ", velocity=[" << vx << ' ' << vy << ' ' << vz << ']';
+        << ", pitch=" << pitch << ", yaw=" << yaw << ", velocity=" << velocity;
     UTILS_INFO(ss.str());
 
     if (not _game.isGameFinished())
     {
-        _game.interactiveThrowStart(vx, vy, vz);
+        _game.interactiveThrowStart(pitch, yaw, velocity);
         _view.startAnimation();
     }
 }

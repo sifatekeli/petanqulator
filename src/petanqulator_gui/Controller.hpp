@@ -30,7 +30,7 @@ class Controller
         int getRemainingBallsBlue() const;
 
         void newGame();
-        void startThrow(double vx, double vy, double vz);
+        void startThrow(double pitch, double yaw, double velocity);
         void updateThrow(double duration);
 
         bool isGameFinished() const;

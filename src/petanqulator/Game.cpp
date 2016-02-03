@@ -129,10 +129,10 @@ btVector3 Game::getShooterPosition() const
     return _shooterPosition;
 }
 
-void Game::throwBall(double vx, double vy, double vz)
+void Game::throwBall(double pitch, double yaw, double velocity)
 {
     // create ball
-    createBall(vx, vy, vz);
+    createBall(pitch, yaw, velocity);
 
     _uptrPhysics.reset(new Physics);
     _uptrPhysics->addBall(&_jack);
@@ -147,10 +147,10 @@ void Game::throwBall(double vx, double vy, double vz)
     updateCurrentPlayer();
 }
 
-void Game::interactiveThrowStart(double vx, double vy, double vz)
+void Game::interactiveThrowStart(double pitch, double yaw, double velocity)
 {
     // create ball
-    createBall(vx, vy, vz);
+    createBall(pitch, yaw, velocity);
 
     // create physics
     _uptrPhysics.reset(new Physics);
@@ -183,10 +183,16 @@ void Game::interactiveThrowContinue(double duration)
     _uptrPhysics->computeSimulation(duration);
 }
 
-void Game::createBall(double vx, double vy, double vz)
+void Game::createBall(double pitch, double yaw, double velocity)
 {
     if (_currentPlayer == PLAYER_NONE)
         return;
+
+    // convert parameters to physical values
+    auto clamp = [] (double x) { return std::min(1.0, std::max(0.0, x)); };
+    double vx = clamp(pitch) * 180 - 90;
+    double vy = clamp(yaw) * 360 - 180;
+    double vz = clamp(velocity) * 10;
 
     // update game data
     if (_currentPlayer == PLAYER_BLUE)

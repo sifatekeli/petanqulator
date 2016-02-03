@@ -28,21 +28,24 @@ ViewPanel::ViewPanel(Controller & refController, View & refView) :
             sigc::mem_fun(_refView, &View::quit));
 
     packLabel("\n pitch:");
-    _pitchSpin.set_range(-180, 180);
-    _pitchSpin.set_increments(1, 5);
-    _pitchSpin.set_value(45);
+    _pitchSpin.set_digits(2);
+    _pitchSpin.set_value(0.5);
+    _pitchSpin.set_range(0, 1);
+    _pitchSpin.set_increments(0.01, 0.1);
     pack_start(_pitchSpin, Gtk::PACK_SHRINK);
 	_pitchSpin.signal_changed().connect(sigc::mem_fun(_refView, &View::update));
     packLabel(" yaw:");
-    _yawSpin.set_range(-180, 180);
-    _yawSpin.set_increments(1, 5);
+    _yawSpin.set_digits(2);
+    _yawSpin.set_value(0.5);
+    _yawSpin.set_range(0, 1);
+    _yawSpin.set_increments(0.01, 0.1);
     pack_start(_yawSpin, Gtk::PACK_SHRINK);
 	_yawSpin.signal_changed().connect(sigc::mem_fun(_refView, &View::update));
     packLabel(" velocity:");
-    _velocitySpin.set_digits(1);
-    _velocitySpin.set_range(0, 10);
-    _velocitySpin.set_increments(0.1, 5);
-    _velocitySpin.set_value(5);
+    _velocitySpin.set_digits(2);
+    _velocitySpin.set_value(0.5);
+    _velocitySpin.set_range(0, 1);
+    _velocitySpin.set_increments(0.01, 0.1);
     pack_start(_velocitySpin, Gtk::PACK_SHRINK);
 
     pack_start(_throwBallButton, Gtk::PACK_SHRINK);
@@ -74,6 +77,7 @@ void ViewPanel::handleNew()
 
 void ViewPanel::handleThrowBall()
 {
+    /*
     // get velocity vector from the interface
     double radPitch = degToRad(getPitch());
     double radYaw = degToRad(getYaw());
@@ -81,11 +85,15 @@ void ViewPanel::handleThrowBall()
 
     // compute velocity vector from pitch/yaw
     double vx = velocity * cos(radPitch) * cos(radYaw);
-    double vy = velocity * sin(radPitch);
+    double vx = velocity * sin(radPitch);
     double vz = velocity * cos(radPitch) * sin(radYaw);
+    */
+    double pitch = getPitch();
+    double yaw = getYaw();
+    double velocity = getVelocity();
 
     // throw ball
-    _refController.startThrow(vx, vy, vz);
+    _refController.startThrow(pitch, yaw, velocity);
 }
 
 void ViewPanel::packLabel(const char * str)

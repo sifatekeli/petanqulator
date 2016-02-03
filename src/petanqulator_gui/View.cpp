@@ -123,18 +123,13 @@ void View::displayStatus(const std::string & message)
     _statusbar.push(message);
 }
 
-double View::getPitch() const
+double View::getPitchDeg() const
 {
     return _viewPanel.getPitch();
 }
 
-double View::getYaw() const
+double View::getYawDeg() const
 {
     return _viewPanel.getYaw();
-}
-
-double View::getVelocity() const
-{
-    return _viewPanel.getVelocity();
 }
 
