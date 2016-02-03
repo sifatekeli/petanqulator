@@ -33,3 +33,13 @@ target_link_libraries( petanqulator_gui.out ${GTKMM_LIBRARIES} )
 # glu
 find_package( GLU REQUIRED )
 
+# unit test
+file( GLOB TEST_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/src/petanqulator/*_test.hpp )
+find_package(CxxTest)
+if(CXXTEST_FOUND)
+    include_directories(${CXXTEST_INCLUDE_DIR})
+    enable_testing()
+    CXXTEST_ADD_TEST(unittest.out unittest.cpp ${TEST_SOURCE} )
+    target_link_libraries(unittest.out petanqulator )
+endif()
+

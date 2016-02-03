@@ -8,9 +8,9 @@
 
 #include "GameObject.hpp"
 #include "Physics.hpp"
+#include "Prng.hpp"
 
 #include <memory>
-#include <random>
 #include <string>
 #include <vector>
 
@@ -33,8 +33,7 @@ struct GameResult
 class Game
 {
     private:
-        std::mt19937 _engine;
-        std::uniform_real_distribution<btScalar> _distribution;
+        Prng _prng;
         player_t _currentPlayer;
         int _remainingBallsRed;
         int _remainingBallsBlue;

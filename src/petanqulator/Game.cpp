@@ -9,8 +9,6 @@
 #include <sstream>
 
 Game::Game():
-    _engine(std::random_device{}()),
-    _distribution(-4, 4),
     _currentPlayer{PLAYER_RED},
     _remainingBallsRed(0),
     _remainingBallsBlue(0)
@@ -28,8 +26,8 @@ void Game::newGame()
     _ground = {-10, 10, -6, 6};
 
     // jack
-    btScalar x = _distribution(_engine);
-    btScalar z = _distribution(_engine);
+    btScalar x = _prng.generate(-4, 4);
+    btScalar z = _prng.generate(-4, 4);
     _jack = {btTransform(btQuaternion(0,0,0,1),btVector3(x,0.2,z)), 
         btVector3(0, 0, 0), 0.1, 0.2};
 
