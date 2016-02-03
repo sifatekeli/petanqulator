@@ -65,6 +65,8 @@ class Game
         const GameGround & getGround() const;
         const GameBall & getJack() const;
         btVector3 getShooterPosition() const;
+        // TODO change vx vy vz to pitch yaw velocity
+        // TODO min/max pitch/yaw/velocity
 
         // throw one ball and compute physics simulation till stationnarity
         void throwBall(double vx, double vy, double vz);

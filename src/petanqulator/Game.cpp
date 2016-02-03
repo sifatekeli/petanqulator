@@ -188,6 +188,8 @@ void Game::createBall(double vx, double vy, double vz)
     if (_currentPlayer == PLAYER_NONE)
         return;
 
+    // TODO clamp vx vy vz
+
     // update game data
     if (_currentPlayer == PLAYER_BLUE)
     {

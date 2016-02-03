@@ -16,6 +16,11 @@ file( GLOB TEST_SOURCE src/petanqulator_test/* )
 add_executable( petanqulator_test.out ${TEST_SOURCE} )
 target_link_libraries( petanqulator_test.out petanqulator )
 
+# cli executable
+file( GLOB CLI_SOURCE src/petanqulator_cli/* )
+add_executable( petanqulator_cli.out ${CLI_SOURCE} )
+target_link_libraries( petanqulator_cli.out petanqulator )
+
 # gui executable
 file( GLOB GUI_SOURCE src/petanqulator_gui/* )
 add_executable( petanqulator_gui.out ${GUI_SOURCE} )
