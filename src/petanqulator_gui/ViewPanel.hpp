@@ -31,9 +31,7 @@ class ViewPanel : public Gtk::VBox
         void startAnimation();
         void stopAnimation();
 
-        double getPitch() const;
-        double getYaw() const;
-        double getVelocity() const;
+        ThrowParams getThrowParams() const;
 
     private:
         void packLabel(const char * str);

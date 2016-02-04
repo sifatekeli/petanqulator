@@ -78,10 +78,7 @@ void ViewPanel::handleNew()
 void ViewPanel::handleThrowBall()
 {
     // throw ball
-    double pitch = getPitch();
-    double yaw = getYaw();
-    double velocity = getVelocity();
-    _refController.startThrow(pitch, yaw, velocity);
+    _refController.startThrow(getThrowParams());
 }
 
 void ViewPanel::packLabel(const char * str)
@@ -91,18 +88,11 @@ void ViewPanel::packLabel(const char * str)
     pack_start(*ptrLabel, Gtk::PACK_SHRINK);
 }
 
-double ViewPanel::getPitch() const
+ThrowParams ViewPanel::getThrowParams() const
 {
-    return _pitchSpin.get_value();
-}
-
-double ViewPanel::getYaw() const
-{
-    return _yawSpin.get_value();
-}
-
-double ViewPanel::getVelocity() const
-{
-    return _velocitySpin.get_value();
+    double pitch = _pitchSpin.get_value();
+    double yaw = _yawSpin.get_value();
+    double velocity = _velocitySpin.get_value();
+    return ThrowParams {pitch, yaw, velocity};
 }
 

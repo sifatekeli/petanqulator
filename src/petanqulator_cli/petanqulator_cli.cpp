@@ -30,13 +30,13 @@ int main()
     displayBalls("blue", game.getBlueBalls());
 
     // throw a ball
-    game.throwBall(1, 1, 0);
+    game.throwBall(ThrowParams{1, 1, 0});
     displayBall("jack", game.getJack());
     displayBalls("red", game.getRedBalls());
     displayBalls("blue", game.getBlueBalls());
 
     // throw a ball
-    game.throwBall(1, 1, 1);
+    game.throwBall(ThrowParams{1, 1, 1});
     displayBall("jack", game.getJack());
     displayBalls("red", game.getRedBalls());
     displayBalls("blue", game.getBlueBalls());

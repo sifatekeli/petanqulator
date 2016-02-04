@@ -137,10 +137,10 @@ ThrowParams Game::getMaxParams() const
     return ThrowParams {90, 180, 10};
 }
 
-void Game::throwBall(double pitch, double yaw, double velocity)
+void Game::throwBall(const ThrowParams & params)
 {
     // create ball
-    createBall(pitch, yaw, velocity);
+    createBall(params);
 
     _uptrPhysics.reset(new Physics);
     _uptrPhysics->addBall(&_jack);
@@ -155,10 +155,10 @@ void Game::throwBall(double pitch, double yaw, double velocity)
     updateCurrentPlayer();
 }
 
-void Game::interactiveThrowStart(double pitch, double yaw, double velocity)
+void Game::interactiveThrowStart(const ThrowParams & params)
 {
     // create ball
-    createBall(pitch, yaw, velocity);
+    createBall(params);
 
     // create physics
     _uptrPhysics.reset(new Physics);
@@ -191,7 +191,7 @@ void Game::interactiveThrowContinue(double duration)
     _uptrPhysics->computeSimulation(duration);
 }
 
-void Game::createBall(double pitch, double yaw, double velocity)
+void Game::createBall(const ThrowParams & p)
 {
     if (_currentPlayer == PLAYER_NONE)
         return;
@@ -199,11 +199,11 @@ void Game::createBall(double pitch, double yaw, double velocity)
     // get velocity vector from the interface
     ThrowParams pmin = getMinParams();
     ThrowParams pmax = getMaxParams();
-    double clampedPitch = clamp(pitch, pmin._pitch, pmax._pitch);
+    double clampedPitch = clamp(p._pitch, pmin._pitch, pmax._pitch);
     double radPitch = degToRad(clampedPitch);
-    double clampedYaw = clamp(yaw, pmin._yaw, pmax._yaw);
+    double clampedYaw = clamp(p._yaw, pmin._yaw, pmax._yaw);
     double radYaw = degToRad(clampedYaw);
-    double clampedVelocity = clamp(velocity, pmin._velocity, pmax._velocity);
+    double clampedVelocity = clamp(p._velocity, pmin._velocity, pmax._velocity);
 
     // compute velocity vector from pitch/yaw
     double vx = clampedVelocity * cos(radPitch) * cos(radYaw);

@@ -73,15 +73,15 @@ class Game
         ThrowParams getMaxParams() const;
 
         // throw one ball and compute physics simulation till stationnarity
-        void throwBall(double pitch, double yaw, double velocity);
+        void throwBall(const ThrowParams & params);
 
         // step-by-step simulation (for interactive display)
-        void interactiveThrowStart(double pitch, double yaw, double velocity);
+        void interactiveThrowStart(const ThrowParams & params);
         bool interactiveThrowRunning();
         void interactiveThrowContinue(double duration);
 
     private:
-        void createBall(double pitch, double yaw, double velocity);
+        void createBall(const ThrowParams & params);
         void updateCurrentPlayer();
 };
 
