@@ -55,6 +55,7 @@ class Game
 
     public:
         Game();
+        Game(const Game & game);
 
         void newGame();
         bool isGameFinished() const;

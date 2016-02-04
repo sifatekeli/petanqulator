@@ -12,13 +12,13 @@
 class Prng_test : public CxxTest::TestSuite 
 {
     public:
-        // TODO unit test generate(double, double)
-        void testAddition() 
+
+        void test_generate_1() 
         {
             const int nbSamples = 1e6;
             const int N = 100;
             Prng prng;
-            unsigned int sum = 0;
+            unsigned sum = 0;
             for (int i=0; i<nbSamples; i++) 
             {
                 int s = prng.generate() * N;
@@ -30,10 +30,10 @@ class Prng_test : public CxxTest::TestSuite
             TS_ASSERT_DELTA(mean, N*0.5, 5);
         }
 
-        void testAdditionDouble() 
+        void test_generate_2() 
         {
             const int nbSamples = 1e6;
-            double sum = 0;
+            double sum = 0.0;
             Prng prng;
             for (int i=0; i<nbSamples; i++) 
             {
@@ -45,6 +45,23 @@ class Prng_test : public CxxTest::TestSuite
             double mean = sum / (double)nbSamples;
             TS_ASSERT_DELTA(mean, 0.5, 0.1);
         }
+
+        void test_generate_3() 
+        {
+            const int nbSamples = 1e6;
+            double sum = 0.0;
+            Prng prng;
+            for (int i=0; i<nbSamples; i++) 
+            {
+                double s = prng.generate(40.0, 44.0);
+                sum += s;
+                TS_ASSERT(s >= 40.0);
+                TS_ASSERT(s < 44.0);
+            }
+            double mean = sum / (double)nbSamples;
+            TS_ASSERT_DELTA(mean, 42.0, 0.1);
+        }
+
 };
 
 #endif

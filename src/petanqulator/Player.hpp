@@ -8,11 +8,29 @@
 
 #include "Game.hpp"
 
+#include <map>
+
 class Player 
 {
     public:
+        std::map<std::string, double> _params;
+        virtual ~Player() = default;
+        virtual ThrowParams chooseParams(const Game & game) = 0;
+};
 
+class PlayerRandom : public Player 
+{
+    protected:
+        Prng _prng;
+    public:
+        virtual ThrowParams chooseParams(const Game & game) override;
+};
 
+class PlayerBestRandom : public PlayerRandom 
+{
+    public:
+        PlayerBestRandom();
+        virtual ThrowParams chooseParams(const Game & game) override;
 };
 
 #endif
