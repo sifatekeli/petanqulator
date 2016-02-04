@@ -8,6 +8,10 @@
 #include <algorithm>
 #include <sstream>
 
+///////////////////////////////////////////////////////////////////////////////
+// Game
+///////////////////////////////////////////////////////////////////////////////
+
 Game::Game():
     _currentPlayer{PLAYER_RED},
     _remainingBallsRed(0),
@@ -142,53 +146,38 @@ void Game::throwBall(const ThrowParams & params)
     // create ball
     createBall(params);
 
-    _uptrPhysics.reset(new Physics);
-    _uptrPhysics->addBall(&_jack);
+    Physics physics;
+    physics.addBall(&_jack);
     for (GameBall & b : _redBalls)
-        _uptrPhysics->addBall(std::addressof(b));
+        physics.addBall(std::addressof(b));
     for (GameBall & b : _blueBalls)
-        _uptrPhysics->addBall(std::addressof(b));
-    _uptrPhysics->computeSimulation(0.1);
+        physics.addBall(std::addressof(b));
+    physics.computeSimulation(0.1);
 
     // TODO ground limits for physics
 
     updateCurrentPlayer();
 }
 
-void Game::interactiveThrowStart(const ThrowParams & params)
+void Game::updateCurrentPlayer()
 {
-    // create ball
-    createBall(params);
-
-    // create physics
-    _uptrPhysics.reset(new Physics);
-    _uptrPhysics->addBall(&_jack);
-    for (GameBall & b : _redBalls)
-        _uptrPhysics->addBall(std::addressof(b));
-    for (GameBall & b : _blueBalls)
-        _uptrPhysics->addBall(std::addressof(b));
-}
-
-bool Game::interactiveThrowRunning() 
-{
-    if (_uptrPhysics->isSimulationRunning())
-    {
-        return true;
-    }
+    if (_redBalls.empty())
+        _currentPlayer = PLAYER_RED;
+    else if (_blueBalls.empty())
+        _currentPlayer = PLAYER_BLUE;
+    else if (_remainingBallsBlue == 0 and _remainingBallsRed > 0)
+        _currentPlayer = PLAYER_RED;
+    else if (_remainingBallsRed == 0 and _remainingBallsBlue > 0)
+        _currentPlayer = PLAYER_BLUE;
+    else if (_remainingBallsBlue == 0 and _remainingBallsRed == 0)
+        _currentPlayer = PLAYER_NONE;
+    // if all player can play, find looser
     else
     {
-        _uptrPhysics.reset();
-
-        // TODO ground limits for physics
-
-        updateCurrentPlayer();
-        return false;
+        GameResult res = computeResult();
+        _currentPlayer = 
+            res._winningPlayer == PLAYER_RED ? PLAYER_BLUE : PLAYER_RED;
     }
-}
-
-void Game::interactiveThrowContinue(double duration)
-{
-    _uptrPhysics->computeSimulation(duration);
 }
 
 void Game::createBall(const ThrowParams & p)
@@ -227,24 +216,43 @@ void Game::createBall(const ThrowParams & p)
     }
 }
 
-void Game::updateCurrentPlayer()
+///////////////////////////////////////////////////////////////////////////////
+// GameInteractive
+///////////////////////////////////////////////////////////////////////////////
+
+void GameInteractive::interactiveThrowStart(const ThrowParams & params)
 {
-    if (_redBalls.empty())
-        _currentPlayer = PLAYER_RED;
-    else if (_blueBalls.empty())
-        _currentPlayer = PLAYER_BLUE;
-    else if (_remainingBallsBlue == 0 and _remainingBallsRed > 0)
-        _currentPlayer = PLAYER_RED;
-    else if (_remainingBallsRed == 0 and _remainingBallsBlue > 0)
-        _currentPlayer = PLAYER_BLUE;
-    else if (_remainingBallsBlue == 0 and _remainingBallsRed == 0)
-        _currentPlayer = PLAYER_NONE;
-    // if all player can play, find looser
+    // create ball
+    createBall(params);
+
+    // create physics
+    _uptrPhysics.reset(new Physics);
+    _uptrPhysics->addBall(&_jack);
+    for (GameBall & b : _redBalls)
+        _uptrPhysics->addBall(std::addressof(b));
+    for (GameBall & b : _blueBalls)
+        _uptrPhysics->addBall(std::addressof(b));
+}
+
+bool GameInteractive::interactiveThrowRunning() 
+{
+    if (_uptrPhysics->isSimulationRunning())
+    {
+        return true;
+    }
     else
     {
-        GameResult res = computeResult();
-        _currentPlayer = 
-            res._winningPlayer == PLAYER_RED ? PLAYER_BLUE : PLAYER_RED;
+        _uptrPhysics.reset();
+
+        // TODO ground limits for physics
+
+        updateCurrentPlayer();
+        return false;
     }
+}
+
+void GameInteractive::interactiveThrowContinue(double duration)
+{
+    _uptrPhysics->computeSimulation(duration);
 }
 

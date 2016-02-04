@@ -39,7 +39,7 @@ struct ThrowParams
 
 class Game
 {
-    private:
+    protected:
         Prng _prng;
         player_t _currentPlayer;
         int _remainingBallsRed;
@@ -49,13 +49,11 @@ class Game
         GameBall _jack;
         GameGround _ground;
         btVector3 _shooterPosition;
-        std::unique_ptr<Physics> _uptrPhysics;
 
         // TODO detect invalid jack -> draw
 
     public:
         Game();
-        Game(const Game & game);
 
         void newGame();
         bool isGameFinished() const;
@@ -76,14 +74,21 @@ class Game
         // throw one ball and compute physics simulation till stationnarity
         void throwBall(const ThrowParams & params);
 
+    protected:
+        void createBall(const ThrowParams & params);
+        void updateCurrentPlayer();
+};
+
+class GameInteractive : public Game
+{
+    private:
+        std::unique_ptr<Physics> _uptrPhysics;
+
+    public:
         // step-by-step simulation (for interactive display)
         void interactiveThrowStart(const ThrowParams & params);
         bool interactiveThrowRunning();
         void interactiveThrowContinue(double duration);
-
-    private:
-        void createBall(const ThrowParams & params);
-        void updateCurrentPlayer();
 };
 
 #endif

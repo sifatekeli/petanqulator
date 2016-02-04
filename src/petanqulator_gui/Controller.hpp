@@ -13,7 +13,7 @@
 class Controller
 {
     private:
-        Game _game;
+        GameInteractive _game;
         View _view;
 
     public:
