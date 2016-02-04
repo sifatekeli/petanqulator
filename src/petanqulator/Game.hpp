@@ -30,6 +30,13 @@ struct GameResult
     std::vector<BallResult> _ballResults;
 };
 
+struct ThrowParams
+{
+    double _pitch;
+    double _yaw;
+    double _velocity;
+};
+
 class Game
 {
     private:
@@ -62,12 +69,8 @@ class Game
         const GameBall & getJack() const;
         btVector3 getShooterPosition() const;
 
-        double getMinPitchDeg() const;
-        double getMaxPitchDeg() const;
-        double getMinYawDeg() const;
-        double getMaxYawDeg() const;
-        double getMinVelocity() const;
-        double getMaxVelocity() const;
+        ThrowParams getMinParams() const;
+        ThrowParams getMaxParams() const;
 
         // throw one ball and compute physics simulation till stationnarity
         void throwBall(double pitch, double yaw, double velocity);

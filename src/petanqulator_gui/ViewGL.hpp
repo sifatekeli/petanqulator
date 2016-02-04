@@ -37,7 +37,7 @@ class ViewGL : public Gtk::GL::DrawingArea
 
         // camera distance
         float _distance;
-        // TODO add camera zoom and camera translation
+        // TODO add camera zoom 
 
     public:
         ViewGL(Controller & controller, View & view, int & argc, char** argv);

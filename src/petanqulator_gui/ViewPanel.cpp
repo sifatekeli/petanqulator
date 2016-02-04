@@ -27,23 +27,23 @@ ViewPanel::ViewPanel(Controller & refController, View & refView) :
 	_quitButton.signal_clicked().connect(
             sigc::mem_fun(_refView, &View::quit));
 
+    ThrowParams pmin = _refController.getMinParams();
+    ThrowParams pmax = _refController.getMaxParams();
+
     packLabel("\n pitch:");
-    _pitchSpin.set_range(_refController.getMinPitchDeg(), 
-            _refController.getMaxPitchDeg());
+    _pitchSpin.set_range(pmin._pitch, pmax._pitch);
     _pitchSpin.set_increments(1, 5);
     _pitchSpin.set_value(45);
     pack_start(_pitchSpin, Gtk::PACK_SHRINK);
 	_pitchSpin.signal_changed().connect(sigc::mem_fun(_refView, &View::update));
     packLabel(" yaw:");
-    _yawSpin.set_range(_refController.getMinYawDeg(), 
-            _refController.getMaxYawDeg());
+    _yawSpin.set_range(pmin._yaw, pmax._yaw);
     _yawSpin.set_increments(1, 5);
     pack_start(_yawSpin, Gtk::PACK_SHRINK);
 	_yawSpin.signal_changed().connect(sigc::mem_fun(_refView, &View::update));
     packLabel(" velocity:");
     _velocitySpin.set_digits(1);
-    _velocitySpin.set_range(_refController.getMinVelocity(), 
-            _refController.getMaxVelocity());
+    _velocitySpin.set_range(pmin._velocity, pmax._velocity);
     _velocitySpin.set_increments(0.1, 5);
     _velocitySpin.set_value(5);
     pack_start(_velocitySpin, Gtk::PACK_SHRINK);

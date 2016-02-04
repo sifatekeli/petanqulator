@@ -127,34 +127,14 @@ btVector3 Game::getShooterPosition() const
     return _shooterPosition;
 }
 
-double Game::getMinPitchDeg() const
+ThrowParams Game::getMinParams() const
 {
-    return -90;
+    return ThrowParams {-90, -180, 0};
 }
 
-double Game::getMaxPitchDeg() const
+ThrowParams Game::getMaxParams() const
 {
-    return 90;
-}
-
-double Game::getMinYawDeg() const
-{
-    return -180;
-}
-
-double Game::getMaxYawDeg() const
-{
-    return 180;
-}
-
-double Game::getMinVelocity() const
-{
-    return 0;
-}
-
-double Game::getMaxVelocity() const
-{
-    return 10;
+    return ThrowParams {90, 180, 10};
 }
 
 void Game::throwBall(double pitch, double yaw, double velocity)
@@ -217,11 +197,13 @@ void Game::createBall(double pitch, double yaw, double velocity)
         return;
 
     // get velocity vector from the interface
-    double clampedPitch = clamp(pitch, getMinPitchDeg(), getMaxPitchDeg());
-    double clampedYaw = clamp(yaw, getMinYawDeg(), getMaxYawDeg());
+    ThrowParams pmin = getMinParams();
+    ThrowParams pmax = getMaxParams();
+    double clampedPitch = clamp(pitch, pmin._pitch, pmax._pitch);
     double radPitch = degToRad(clampedPitch);
+    double clampedYaw = clamp(yaw, pmin._yaw, pmax._yaw);
     double radYaw = degToRad(clampedYaw);
-    double clampedVelocity = clamp(velocity,getMinVelocity(),getMaxVelocity());
+    double clampedVelocity = clamp(velocity, pmin._velocity, pmax._velocity);
 
     // compute velocity vector from pitch/yaw
     double vx = clampedVelocity * cos(radPitch) * cos(radYaw);

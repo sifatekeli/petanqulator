@@ -104,34 +104,14 @@ int Controller::getRemainingBallsBlue() const
     return _game.getRemainingBallsBlue();
 }
 
-double Controller::getMinPitchDeg() const
+ThrowParams Controller::getMinParams() const
 {
-    return _game.getMinPitchDeg();
+    return _game.getMinParams();
 }
 
-double Controller::getMaxPitchDeg() const
+ThrowParams Controller::getMaxParams() const
 {
-    return _game.getMaxPitchDeg();
-}
-
-double Controller::getMinYawDeg() const
-{
-    return _game.getMinYawDeg();
-}
-
-double Controller::getMaxYawDeg() const
-{
-    return _game.getMaxVelocity();
-}
-
-double Controller::getMinVelocity() const
-{
-    return _game.getMinVelocity();
-}
-
-double Controller::getMaxVelocity() const
-{
-    return _game.getMaxVelocity();
+    return _game.getMaxParams();
 }
 
 

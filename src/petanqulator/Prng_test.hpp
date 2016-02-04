@@ -3,8 +3,8 @@
 // terms of the Do What The Fuck You Want To Public License, Version 2,
 // as published by Sam Hocevar. See the COPYING.WTFPL file for more details.
 
-#ifndef PRNG_TEST_HPP_
-#define PRNG_TEST_HPP_
+#ifndef _PRNG_TEST_HPP_
+#define _PRNG_TEST_HPP_
 
 #include "Prng.hpp"
 #include <cxxtest/TestSuite.h>
