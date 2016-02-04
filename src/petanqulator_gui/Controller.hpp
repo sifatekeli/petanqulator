@@ -33,7 +33,7 @@ class Controller
         ThrowParams getMaxParams() const;
 
         void newGame();
-        void startThrow(double vx, double vy, double vz);
+        void startThrow(const ThrowParams & params);
         void updateThrow(double duration);
 
         bool isGameFinished() const;

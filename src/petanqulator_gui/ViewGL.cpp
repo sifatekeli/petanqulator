@@ -152,8 +152,9 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
     btVector3 shooterPosition = _refController.getShooterPosition();
     glTranslatef(shooterPosition.getX(), shooterPosition.getY(), 
             shooterPosition.getZ());
-    glRotatef(90 - _refView.getYaw(), 0, 1, 0);
-    glRotatef(- _refView.getPitch(), 1, 0, 0);
+    ThrowParams params = _refView.getThrowParams();
+    glRotatef(90 - params._yaw, 0, 1, 0);
+    glRotatef(- params._pitch, 1, 0, 0);
     gluCylinder(gluNewQuadric(), 0.06, 0.06, 1, 16, 2);
     glTranslatef(0, 0, 1);
     gluCylinder(gluNewQuadric(), 0.12, 0, 0.3, 16, 2);

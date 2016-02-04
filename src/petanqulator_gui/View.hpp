@@ -37,12 +37,10 @@ class View
 
         static std::string getPlayerName(player_t player);
 
+        ThrowParams getThrowParams() const;
+
         void startAnimation();
         void stopAnimation();
-
-        double getPitch() const;
-        double getYaw() const;
-        double getVelocity() const;
 };
 
 #endif
