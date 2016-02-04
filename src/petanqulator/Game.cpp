@@ -127,10 +127,40 @@ btVector3 Game::getShooterPosition() const
     return _shooterPosition;
 }
 
-void Game::throwBall(double vx, double vy, double vz)
+double Game::getMinPitchDeg() const
+{
+    return -90;
+}
+
+double Game::getMaxPitchDeg() const
+{
+    return 90;
+}
+
+double Game::getMinYawDeg() const
+{
+    return -180;
+}
+
+double Game::getMaxYawDeg() const
+{
+    return 180;
+}
+
+double Game::getMinVelocity() const
+{
+    return 0;
+}
+
+double Game::getMaxVelocity() const
+{
+    return 10;
+}
+
+void Game::throwBall(double pitch, double yaw, double velocity)
 {
     // create ball
-    createBall(vx, vy, vz);
+    createBall(pitch, yaw, velocity);
 
     _uptrPhysics.reset(new Physics);
     _uptrPhysics->addBall(&_jack);
@@ -145,10 +175,10 @@ void Game::throwBall(double vx, double vy, double vz)
     updateCurrentPlayer();
 }
 
-void Game::interactiveThrowStart(double vx, double vy, double vz)
+void Game::interactiveThrowStart(double pitch, double yaw, double velocity)
 {
     // create ball
-    createBall(vx, vy, vz);
+    createBall(pitch, yaw, velocity);
 
     // create physics
     _uptrPhysics.reset(new Physics);
@@ -181,12 +211,22 @@ void Game::interactiveThrowContinue(double duration)
     _uptrPhysics->computeSimulation(duration);
 }
 
-void Game::createBall(double vx, double vy, double vz)
+void Game::createBall(double pitch, double yaw, double velocity)
 {
     if (_currentPlayer == PLAYER_NONE)
         return;
 
-    // TODO clamp vx vy vz
+    // get velocity vector from the interface
+    double clampedPitch = clamp(pitch, getMinPitchDeg(), getMaxPitchDeg());
+    double clampedYaw = clamp(yaw, getMinYawDeg(), getMaxYawDeg());
+    double radPitch = degToRad(clampedPitch);
+    double radYaw = degToRad(clampedYaw);
+    double clampedVelocity = clamp(velocity,getMinVelocity(),getMaxVelocity());
+
+    // compute velocity vector from pitch/yaw
+    double vx = clampedVelocity * cos(radPitch) * cos(radYaw);
+    double vy = clampedVelocity * sin(radPitch);
+    double vz = clampedVelocity * cos(radPitch) * sin(radYaw);
 
     // update game data
     if (_currentPlayer == PLAYER_BLUE)

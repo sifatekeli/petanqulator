@@ -45,9 +45,6 @@ class Game
         std::unique_ptr<Physics> _uptrPhysics;
 
         // TODO detect invalid jack -> draw
-        // TODO check memory usage 
-
-        // TODO use phi/theta/velocity for throwing ball
 
     public:
         Game();
@@ -64,19 +61,24 @@ class Game
         const GameGround & getGround() const;
         const GameBall & getJack() const;
         btVector3 getShooterPosition() const;
-        // TODO change vx vy vz to pitch yaw velocity
-        // TODO min/max pitch/yaw/velocity
+
+        double getMinPitchDeg() const;
+        double getMaxPitchDeg() const;
+        double getMinYawDeg() const;
+        double getMaxYawDeg() const;
+        double getMinVelocity() const;
+        double getMaxVelocity() const;
 
         // throw one ball and compute physics simulation till stationnarity
-        void throwBall(double vx, double vy, double vz);
+        void throwBall(double pitch, double yaw, double velocity);
 
         // step-by-step simulation (for interactive display)
-        void interactiveThrowStart(double vx, double vy, double vz);
+        void interactiveThrowStart(double pitch, double yaw, double velocity);
         bool interactiveThrowRunning();
         void interactiveThrowContinue(double duration);
 
     private:
-        void createBall(double vx, double vy, double vz);
+        void createBall(double pitch, double yaw, double velocity);
         void updateCurrentPlayer();
 };
 

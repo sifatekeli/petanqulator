@@ -10,6 +10,8 @@
 
 double degToRad(double degAngle);
 
+double clamp(double x, double xmin, double xmax);
+
 #include <iostream>
 
 #define UTILS_ERROR(msg) \

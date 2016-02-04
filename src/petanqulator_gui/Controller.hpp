@@ -29,6 +29,13 @@ class Controller
         int getRemainingBallsRed() const;
         int getRemainingBallsBlue() const;
 
+        double getMinPitchDeg() const;
+        double getMaxPitchDeg() const;
+        double getMinYawDeg() const;
+        double getMaxYawDeg() const;
+        double getMinVelocity() const;
+        double getMaxVelocity() const;
+
         void newGame();
         void startThrow(double vx, double vy, double vz);
         void updateThrow(double duration);

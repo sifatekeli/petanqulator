@@ -11,3 +11,8 @@ double degToRad(double degAngle)
     return degAngle * k;
 }
 
+double clamp(double x, double xmin, double xmax)
+{
+    return std::min(xmax, std::max(xmin, x));
+}
+
