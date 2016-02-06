@@ -6,7 +6,7 @@ if( NOT CMAKE_BUILD_TYPE )
 endif()
 
 # petanqulator library
-file( GLOB PETANQULATOR_SOURCE src/petanqulator/* )
+file( GLOB PETANQULATOR_SOURCE src/petanqulator/*pp )
 INCLUDE_DIRECTORIES( src )
 ADD_LIBRARY ( petanqulator STATIC ${PETANQULATOR_SOURCE} )
 # bullet
@@ -15,17 +15,17 @@ include_directories( ${BULLET_INCLUDE_DIRS} )
 target_link_libraries( petanqulator ${BULLET_LIBRARIES} )
 
 # test executable
-file( GLOB TEST_SOURCE src/petanqulator_test/* )
+file( GLOB TEST_SOURCE src/petanqulator_test/*pp )
 add_executable( petanqulator_test.out ${TEST_SOURCE} )
 target_link_libraries( petanqulator_test.out petanqulator )
 
 # cli executable
-file( GLOB CLI_SOURCE src/petanqulator_cli/* )
+file( GLOB CLI_SOURCE src/petanqulator_cli/*pp )
 add_executable( petanqulator_cli.out ${CLI_SOURCE} )
 target_link_libraries( petanqulator_cli.out petanqulator )
 
 # gui executable
-file( GLOB GUI_SOURCE src/petanqulator_gui/* )
+file( GLOB GUI_SOURCE src/petanqulator_gui/*pp )
 add_executable( petanqulator_gui.out ${GUI_SOURCE} )
 target_link_libraries( petanqulator_gui.out petanqulator )
 # gtkmm
@@ -37,12 +37,13 @@ target_link_libraries( petanqulator_gui.out ${GTKMM_LIBRARIES} )
 find_package( GLU REQUIRED )
 
 # unit test
-file( GLOB TEST_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/src/petanqulator/*_test.hpp )
-find_package(CxxTest)
-if(CXXTEST_FOUND)
-    include_directories(${CXXTEST_INCLUDE_DIR})
+find_package( CxxTest )
+if( CXXTEST_FOUND )
+    file( GLOB UNITTEST_SOURCE src/unittest/*pp )
+    include_directories( ${CXXTEST_INCLUDE_DIRS} )
     enable_testing()
-    CXXTEST_ADD_TEST(unittest.out unittest.cpp ${TEST_SOURCE} )
-    target_link_libraries(unittest.out petanqulator )
+    CXXTEST_ADD_TEST( unittest.out unittest.cpp ${UNITTEST_SOURCE} )
+    target_link_libraries( unittest.out petanqulator )
 endif()
+
 

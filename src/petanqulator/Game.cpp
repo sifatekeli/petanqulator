@@ -6,7 +6,21 @@
 #include "Game.hpp"
 
 #include <algorithm>
+#include <iomanip>
 #include <sstream>
+
+///////////////////////////////////////////////////////////////////////////////
+// ThrowParams
+///////////////////////////////////////////////////////////////////////////////
+
+std::ostream & operator<<(std::ostream & os, const ThrowParams & p)
+{
+    os << '(' << std::setprecision(2) << p._pitch
+        << ", " << std::setprecision(2) << p._yaw
+        << ", " << std::setprecision(2) << p._velocity << ')';
+    return os;
+    
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 // Game

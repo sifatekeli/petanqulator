@@ -1,4 +1,4 @@
-// Copyright © 2014 Teytaud & Dehos <{teytaud,dehos}@lisic.univ-littoral.fr>
+// Copyright © 2015 Dehos <dehos@lisic.univ-littoral.fr>
 // This work is free. You can redistribute it and/or modify it under the
 // terms of the Do What The Fuck You Want To Public License, Version 2,
 // as published by Sam Hocevar. See the COPYING.WTFPL file for more details.
@@ -6,7 +6,7 @@
 #ifndef _PRNG_TEST_HPP_
 #define _PRNG_TEST_HPP_
 
-#include "Prng.hpp"
+#include <petanqulator/Prng.hpp>
 #include <cxxtest/TestSuite.h>
 
 class Prng_test : public CxxTest::TestSuite 

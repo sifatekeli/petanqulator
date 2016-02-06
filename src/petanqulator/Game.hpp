@@ -38,6 +38,8 @@ struct ThrowParams
     double _velocity;
 };
 
+std::ostream & operator<<(std::ostream & os, const ThrowParams & p);
+
 class Game
 {
     protected:

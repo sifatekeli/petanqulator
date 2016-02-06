@@ -5,6 +5,8 @@
 
 #include "Utils.hpp"
 
+#include <iomanip>
+
 double degToRad(double degAngle)
 {
     constexpr double k = M_PI / 180.0;
@@ -14,5 +16,13 @@ double degToRad(double degAngle)
 double clamp(double x, double xmin, double xmax)
 {
     return std::min(xmax, std::max(xmin, x));
+}
+
+std::ostream & operator<<(std::ostream & os, const btVector3 & v)
+{
+    os << '(' << std::setprecision(2) << v.getX() 
+        << ", " << std::setprecision(2) << v.getY() 
+        << ", " << std::setprecision(2) << v.getZ() << ')';
+    return os;
 }
 

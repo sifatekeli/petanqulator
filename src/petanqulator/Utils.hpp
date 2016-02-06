@@ -14,6 +14,8 @@ double clamp(double x, double xmin, double xmax);
 
 #include <iostream>
 
+std::ostream & operator<<(std::ostream & os, const btVector3 & v);
+
 #define UTILS_ERROR(msg) \
 { \
     std::cerr << "error: " << msg  \

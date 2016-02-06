@@ -7,7 +7,9 @@ https://en.wikipedia.org/wiki/P%C3%A9tanque
 ```
 mkdir build
 cd build
-cmake ..       # or: cmake -DCMAKE_BUILD_TYPE=Debug ..
+cmake ..
+# cmake -DCMAKE_BUILD_TYPE=Debug ..
+# CXXFLAGS="-DLOG" cmake -DCMAKE_BUILD_TYPE=Debug ..
 make 
 ```
 
