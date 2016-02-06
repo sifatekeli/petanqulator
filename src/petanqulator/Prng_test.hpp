@@ -13,7 +13,7 @@ class Prng_test : public CxxTest::TestSuite
 {
     public:
 
-        void test_generate_1() 
+        void test_prng_1() 
         {
             const int nbSamples = 1e6;
             const int N = 100;
@@ -30,7 +30,7 @@ class Prng_test : public CxxTest::TestSuite
             TS_ASSERT_DELTA(mean, N*0.5, 5);
         }
 
-        void test_generate_2() 
+        void test_prng_2() 
         {
             const int nbSamples = 1e6;
             double sum = 0.0;
@@ -46,7 +46,7 @@ class Prng_test : public CxxTest::TestSuite
             TS_ASSERT_DELTA(mean, 0.5, 0.1);
         }
 
-        void test_generate_3() 
+        void test_prng_3() 
         {
             const int nbSamples = 1e6;
             double sum = 0.0;
