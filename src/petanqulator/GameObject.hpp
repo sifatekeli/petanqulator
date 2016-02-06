@@ -14,6 +14,7 @@ struct GameBall
     btVector3 _velocity;
     btScalar _mass;
     btScalar _radius;
+    const btVector3 & getPosition() const;
 };
 
 struct GameGround 

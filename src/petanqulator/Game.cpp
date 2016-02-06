@@ -41,7 +41,14 @@ void Game::newGame()
 
 bool Game::isGameFinished() const
 {
-    return _remainingBallsBlue == 0 and _remainingBallsRed == 0;
+    const btVector3 & jackPosition = getJack().getPosition();
+    return (_remainingBallsBlue == 0 and _remainingBallsRed == 0)
+        or not isValidPosition(jackPosition);
+}
+
+bool Game::isValidPosition(const btVector3 & position) const
+{
+    return position.length2() < 100;
 }
 
 GameResult Game::computeResult() const
@@ -53,14 +60,14 @@ GameResult Game::computeResult() const
 
     // get jack
     const GameBall & jack = getJack();
-    btVector3 jackPos = jack._transform.getOrigin();
+    btVector3 jackPos = jack.getPosition();
 
     // compute ball results (distance from jack)
     auto distanceFun = [&jackPos] (const GameBall & b, player_t p)
     {
-        btVector3 bPos = b._transform.getOrigin();
+        btVector3 bPos = b.getPosition();
         btVector3 v = bPos - jackPos;
-        return BallResult{p, v.length2(), false};
+        return BallResult{p, v.length(), bPos, false};
     };
     std::transform(_redBalls.begin(), _redBalls.end(), 
             std::back_inserter(res._ballResults), 
@@ -70,22 +77,29 @@ GameResult Game::computeResult() const
             std::bind(distanceFun, std::placeholders::_1, PLAYER_BLUE));
     assert(not res._ballResults.empty());
 
-    // sort balls by distance from jack
-    auto cmpFun = [] (const BallResult & b1, const BallResult & b2)
-    { return b1._distance < b2._distance; };
-    std::sort(res._ballResults.begin(), res._ballResults.end(), cmpFun);
-
-    // find winning balls
-    res._winningPlayer = res._ballResults.front()._player;
-    res._nbWinningBalls = 0;
-    for (BallResult & b : res._ballResults) 
+    if (isValidPosition(jackPos))
     {
-        if (b._player == res._winningPlayer) 
+        // sort balls by distance from jack
+        auto cmpFun = [] (const BallResult & b1, const BallResult & b2)
+        { return b1._distanceToJack < b2._distanceToJack; };
+        std::sort(res._ballResults.begin(), res._ballResults.end(), cmpFun);
+        // find winning balls
+        res._winningPlayer = res._ballResults.front()._player;
+        res._nbWinningBalls = 0;
+        for (BallResult & b : res._ballResults) 
         {
-            b._isWinning = true;
-            res._nbWinningBalls++;
+            if (b._player==res._winningPlayer and isValidPosition(b._position)) 
+            {
+                b._isWinning = true;
+                res._nbWinningBalls++;
+            }
+            else break;
         }
-        else break;
+    }
+    else
+    {
+        res._nbWinningBalls = 0;
+        res._winningPlayer = PLAYER_NONE;
     }
 
     return res;

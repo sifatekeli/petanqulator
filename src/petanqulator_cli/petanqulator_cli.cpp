@@ -11,16 +11,14 @@ void displayPosition(const GameBall & ball)
 {
     btVector3 position = ball._transform.getOrigin();
     std::cout << std::setprecision(2) << '(' << position.getX() 
-        << ',' << position.getY() << ',' << position.getZ() << ')';
+        << ", " << position.getY() << ", " << position.getZ() << ')';
 }
 
 int main()
 {
-    PlayerRandom redPlayer;
-    PlayerBestRandom bluePlayer;
-
     std::vector<std::unique_ptr<Player>> players;
     players.push_back(std::make_unique<PlayerRandom>());
+    //players.push_back(std::make_unique<PlayerRandom>());
     players.push_back(std::make_unique<PlayerBestRandom>());
 
     // create game
@@ -32,6 +30,12 @@ int main()
         // throw ball
         player_t currentPlayer = game.getCurrentPlayer();
         ThrowParams params = players[currentPlayer]->chooseParams(game);
+        std::cout << "throw (" << params._pitch << ", " << params._yaw 
+            << ", " << params._velocity << ") ";
+        if (currentPlayer==PLAYER_RED)
+           std::cout << "red" << std::endl;
+        else
+           std::cout << "blue" << std::endl;
         game.throwBall(params);
 
         // display jack
@@ -47,7 +51,7 @@ int main()
                 std::cout << "red ";
             else
                 std::cout << "blue ";
-            std::cout << std::setprecision(8) << float(r._distance); 
+            std::cout << std::setprecision(8) << float(r._distanceToJack); 
             if (r._isWinning)
                 std::cout << " winning";
             std::cout << std::endl;
@@ -59,8 +63,10 @@ int main()
     GameResult result = game.computeResult();
     if (result._winningPlayer==PLAYER_RED)
         std::cout << "red win !" << std::endl;
-    else
+    else if (result._winningPlayer==PLAYER_BLUE)
         std::cout << "blue win !" << std::endl;
+    else
+        std::cout << "draw !" << std::endl;
 
     return 0;
 }

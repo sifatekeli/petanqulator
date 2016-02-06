@@ -12,12 +12,17 @@ ThrowParams PlayerRandom::chooseParams(const Game & game)
     double pitch = _prng.generate(pmin._pitch, pmax._pitch);
     double yaw = _prng.generate(pmin._yaw, pmax._yaw);
     double velocity = _prng.generate(pmin._velocity, pmax._velocity);
+    /*
+    double pitch = _prng.generate(0, 70);
+    double yaw = _prng.generate(-90, 90);
+    double velocity = _prng.generate(1, 7);
+    */
     return ThrowParams {pitch, yaw, velocity};
 }
 
 PlayerBestRandom::PlayerBestRandom()
 {
-    _params["nbTries"] = 100;
+    _params["nbTries"] = 1000;
 }
 
 ThrowParams PlayerBestRandom::chooseParams(const Game & game) 

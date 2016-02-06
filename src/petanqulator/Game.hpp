@@ -19,7 +19,8 @@ enum player_t { PLAYER_RED, PLAYER_BLUE, PLAYER_NONE };
 struct BallResult
 {
     player_t _player;
-    btScalar _distance;
+    btScalar _distanceToJack;
+    btVector3 _position;
     bool _isWinning;
 };
 
@@ -59,6 +60,7 @@ class Game
         bool isGameFinished() const;
         GameResult computeResult() const;
         player_t getCurrentPlayer() const;
+        bool isValidPosition(const btVector3 & position) const;
 
         int getRemainingBallsRed() const;
         int getRemainingBallsBlue() const;
