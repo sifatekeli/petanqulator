@@ -25,7 +25,7 @@ ThrowParams PlayerRandom::chooseParams(const Game & game)
 
 PlayerBestRandom::PlayerBestRandom()
 {
-    _params["nbTries"] = 1000;
+    _params["nbTries"] = 10;
 }
 
 ThrowParams PlayerBestRandom::chooseParams(const Game & game) 
@@ -42,16 +42,21 @@ ThrowParams PlayerBestRandom::chooseParams(const Game & game)
         if (result._winningPlayer == currentPlayer)
             bestParams = testParams;
         // TODO test other reward policy (nb winning balls, min distance...)
+
 #ifdef LOG
-        const BallResult & br = result._ballResults.back();
-        std::cout << testParams 
-            << " " << br._position
-            << " " << std::setprecision(4) << br._distanceToJack;
+        std::cout << testParams; 
         if (result._winningPlayer == currentPlayer)
-            std::cout << " better";
+        {
+        const BallResult & br = result._ballResults.front();
+            std::cout << " better"
+                << " " << br._position
+                << " " << std::setprecision(4) << br._distanceToJack;
+        }
         std::cout << std::endl;
 #endif
+
     }
+
     return bestParams;
 }
 

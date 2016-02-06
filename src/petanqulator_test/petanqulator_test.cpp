@@ -5,40 +5,71 @@
 
 #include <petanqulator/Player.hpp>
 
-void displayBall(const std::string & name, const GameBall & ball)
-{
-    btVector3 position = ball._transform.getOrigin();
-    std::cout << name << " " << position << std::endl;
-}
+#include <iomanip>
 
-void displayBalls(const std::string & name, const std::vector<GameBall> & balls)
+using namespace std;
+
+void displayPosition(const GameBall & ball)
 {
-    for (const GameBall & b : balls)
-        displayBall(name, b);
+    std::cout << ball._transform.getOrigin();
 }
 
 int main()
 {
-    PlayerBestRandom player;
-    player._params["nbTries"] = 10;
+    vector<unique_ptr<Player>> players;
+    players.push_back(make_unique<PlayerRandom>());
+    players.push_back(make_unique<PlayerBestRandom>());
+    players.back()->_params["nbTries"] = 1;
 
     // create game
     Game game;
     game.newGame();
 
-    // initial game
-    displayBall("jack", game.getJack());
-    displayBalls("red", game.getRedBalls());
-    displayBalls("blue", game.getBlueBalls());
-    std::cout << std::endl;
+    while (not game.isGameFinished())
+    {
+        // throw ball
+        player_t currentPlayer = game.getCurrentPlayer();
+        ThrowParams params = players[currentPlayer]->chooseParams(game);
+        cout << "throw (" << params._pitch << ", " << params._yaw 
+            << ", " << params._velocity << ") ";
+        if (currentPlayer==PLAYER_RED)
+           cout << "red" << endl;
+        else
+           cout << "blue" << endl;
+        game.throwBall(params);
 
-    // throw a ball
-    ThrowParams params = player.chooseParams(game);
-    game.throwBall(params);
-    displayBall("jack", game.getJack());
-    displayBalls("red", game.getRedBalls());
-    displayBalls("blue", game.getBlueBalls());
+        // display jack
+        cout << "jack ";
+        displayPosition(game.getJack());
+        cout << endl;
+
+        // display game results
+        GameResult result = game.computeResult();
+        for (const auto & r : result._ballResults)
+        {
+            if (r._player==PLAYER_RED) 
+                cout << "red ";
+            else
+                cout << "blue ";
+            cout << r._position;
+            cout << ' ' << setprecision(2) << float(r._distanceToJack); 
+            if (r._isWinning)
+                cout << " winning";
+            cout << endl;
+        }
+
+        cout << endl;
+    }
+
+    GameResult result = game.computeResult();
+    if (result._winningPlayer==PLAYER_RED)
+        cout << "red win !" << endl;
+    else if (result._winningPlayer==PLAYER_BLUE)
+        cout << "blue win !" << endl;
+    else
+        cout << "draw !" << endl;
 
     return 0;
 }
+
 

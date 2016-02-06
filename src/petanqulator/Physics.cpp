@@ -36,7 +36,7 @@ bool Physics::isSimulationRunning() const
 
 void Physics::computeSimulation(btScalar duration)
 {
-    _world.stepSimulation(duration);
+    _world.stepSimulation(duration, 1000);
 
     for (auto & b : _ballObjects)
         b.updateBall();

@@ -180,7 +180,8 @@ void Game::throwBall(const ThrowParams & params)
         physics.addBall(std::addressof(b));
     for (GameBall & b : _blueBalls)
         physics.addBall(std::addressof(b));
-    physics.computeSimulation(0.1);
+    //physics.computeSimulation(0.1);
+    physics.computeSimulation(10);
 
     // TODO ground limits for physics
 

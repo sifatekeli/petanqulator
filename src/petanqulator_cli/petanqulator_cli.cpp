@@ -11,64 +11,47 @@ using namespace std;
 
 void displayPosition(const GameBall & ball)
 {
-    btVector3 position = ball._transform.getOrigin();
-    displayVector3(position);
+    std::cout << ball._transform.getOrigin();
 }
 
 int main()
 {
     vector<unique_ptr<Player>> players;
     players.push_back(make_unique<PlayerRandom>());
-    //players.push_back(make_unique<PlayerRandom>());
     players.push_back(make_unique<PlayerBestRandom>());
+    players.back()->_params["nbTries"] = 10;
 
-    // create game
     Game game;
-    game.newGame();
 
-    while (not game.isGameFinished())
+    int nbGames = 10;
+    int nbRed = 0;
+    int nbBlue = 0;
+    int nbDraw = 0;
+
+    for (int i=0; i<nbGames; i++)
     {
-        // throw ball
-        player_t currentPlayer = game.getCurrentPlayer();
-        ThrowParams params = players[currentPlayer]->chooseParams(game);
-        cout << "throw (" << params._pitch << ", " << params._yaw 
-            << ", " << params._velocity << ") ";
-        if (currentPlayer==PLAYER_RED)
-           cout << "red" << endl;
-        else
-           cout << "blue" << endl;
-        game.throwBall(params);
-
-        // display jack
-        cout << "jack ";
-        displayPosition(game.getJack());
-        cout << endl;
-
-        // display game results
-        GameResult result = game.computeResult();
-        for (const auto & r : result._ballResults)
+        // run game
+        game.newGame();
+        while (not game.isGameFinished())
         {
-            if (r._player==PLAYER_RED) 
-                cout << "red ";
-            else
-                cout << "blue ";
-            displayVector3(r._position);
-            cout << ' ' << setprecision(2) << float(r._distanceToJack); 
-            if (r._isWinning)
-                cout << " winning";
-            cout << endl;
+            player_t currentPlayer = game.getCurrentPlayer();
+            ThrowParams params = players[currentPlayer]->chooseParams(game);
+            game.throwBall(params);
         }
 
-        cout << endl;
+        // get result
+        GameResult result = game.computeResult();
+        if (result._winningPlayer==PLAYER_RED)
+            nbRed++;
+        else if (result._winningPlayer==PLAYER_BLUE)
+            nbBlue++;
+        else
+            nbDraw++;
     }
 
-    GameResult result = game.computeResult();
-    if (result._winningPlayer==PLAYER_RED)
-        cout << "red win !" << endl;
-    else if (result._winningPlayer==PLAYER_BLUE)
-        cout << "blue win !" << endl;
-    else
-        cout << "draw !" << endl;
+    // TODO display player name + params
+    cout << "nbGames; nbRed; nbBlue; nbDraw" << endl;
+    cout << nbGames << "; " << nbRed << "; " << nbBlue << "; " << nbDraw << endl;
 
     return 0;
 }
