@@ -3,7 +3,15 @@ PETANQue simULATOR
 
 https://en.wikipedia.org/wiki/P%C3%A9tanque
 
-### Build ###
+## Dependencies
+- bullet physics
+- gtkmm, gtkglextmm
+- opengl, glu
+- cxxtest
+- gcc >= 4.9
+- cmake
+
+## Build 
 ```
 mkdir build
 cd build
