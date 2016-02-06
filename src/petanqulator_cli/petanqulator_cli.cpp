@@ -5,17 +5,13 @@
 
 #include <petanqulator/Player.hpp>
 
-void displayBall(const std::string & name, const GameBall & ball)
+#include <iomanip>
+
+void displayPosition(const GameBall & ball)
 {
     btVector3 position = ball._transform.getOrigin();
-    std::cout << name << ": " << position.getX() << ' ' << position.getY()
-        << ' ' << position.getZ() << ']' << std::endl;
-}
-
-void displayBalls(const std::string & name, const std::vector<GameBall> & balls)
-{
-    for (const GameBall & b : balls)
-        displayBall(name, b);
+    std::cout << std::setprecision(2) << '(' << position.getX() 
+        << ',' << position.getY() << ',' << position.getZ() << ')';
 }
 
 int main()
@@ -33,13 +29,31 @@ int main()
 
     while (not game.isGameFinished())
     {
+        // throw ball
         player_t currentPlayer = game.getCurrentPlayer();
         ThrowParams params = players[currentPlayer]->chooseParams(game);
         game.throwBall(params);
 
-        displayBall("jack", game.getJack());
-        displayBalls("red", game.getRedBalls());
-        displayBalls("blue", game.getBlueBalls());
+        // display jack
+        std::cout << "jack ";
+        displayPosition(game.getJack());
+        std::cout << std::endl;
+
+        // display game results
+        GameResult result = game.computeResult();
+        for (const auto & r : result._ballResults)
+        {
+            if (r._player==PLAYER_RED) 
+                std::cout << "red ";
+            else
+                std::cout << "blue ";
+            std::cout << std::setprecision(8) << float(r._distance); 
+            if (r._isWinning)
+                std::cout << " winning";
+            std::cout << std::endl;
+        }
+
+        std::cout << std::endl;
     }
 
     GameResult result = game.computeResult();

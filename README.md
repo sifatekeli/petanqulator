@@ -7,7 +7,7 @@ https://en.wikipedia.org/wiki/P%C3%A9tanque
 ```
 mkdir build
 cd build
-cmake -DCMAKE_BUILD_TYPE=RELEASE ..
+cmake ..       # or: cmake -DCMAKE_BUILD_TYPE=Debug ..
 make 
 ```
 
