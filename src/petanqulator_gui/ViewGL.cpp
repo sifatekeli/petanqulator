@@ -64,8 +64,8 @@ void ViewGL::init()
         glEnable(GL_LIGHTING);
         glEnable(GL_LIGHT0);
 
-        setGlColor(GL_SPECULAR, {0.8f, 0.8f, 0.8f, 1.f});
-        setGlColor(GL_SHININESS, {10.f, 10.f, 10.f, 1.f});
+        setGlColor(GL_SPECULAR, {{0.8f, 0.8f, 0.8f, 1.f}});
+        setGlColor(GL_SHININESS, {{10.f, 10.f, 10.f, 1.f}});
 
         _glwindow->gl_end();
     }
@@ -103,7 +103,7 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
     // draw red balls
     for (const GameBall & b : _refController.getRedBalls())
     {
-        setGlColor(GL_DIFFUSE, {1.f, 0.f, 0.f, 1.f});
+        setGlColor(GL_DIFFUSE, {{1.f, 0.f, 0.f, 1.f}});
         glPushMatrix();
         btVector3 p = b._transform.getOrigin();
         glTranslatef(p.getX(), p.getY(), p.getZ());
@@ -114,7 +114,7 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
     // draw blue balls
     for (const GameBall & b : _refController.getBlueBalls())
     {
-        setGlColor(GL_DIFFUSE, {0.f, 0.f, 1.f, 1.f});
+        setGlColor(GL_DIFFUSE, {{0.f, 0.f, 1.f, 1.f}});
         glPushMatrix();
         btVector3 p = b._transform.getOrigin();
         glTranslatef(p.getX(), p.getY(), p.getZ());
@@ -124,7 +124,7 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
 
     // draw jack
     const GameBall & jack = _refController.getJack();
-    setGlColor(GL_DIFFUSE, {1.f, 0.f, 1.f, 1.f});
+    setGlColor(GL_DIFFUSE, {{1.f, 0.f, 1.f, 1.f}});
     glPushMatrix();
     btVector3 pJack = jack._transform.getOrigin();
     glTranslatef(pJack.getX(), pJack.getY(), pJack.getZ());
@@ -133,7 +133,7 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
 
     // draw ground
     const GameGround & ground = _refController.getGround();
-    setGlColor(GL_DIFFUSE, {0.6f, 0.6f, 0.2f, 1.f});
+    setGlColor(GL_DIFFUSE, {{0.6f, 0.6f, 0.2f, 1.f}});
     glBegin(GL_QUADS);
     glNormal3f(0, 1, 0);
     glVertex3f(ground._xMin, 0, ground._zMin);
@@ -145,9 +145,9 @@ bool ViewGL::on_expose_event(GdkEventExpose* )
     // draw shooter
     player_t currentPlayer = _refController.getCurrentPlayer();
     if (currentPlayer == 0)
-        setGlColor(GL_DIFFUSE, {1.f, 0.f, 0.f, 1.f});
+        setGlColor(GL_DIFFUSE, {{1.f, 0.f, 0.f, 1.f}});
     else
-        setGlColor(GL_DIFFUSE, {0.f, 0.f, 1.f, 1.f});
+        setGlColor(GL_DIFFUSE, {{0.f, 0.f, 1.f, 1.f}});
     glPushMatrix();
     btVector3 shooterPosition = _refController.getShooterPosition();
     glTranslatef(shooterPosition.getX(), shooterPosition.getY(), 
@@ -265,7 +265,7 @@ bool ViewGL::handleTimeout()
     return true;
 }
 
-void ViewGL::setGlColor(GLenum type, std::array<float,4> colorv)
+void ViewGL::setGlColor(GLenum type, const std::array<float,4> & colorv)
 {
     glMaterialfv(GL_FRONT_AND_BACK, type, colorv.data());
 }

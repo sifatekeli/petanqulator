@@ -61,7 +61,7 @@ class ViewGL : public Gtk::GL::DrawingArea
         sigc::connection _timeoutConnection;
         bool handleTimeout();
 
-        void setGlColor(GLenum type, std::array<float,4> colorv);
+        void setGlColor(GLenum type, const std::array<float,4> & colorv);
 };
 
 #endif

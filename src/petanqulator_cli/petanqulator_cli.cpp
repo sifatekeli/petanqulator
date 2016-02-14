@@ -23,7 +23,7 @@ int main()
 
     Game game;
 
-    int nbGames = 10;
+    int nbGames = 100;
     int nbRed = 0;
     int nbBlue = 0;
     int nbDraw = 0;
