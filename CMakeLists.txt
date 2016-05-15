@@ -31,7 +31,7 @@ add_executable( petanqulator_gui.out ${GUI_SOURCE} )
 target_link_libraries( petanqulator_gui.out petanqulator )
 # gtkmm
 find_package( PkgConfig REQUIRED )
-pkg_check_modules( GTKMM REQUIRED gtkmm-2.4 gtkglextmm-1.2)
+pkg_check_modules( GTKMM REQUIRED gtkmm-2.4 gl gtkglextmm-1.2 )
 include_directories( ${GTKMM_INCLUDE_DIRS} )
 target_link_libraries( petanqulator_gui.out ${GTKMM_LIBRARIES} )
 # glu
