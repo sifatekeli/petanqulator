@@ -47,4 +47,5 @@ if( CXXTEST_FOUND )
     target_link_libraries( unittest.out petanqulator )
 endif()
 
+install (TARGETS petanqulator_cli.out petanqulator_gui.out DESTINATION bin)
 
