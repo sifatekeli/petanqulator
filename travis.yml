@@ -1,7 +1,0 @@
-language: cpp
-script: cmake
-compiler:
-  - clang
-  - gcc
-
-

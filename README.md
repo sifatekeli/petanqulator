@@ -1,9 +1,9 @@
-# petanqulator
-PETANQue simULATOR
+# petanqulator [![Build Status](https://travis-ci.org/juliendehos/petanqulator.svg?branch=master)](https://travis-ci.org/juliendehos/petanqulator)
 
-https://en.wikipedia.org/wiki/P%C3%A9tanque
+[PETANQue](<https://en.wikipedia.org/wiki/P%C3%A9tanque) simULATOR 
 
 ## Dependencies
+
 - bullet physics
 - gtkmm, gtkglextmm
 - opengl, glu
@@ -12,6 +12,7 @@ https://en.wikipedia.org/wiki/P%C3%A9tanque
 - cmake
 
 ## Build 
+
 ```
 mkdir build
 cd build
@@ -22,6 +23,7 @@ make
 ```
 
 ## TODO
+
 - improve camera navigation
 - discard out-limit balls
 - implement a more interesting terrain
