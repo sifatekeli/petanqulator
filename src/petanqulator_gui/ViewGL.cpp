@@ -12,6 +12,7 @@
 // use old OpenGL so it should even run on bread toasters
 #include <GL/glu.h>
 
+#include <array>
 #include <iostream>
 
 ViewGL::ViewGL(Controller & controller, View & view, int & argc, char** argv) :

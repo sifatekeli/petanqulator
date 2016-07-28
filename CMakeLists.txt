@@ -1,7 +1,13 @@
 cmake_minimum_required( VERSION 3.0 )
+
 project( petanqulator )
-#set(CMAKE_CXX_STANDARD 14)
-set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -Wextra" )
+
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    set( CMAKE_CXX_STANDARD 14 )
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -Wextra" )
+endif()
+
 if( NOT CMAKE_BUILD_TYPE )
     set( CMAKE_BUILD_TYPE Release )
 endif()
@@ -47,4 +53,5 @@ if( CXXTEST_FOUND )
     target_link_libraries( unittest.out petanqulator )
 endif()
 
+install (TARGETS petanqulator_cli.out petanqulator_gui.out DESTINATION bin)
 
