@@ -1,0 +1,19 @@
+CXXFLAGS += -std=c++14 -Wall -Wextra -O2
+CXXFLAGS += `pkg-config --cflags gtkmm-2.4 gtkglextmm-1.2 bullet`
+CXXFLAGS += -I./
+
+LDFLAGS += `pkg-config --libs gtkmm-2.4 gtkglextmm-1.2 bullet`
+
+!cc = |> g++ $(CXXFLAGS) -c %f -o %o |> 
+!ar = |> ar crs %o %f |>
+!ld = |> g++ $(CXXFLAGS) -o %o %f $(LDFLAGS) |>
+
+: foreach petanqulator/*.cpp |> !cc |> build/%B.o {obj}
+: {obj} |> !ar |> build/libpetanqulator.a
+
+: foreach petanqulator_cli/*.cpp |> !cc |> build/%B.o {obj_cli}
+: {obj_cli} build/libpetanqulator.a |> !ld |> build/petanqulator_cli.out
+
+: foreach petanqulator_gui/*.cpp |> !cc |> build/%B.o {obj_gui}
+: {obj_gui} build/libpetanqulator.a |> !ld |> build/petanqulator_gui.out
+
