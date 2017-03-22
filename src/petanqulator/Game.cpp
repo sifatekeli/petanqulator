@@ -5,22 +5,8 @@
 
 #include "Game.hpp"
 
-#include <algorithm>
-#include <iomanip>
-#include <sstream>
-
-///////////////////////////////////////////////////////////////////////////////
-// ThrowParams
-///////////////////////////////////////////////////////////////////////////////
-
-std::ostream & operator<<(std::ostream & os, const ThrowParams & p)
-{
-    os << '(' << std::setprecision(2) << p._pitch
-        << ", " << std::setprecision(2) << p._yaw
-        << ", " << std::setprecision(2) << p._velocity << ')';
-    return os;
-    
-}
+//#include <algorithm>
+//#include <sstream>
 
 ///////////////////////////////////////////////////////////////////////////////
 // Game
@@ -159,17 +145,17 @@ btVector3 Game::getShooterPosition() const
     return _shooterPosition;
 }
 
-ThrowParams Game::getMinParams() const
+VecParam Game::getMinParams() const
 {
-    return ThrowParams {-90, -180, 0};
+    return VecParam {-90, -180, 0};
 }
 
-ThrowParams Game::getMaxParams() const
+VecParam Game::getMaxParams() const
 {
-    return ThrowParams {90, 180, 10};
+    return VecParam {90, 180, 10};
 }
 
-void Game::throwBall(const ThrowParams & params)
+void Game::throwBall(const VecParam & params)
 {
     // create ball
     createBall(params);
@@ -209,24 +195,23 @@ void Game::updateCurrentPlayer()
     }
 }
 
-void Game::createBall(const ThrowParams & p)
+void Game::createBall(const VecParam & p)
 {
     if (_currentPlayer == PLAYER_NONE)
         return;
 
     // get velocity vector from the interface
-    ThrowParams pmin = getMinParams();
-    ThrowParams pmax = getMaxParams();
-    double clampedPitch = clamp(p._pitch, pmin._pitch, pmax._pitch);
-    double radPitch = degToRad(clampedPitch);
-    double clampedYaw = clamp(p._yaw, pmin._yaw, pmax._yaw);
-    double radYaw = degToRad(clampedYaw);
-    double clampedVelocity = clamp(p._velocity, pmin._velocity, pmax._velocity);
+    VecParam pmin = getMinParams();
+    VecParam pmax = getMaxParams();
+    VecParam clampedP = p.cwiseMin(pmax).cwiseMax(pmin);
+    double radPitch = degToRad(clampedP(0));
+    double radYaw = degToRad(clampedP(1));
+    double velocity = clampedP(2);
 
     // compute velocity vector from pitch/yaw
-    double vx = clampedVelocity * cos(radPitch) * cos(radYaw);
-    double vy = clampedVelocity * sin(radPitch);
-    double vz = clampedVelocity * cos(radPitch) * sin(radYaw);
+    double vx = velocity * cos(radPitch) * cos(radYaw);
+    double vy = velocity * sin(radPitch);
+    double vz = velocity * cos(radPitch) * sin(radYaw);
 
     // update game data
     if (_currentPlayer == PLAYER_BLUE)
@@ -249,7 +234,7 @@ void Game::createBall(const ThrowParams & p)
 // GameInteractive
 ///////////////////////////////////////////////////////////////////////////////
 
-void GameInteractive::interactiveThrowStart(const ThrowParams & params)
+void GameInteractive::interactiveThrowStart(const VecParam & params)
 {
     // create ball
     createBall(params);

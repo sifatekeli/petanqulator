@@ -6,6 +6,8 @@
 #ifndef _PRNG_HPP_
 #define _PRNG_HPP_
 
+#include "Types.hpp"
+
 #include <random>
 
 // Pseudo-random number generator. 
@@ -14,13 +16,19 @@ class Prng
     private:
         std::mt19937 _engine;
         std::uniform_real_distribution<double> _distribution;
+
     public:
         Prng();
+
         void setSeed(unsigned seed);
+
         // generate a random number in [0, 1)
         double generate();
+
         // generate a random number in [a, b)
         double generate(double a, double b);
+
+        VecParam generate(const VecParam & pmin, const VecParam & pmax);
 };
 
 #endif

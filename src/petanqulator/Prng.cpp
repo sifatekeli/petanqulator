@@ -33,3 +33,11 @@ double Prng::generate(double a, double b)
     return x*dx + a;
 }
 
+VecParam Prng::generate(const VecParam & pmin, const VecParam & pmax) 
+{
+    double pitch = generate(pmin(0), pmax(0));
+    double yaw = generate(pmin(1), pmax(1));
+    double velocity = generate(pmin(2), pmax(2));
+    return VecParam(pitch, yaw, velocity);
+}
+

@@ -1,8 +1,8 @@
 CXXFLAGS += -std=c++14 -Wall -Wextra -O2
-CXXFLAGS += `pkg-config --cflags gtkmm-2.4 gtkglextmm-1.2 bullet`
+CXXFLAGS += `pkg-config --cflags gtkmm-2.4 gtkglextmm-1.2 bullet eigen3`
 CXXFLAGS += -Isrc
 
-LDFLAGS += `pkg-config --libs gtkmm-2.4 gtkglextmm-1.2 bullet`
+LDFLAGS += `pkg-config --libs gtkmm-2.4 gtkglextmm-1.2 bullet eigen3`
 
 !cc = |> g++ $(CXXFLAGS) -c %f -o %o |> 
 !ld = |> g++ $(CXXFLAGS) -o %o %f $(LDFLAGS) |>

@@ -35,7 +35,7 @@ int main()
         while (not game.isGameFinished())
         {
             player_t currentPlayer = game.getCurrentPlayer();
-            ThrowParams params = players[currentPlayer]->chooseParams(game);
+            VecParam params = players[currentPlayer]->chooseParams(game);
             game.throwBall(params);
         }
 

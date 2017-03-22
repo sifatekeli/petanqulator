@@ -123,7 +123,7 @@ void View::displayStatus(const std::string & message)
     _statusbar.push(message);
 }
 
-ThrowParams View::getThrowParams() const
+VecParam View::getThrowParams() const
 {
     return _viewPanel.getThrowParams();
 }

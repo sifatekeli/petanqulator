@@ -8,17 +8,16 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -Wextra" )
 endif()
 
-if( NOT CMAKE_BUILD_TYPE )
-    set( CMAKE_BUILD_TYPE Release )
-endif()
+find_package( PkgConfig REQUIRED )
 
 # petanqulator library
+find_package( Bullet REQUIRED )
+include_directories( ${BULLET_INCLUDE_DIRS} )
+pkg_check_modules( EIGEN REQUIRED eigen3 )
+include_directories( ${EIGEN_INCLUDE_DIRS} )
 file( GLOB PETANQULATOR_SOURCE src/petanqulator/*pp )
 INCLUDE_DIRECTORIES( src )
 ADD_LIBRARY ( petanqulator STATIC ${PETANQULATOR_SOURCE} )
-# bullet
-find_package( Bullet REQUIRED )
-include_directories( ${BULLET_INCLUDE_DIRS} )
 target_link_libraries( petanqulator ${BULLET_LIBRARIES} ) 
 
 # test executable
@@ -32,16 +31,12 @@ add_executable( petanqulator_cli.out ${CLI_SOURCE} )
 target_link_libraries( petanqulator_cli.out petanqulator )
 
 # gui executable
-file( GLOB GUI_SOURCE src/petanqulator_gui/*pp )
-add_executable( petanqulator_gui.out ${GUI_SOURCE} )
-target_link_libraries( petanqulator_gui.out petanqulator )
-# gtkmm
-find_package( PkgConfig REQUIRED )
 pkg_check_modules( GTKMM REQUIRED gtkmm-2.4 gl gtkglextmm-1.2 )
 include_directories( ${GTKMM_INCLUDE_DIRS} )
-target_link_libraries( petanqulator_gui.out ${GTKMM_LIBRARIES} )
-# glu
 find_package( GLU REQUIRED )
+file( GLOB GUI_SOURCE src/petanqulator_gui/*pp )
+add_executable( petanqulator_gui.out ${GUI_SOURCE} )
+target_link_libraries( petanqulator_gui.out petanqulator ${GTKMM_LIBRARIES} )
 
 # unit test
 find_package( CxxTest )
