@@ -19,7 +19,7 @@ std::ostream & operator<<(std::ostream & os, const ThrowParams & p)
         << ", " << std::setprecision(2) << p._yaw
         << ", " << std::setprecision(2) << p._velocity << ')';
     return os;
-    
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -46,11 +46,28 @@ void Game::newGame()
     // jack
     btScalar x = _prng.generate(-4, 4);
     btScalar z = _prng.generate(-4, 4);
-    _jack = {btTransform(btQuaternion(0,0,0,1),btVector3(x,0.2,z)), 
+    _jack = {btTransform(btQuaternion(0,0,0,1),btVector3(x,0.2,z)),
         btVector3(0, 0, 0), 0.1, 0.2};
 
     _redBalls.clear();
     _blueBalls.clear();
+}
+
+int Game::fitness(const GameResult & result) const
+{
+
+    
+
+    
+  //distance cochonet
+  std::cout << float((result._ballResults[result._ballResults.size()-1])._distanceToJack) << std::endl;
+  std::cout << float((result._ballResults[0])._distanceToJack) << std::endl;
+  std::cout << float((result._ballResults[1])._distanceToJack) << std::endl;
+  std::cout << float((result._ballResults[2])._distanceToJack) << std::endl;
+
+  //TODO : renvoyer une solution (force + direction)
+
+  return 0;
 }
 
 bool Game::isGameFinished() const
@@ -83,11 +100,11 @@ GameResult Game::computeResult() const
         btVector3 v = bPos - jackPos;
         return BallResult{p, v.length(), bPos, false};
     };
-    std::transform(_redBalls.begin(), _redBalls.end(), 
-            std::back_inserter(res._ballResults), 
+    std::transform(_redBalls.begin(), _redBalls.end(),
+            std::back_inserter(res._ballResults),
             std::bind(distanceFun, std::placeholders::_1, PLAYER_RED));
-    std::transform(_blueBalls.begin(), _blueBalls.end(), 
-            std::back_inserter(res._ballResults), 
+    std::transform(_blueBalls.begin(), _blueBalls.end(),
+            std::back_inserter(res._ballResults),
             std::bind(distanceFun, std::placeholders::_1, PLAYER_BLUE));
     assert(not res._ballResults.empty());
 
@@ -100,9 +117,9 @@ GameResult Game::computeResult() const
         // find winning balls
         res._winningPlayer = res._ballResults.front()._player;
         res._nbWinningBalls = 0;
-        for (BallResult & b : res._ballResults) 
+        for (BallResult & b : res._ballResults)
         {
-            if (b._player==res._winningPlayer and isValidPosition(b._position)) 
+            if (b._player==res._winningPlayer and isValidPosition(b._position))
             {
                 b._isWinning = true;
                 res._nbWinningBalls++;
@@ -204,7 +221,7 @@ void Game::updateCurrentPlayer()
     else
     {
         GameResult res = computeResult();
-        _currentPlayer = 
+        _currentPlayer =
             res._winningPlayer == PLAYER_RED ? PLAYER_BLUE : PLAYER_RED;
     }
 }
@@ -232,14 +249,14 @@ void Game::createBall(const ThrowParams & p)
     if (_currentPlayer == PLAYER_BLUE)
     {
         _blueBalls.push_back(
-                {btTransform(btQuaternion(0,0,0,1),_shooterPosition), 
+                {btTransform(btQuaternion(0,0,0,1),_shooterPosition),
                 btVector3(vx,vy,vz), 0.2, 0.4});
         _remainingBallsBlue--;
     }
     else if (_currentPlayer == PLAYER_RED)
     {
         _redBalls.push_back(
-                {btTransform(btQuaternion(0,0,0,1),_shooterPosition), 
+                {btTransform(btQuaternion(0,0,0,1),_shooterPosition),
                 btVector3(vx,vy,vz), 0.2, 0.4});
         _remainingBallsRed--;
     }
@@ -263,7 +280,7 @@ void GameInteractive::interactiveThrowStart(const ThrowParams & params)
         _uptrPhysics->addBall(std::addressof(b));
 }
 
-bool GameInteractive::interactiveThrowRunning() 
+bool GameInteractive::interactiveThrowRunning()
 {
     if (_uptrPhysics->isSimulationRunning())
     {
@@ -284,4 +301,3 @@ void GameInteractive::interactiveThrowContinue(double duration)
 {
     _uptrPhysics->computeSimulation(duration);
 }
-

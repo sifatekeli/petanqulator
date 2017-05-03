@@ -24,13 +24,14 @@ struct BallResult
     bool _isWinning;
 };
 
-struct GameResult 
+struct GameResult
 {
     player_t _winningPlayer;
     int _nbWinningBalls;
     std::vector<BallResult> _ballResults;
 };
 
+//lancer
 struct ThrowParams
 {
     double _pitch;
@@ -59,6 +60,7 @@ class Game
         Game();
 
         void newGame();
+        int fitness(const GameResult & result) const;
         bool isGameFinished() const;
         GameResult computeResult() const;
         player_t getCurrentPlayer() const;
@@ -96,4 +98,3 @@ class GameInteractive : public Game
 };
 
 #endif
-

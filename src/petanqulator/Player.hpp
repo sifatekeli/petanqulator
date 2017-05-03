@@ -7,7 +7,7 @@
 #define _PLAYER_HPP_
 
 #include "Game.hpp"
-
+#include <math.h>  
 #include <map>
 
 class Player 
@@ -31,6 +31,14 @@ class PlayerBestRandom : public PlayerRandom
     public:
         PlayerBestRandom();
         virtual ThrowParams chooseParams(const Game & game) override;
+};
+
+class PlayerOnePlusOne : public PlayerRandom{
+
+    public:
+        PlayerOnePlusOne();
+        virtual ThrowParams chooseParams(const Game & game) override;     
+    
 };
 
 #endif

@@ -18,7 +18,7 @@ int main()
 {
     vector<unique_ptr<Player>> players;
     players.push_back(make_unique<PlayerRandom>());
-    players.push_back(make_unique<PlayerBestRandom>());
+    players.push_back(make_unique<PlayerOnePlusOne>());
     players.back()->_params["nbTries"] = 1;
 
     // create game
@@ -57,6 +57,10 @@ int main()
                 cout << " winning";
             cout << endl;
         }
+        
+//        cout << "\n----------FITNESS----------------" << endl;
+//        game.fitness(result);
+//        cout << "--------------------------" << endl;
 
         cout << endl;
     }
@@ -71,5 +75,3 @@ int main()
 
     return 0;
 }
-
-
