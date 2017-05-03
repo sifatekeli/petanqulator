@@ -27,8 +27,14 @@ executable('petanqulator_cli',
         dependencies : [bullet_dep, eigen_dep],
         link_with : petanqulator_lib)
 
-executable('petanqulator_test', 
-        'src/petanqulator_test/petanqulator_test.cpp',
+executable('petanqulator_test1', 
+        'src/petanqulator_test/petanqulator_test1.cpp',
+        include_directories : inc_dir,
+        dependencies : [bullet_dep, eigen_dep],
+        link_with : petanqulator_lib)
+
+executable('petanqulator_test2', 
+        'src/petanqulator_test/petanqulator_test2.cpp',
         include_directories : inc_dir,
         dependencies : [bullet_dep, eigen_dep],
         link_with : petanqulator_lib)

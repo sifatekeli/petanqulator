@@ -21,13 +21,13 @@ ADD_LIBRARY ( petanqulator STATIC ${PETANQULATOR_SOURCE} )
 target_link_libraries( petanqulator ${BULLET_LIBRARIES} ) 
 
 # test executable
-file( GLOB TEST_SOURCE src/petanqulator_test/*pp )
-add_executable( petanqulator_test.out ${TEST_SOURCE} )
-target_link_libraries( petanqulator_test.out petanqulator )
+add_executable( petanqulator_test1.out src/petanqulator_test/petanqulator_test1.cpp )
+target_link_libraries( petanqulator_test1.out petanqulator )
+add_executable( petanqulator_test2.out src/petanqulator_test/petanqulator_test2.cpp )
+target_link_libraries( petanqulator_test2.out petanqulator )
 
 # cli executable
-file( GLOB CLI_SOURCE src/petanqulator_cli/*pp )
-add_executable( petanqulator_cli.out ${CLI_SOURCE} )
+add_executable( petanqulator_cli.out src/petanqulator_cli/petanqulator_cli.cpp )
 target_link_libraries( petanqulator_cli.out petanqulator )
 
 # gui executable
