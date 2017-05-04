@@ -6,19 +6,26 @@
 #include <petanqulator/Player.hpp>
 
 #include <cassert>
+#include <fstream>
 
 using namespace std;
 
-int main() {
+int main(int argc, char ** argv) {
 
+    if (argc != 2) {
+        cerr << "usage: " << argv[0] << " outfile\n";
+        exit(-1);
+    }
+
+    fstream file(argv[1]);
     Game game0;
     game0.newGame();
 
-    cout << "pitch yaw velocity xball yball zball distance xjack yjack zjack \n";
+    file << "pitch yaw velocity xball yball zball distance xjack yjack zjack \n";
 
-    for (double pitch=-90.0; pitch<90.0; pitch+=1.0) {
-        for (double yaw=-70.0; yaw<70.0; yaw+=1.0) {
-            for (double velocity=1.0; velocity<8.0; velocity+=1.0) {
+    for (double pitch=-10.0; pitch<81.0; pitch+=1.0) {
+        for (double yaw=-70.0; yaw<71.0; yaw+=1.0) {
+            for (double velocity=1.0; velocity<8.0; velocity+=0.5) {
 
                 // run game
                 Game game(game0);
@@ -29,17 +36,17 @@ int main() {
 
                 // output results
                 // params
-                cout << params[0] << ' ' << params[1] << ' ' << params[2] << ' ';
+                file << params[0] << ' ' << params[1] << ' ' << params[2] << ' ';
                 // ball
                 const auto & ball = result._ballResults.back()._position;
-                cout << ball[0] << ' ' << ball[1] << ' ' << ball[2] << ' ';
+                file << ball[0] << ' ' << ball[1] << ' ' << ball[2] << ' ';
                 // distance
                 const auto & distance = result._ballResults.back()._distanceToJack;
-                cout << distance << ' ';
+                file << distance << ' ';
                 // jack
                 const auto & jack = game.getJack()._transform.getOrigin();
-                cout << jack[0] << ' ' << jack[1] << ' ' << jack[2] << ' ';
-                cout << endl;
+                file << jack[0] << ' ' << jack[1] << ' ' << jack[2] << ' ';
+                file << endl;
             }
         }
     }
