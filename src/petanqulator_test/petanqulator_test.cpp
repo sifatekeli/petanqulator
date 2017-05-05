@@ -18,7 +18,7 @@ int main()
 {
     vector<unique_ptr<Player>> players;
     players.push_back(make_unique<PlayerRandom>());
-    players.push_back(make_unique<PlayerOnePlusOne>());
+    players.push_back(make_unique<PlayerDichotomie>());
     players.back()->_params["nbTries"] = 1;
 
     // create game

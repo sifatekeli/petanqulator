@@ -21,6 +21,7 @@ class Prng
         double generate();
         // generate a random number in [a, b)
         double generate(double a, double b);
+        double generateNormalDistribution(double mu, double sigma);
 };
 
 #endif

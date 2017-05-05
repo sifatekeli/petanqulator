@@ -32,4 +32,9 @@ double Prng::generate(double a, double b)
     double dx = b - a;
     return x*dx + a;
 }
+double Prng::generateNormalDistribution(double mu, double sigma){
+    std::normal_distribution<double> normal(mu, sigma);
+
+    return normal(_engine);
+}
 

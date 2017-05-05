@@ -1,0 +1,1 @@
+/usr/bin/c++    -std=c++14 -Wall -Wextra -g    CMakeFiles/petanqulator_test.out.dir/src/petanqulator_test/petanqulator_test.cpp.o  -o petanqulator_test.out -rdynamic libpetanqulator.a -lBulletDynamics -lBulletCollision -lLinearMath -lBulletSoftBody 

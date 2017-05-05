@@ -1,0 +1,5 @@
+/home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles/petanqulator.dir
+/home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles/petanqulator_cli.out.dir
+/home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles/petanqulator_gui.out.dir
+/home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles/petanqulator_test.out.dir
+/home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles/unittest.out.dir
