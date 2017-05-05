@@ -4,6 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+<<<<<<< HEAD
   "/home/kevin/Bureau/master/projet/petanqulator/src/petanqulator/Chrono.cpp" "/home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles/petanqulator.dir/src/petanqulator/Chrono.cpp.o"
   "/home/kevin/Bureau/master/projet/petanqulator/src/petanqulator/Game.cpp" "/home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles/petanqulator.dir/src/petanqulator/Game.cpp.o"
   "/home/kevin/Bureau/master/projet/petanqulator/src/petanqulator/GameObject.cpp" "/home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles/petanqulator.dir/src/petanqulator/GameObject.cpp.o"
@@ -11,6 +12,15 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/kevin/Bureau/master/projet/petanqulator/src/petanqulator/Player.cpp" "/home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles/petanqulator.dir/src/petanqulator/Player.cpp.o"
   "/home/kevin/Bureau/master/projet/petanqulator/src/petanqulator/Prng.cpp" "/home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles/petanqulator.dir/src/petanqulator/Prng.cpp.o"
   "/home/kevin/Bureau/master/projet/petanqulator/src/petanqulator/Utils.cpp" "/home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles/petanqulator.dir/src/petanqulator/Utils.cpp.o"
+=======
+  "/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator/Chrono.cpp" "/home/sifa/Bureau/ULCO/projet/petanqulator/build/CMakeFiles/petanqulator.dir/src/petanqulator/Chrono.cpp.o"
+  "/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator/Game.cpp" "/home/sifa/Bureau/ULCO/projet/petanqulator/build/CMakeFiles/petanqulator.dir/src/petanqulator/Game.cpp.o"
+  "/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator/GameObject.cpp" "/home/sifa/Bureau/ULCO/projet/petanqulator/build/CMakeFiles/petanqulator.dir/src/petanqulator/GameObject.cpp.o"
+  "/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator/Physics.cpp" "/home/sifa/Bureau/ULCO/projet/petanqulator/build/CMakeFiles/petanqulator.dir/src/petanqulator/Physics.cpp.o"
+  "/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator/Player.cpp" "/home/sifa/Bureau/ULCO/projet/petanqulator/build/CMakeFiles/petanqulator.dir/src/petanqulator/Player.cpp.o"
+  "/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator/Prng.cpp" "/home/sifa/Bureau/ULCO/projet/petanqulator/build/CMakeFiles/petanqulator.dir/src/petanqulator/Prng.cpp.o"
+  "/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator/Utils.cpp" "/home/sifa/Bureau/ULCO/projet/petanqulator/build/CMakeFiles/petanqulator.dir/src/petanqulator/Utils.cpp.o"
+>>>>>>> master
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

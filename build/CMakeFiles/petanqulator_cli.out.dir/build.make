@@ -35,10 +35,17 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
+<<<<<<< HEAD
 CMAKE_SOURCE_DIR = /home/kevin/Bureau/master/projet/petanqulator
 
 # The top-level build directory on which CMake was run.
 CMAKE_BINARY_DIR = /home/kevin/Bureau/master/projet/petanqulator/build
+=======
+CMAKE_SOURCE_DIR = /home/sifa/Bureau/ULCO/projet/petanqulator
+
+# The top-level build directory on which CMake was run.
+CMAKE_BINARY_DIR = /home/sifa/Bureau/ULCO/projet/petanqulator/build
+>>>>>>> master
 
 # Include any dependencies generated for this target.
 include CMakeFiles/petanqulator_cli.out.dir/depend.make
@@ -51,6 +58,7 @@ include CMakeFiles/petanqulator_cli.out.dir/flags.make
 
 CMakeFiles/petanqulator_cli.out.dir/src/petanqulator_cli/petanqulator_cli.cpp.o: CMakeFiles/petanqulator_cli.out.dir/flags.make
 CMakeFiles/petanqulator_cli.out.dir/src/petanqulator_cli/petanqulator_cli.cpp.o: ../src/petanqulator_cli/petanqulator_cli.cpp
+<<<<<<< HEAD
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/petanqulator_cli.out.dir/src/petanqulator_cli/petanqulator_cli.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/petanqulator_cli.out.dir/src/petanqulator_cli/petanqulator_cli.cpp.o -c /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_cli/petanqulator_cli.cpp
@@ -62,6 +70,19 @@ CMakeFiles/petanqulator_cli.out.dir/src/petanqulator_cli/petanqulator_cli.cpp.i:
 CMakeFiles/petanqulator_cli.out.dir/src/petanqulator_cli/petanqulator_cli.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/petanqulator_cli.out.dir/src/petanqulator_cli/petanqulator_cli.cpp.s"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_cli/petanqulator_cli.cpp -o CMakeFiles/petanqulator_cli.out.dir/src/petanqulator_cli/petanqulator_cli.cpp.s
+=======
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/sifa/Bureau/ULCO/projet/petanqulator/build/CMakeFiles $(CMAKE_PROGRESS_1)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/petanqulator_cli.out.dir/src/petanqulator_cli/petanqulator_cli.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/petanqulator_cli.out.dir/src/petanqulator_cli/petanqulator_cli.cpp.o -c /home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_cli/petanqulator_cli.cpp
+
+CMakeFiles/petanqulator_cli.out.dir/src/petanqulator_cli/petanqulator_cli.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/petanqulator_cli.out.dir/src/petanqulator_cli/petanqulator_cli.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_cli/petanqulator_cli.cpp > CMakeFiles/petanqulator_cli.out.dir/src/petanqulator_cli/petanqulator_cli.cpp.i
+
+CMakeFiles/petanqulator_cli.out.dir/src/petanqulator_cli/petanqulator_cli.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/petanqulator_cli.out.dir/src/petanqulator_cli/petanqulator_cli.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_cli/petanqulator_cli.cpp -o CMakeFiles/petanqulator_cli.out.dir/src/petanqulator_cli/petanqulator_cli.cpp.s
+>>>>>>> master
 
 CMakeFiles/petanqulator_cli.out.dir/src/petanqulator_cli/petanqulator_cli.cpp.o.requires:
 .PHONY : CMakeFiles/petanqulator_cli.out.dir/src/petanqulator_cli/petanqulator_cli.cpp.o.requires
@@ -102,6 +123,10 @@ CMakeFiles/petanqulator_cli.out.dir/clean:
 .PHONY : CMakeFiles/petanqulator_cli.out.dir/clean
 
 CMakeFiles/petanqulator_cli.out.dir/depend:
+<<<<<<< HEAD
 	cd /home/kevin/Bureau/master/projet/petanqulator/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/kevin/Bureau/master/projet/petanqulator /home/kevin/Bureau/master/projet/petanqulator /home/kevin/Bureau/master/projet/petanqulator/build /home/kevin/Bureau/master/projet/petanqulator/build /home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles/petanqulator_cli.out.dir/DependInfo.cmake --color=$(COLOR)
+=======
+	cd /home/sifa/Bureau/ULCO/projet/petanqulator/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/sifa/Bureau/ULCO/projet/petanqulator /home/sifa/Bureau/ULCO/projet/petanqulator /home/sifa/Bureau/ULCO/projet/petanqulator/build /home/sifa/Bureau/ULCO/projet/petanqulator/build /home/sifa/Bureau/ULCO/projet/petanqulator/build/CMakeFiles/petanqulator_cli.out.dir/DependInfo.cmake --color=$(COLOR)
+>>>>>>> master
 .PHONY : CMakeFiles/petanqulator_cli.out.dir/depend
 

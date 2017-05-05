@@ -4,17 +4,29 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+<<<<<<< HEAD
   "/home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/Controller.cpp" "/home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles/petanqulator_gui.out.dir/src/petanqulator_gui/Controller.cpp.o"
   "/home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/View.cpp" "/home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles/petanqulator_gui.out.dir/src/petanqulator_gui/View.cpp.o"
   "/home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/ViewGL.cpp" "/home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles/petanqulator_gui.out.dir/src/petanqulator_gui/ViewGL.cpp.o"
   "/home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/ViewPanel.cpp" "/home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles/petanqulator_gui.out.dir/src/petanqulator_gui/ViewPanel.cpp.o"
   "/home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/petanqulator_gui.cpp" "/home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles/petanqulator_gui.out.dir/src/petanqulator_gui/petanqulator_gui.cpp.o"
+=======
+  "/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/Controller.cpp" "/home/sifa/Bureau/ULCO/projet/petanqulator/build/CMakeFiles/petanqulator_gui.out.dir/src/petanqulator_gui/Controller.cpp.o"
+  "/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/View.cpp" "/home/sifa/Bureau/ULCO/projet/petanqulator/build/CMakeFiles/petanqulator_gui.out.dir/src/petanqulator_gui/View.cpp.o"
+  "/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/ViewGL.cpp" "/home/sifa/Bureau/ULCO/projet/petanqulator/build/CMakeFiles/petanqulator_gui.out.dir/src/petanqulator_gui/ViewGL.cpp.o"
+  "/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/ViewPanel.cpp" "/home/sifa/Bureau/ULCO/projet/petanqulator/build/CMakeFiles/petanqulator_gui.out.dir/src/petanqulator_gui/ViewPanel.cpp.o"
+  "/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/petanqulator_gui.cpp" "/home/sifa/Bureau/ULCO/projet/petanqulator/build/CMakeFiles/petanqulator_gui.out.dir/src/petanqulator_gui/petanqulator_gui.cpp.o"
+>>>>>>> master
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
+<<<<<<< HEAD
   "/home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles/petanqulator.dir/DependInfo.cmake"
+=======
+  "/home/sifa/Bureau/ULCO/projet/petanqulator/build/CMakeFiles/petanqulator.dir/DependInfo.cmake"
+>>>>>>> master
   )
 
 # The include file search paths:

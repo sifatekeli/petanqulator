@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="89">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <df root="." name="petanqulator">
+      <df name="build">
+        <df name="CMakeFiles">
+          <df name="3.0.2">
+            <df name="CompilerIdC">
+              <in>CMakeCCompilerId.c</in>
+            </df>
+            <df name="CompilerIdCXX">
+              <in>CMakeCXXCompilerId.cpp</in>
+            </df>
+          </df>
+          <df name="CMakeTmp">
+          </df>
+          <df name="petanqulator.dir">
+            <df name="src">
+              <df name="petanqulator">
+              </df>
+            </df>
+          </df>
+          <df name="petanqulator_cli.out.dir">
+            <df name="src">
+              <df name="petanqulator_cli">
+              </df>
+            </df>
+          </df>
+          <df name="petanqulator_gui.out.dir">
+            <df name="src">
+              <df name="petanqulator_gui">
+              </df>
+            </df>
+          </df>
+          <df name="petanqulator_test.out.dir">
+            <df name="src">
+              <df name="petanqulator_test">
+              </df>
+            </df>
+          </df>
+          <df name="unittest.out.dir">
+          </df>
+        </df>
+        <in>unittest.cpp</in>
+      </df>
+      <df name="doc">
+        <df name="bulletphysics">
+          <in>test_bullet.cpp</in>
+        </df>
+      </df>
+      <df name="src">
+        <df name="petanqulator">
+          <in>Chrono.cpp</in>
+          <in>Chrono.hpp</in>
+          <in>Game.cpp</in>
+          <in>Game.hpp</in>
+          <in>GameObject.cpp</in>
+          <in>GameObject.hpp</in>
+          <in>Physics.cpp</in>
+          <in>Physics.hpp</in>
+          <in>Player.cpp</in>
+          <in>Player.hpp</in>
+          <in>Prng.cpp</in>
+          <in>Prng.hpp</in>
+          <in>Utils.cpp</in>
+          <in>Utils.hpp</in>
+        </df>
+        <df name="petanqulator_cli">
+          <in>petanqulator_cli.cpp</in>
+        </df>
+        <df name="petanqulator_gui">
+          <in>Controller.cpp</in>
+          <in>Controller.hpp</in>
+          <in>View.cpp</in>
+          <in>View.hpp</in>
+          <in>ViewGL.cpp</in>
+          <in>ViewGL.hpp</in>
+          <in>ViewPanel.cpp</in>
+          <in>ViewPanel.hpp</in>
+          <in>petanqulator_gui.cpp</in>
+        </df>
+        <df name="petanqulator_test">
+          <in>petanqulator_test.cpp</in>
+        </df>
+        <df name="unittest">
+          <in>GameObject_test.hpp</in>
+          <in>Game_test.hpp</in>
+          <in>Player_test.hpp</in>
+          <in>Prng_test.hpp</in>
+        </df>
+      </df>
+    </df>
+  </logicalFolder>
+  <projectmakefile>build/Makefile</projectmakefile>
+  <confs>
+    <conf name="Default" type="0">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <platform>2</platform>
+      </toolsSet>
+      <compile>
+        <compiledirpicklist>
+          <compiledirpicklistitem>.</compiledirpicklistitem>
+          <compiledirpicklistitem>${AUTO_FOLDER}</compiledirpicklistitem>
+        </compiledirpicklist>
+        <compiledir>${AUTO_FOLDER}</compiledir>
+        <compilecommandpicklist>
+          <compilecommandpicklistitem>${MAKE} ${ITEM_NAME}.o</compilecommandpicklistitem>
+          <compilecommandpicklistitem>${AUTO_COMPILE}</compilecommandpicklistitem>
+        </compilecommandpicklist>
+        <compilecommand>${AUTO_COMPILE}</compilecommand>
+      </compile>
+      <dbx_gdbdebugger version="1">
+        <gdb_pathmaps>
+        </gdb_pathmaps>
+        <gdb_interceptlist>
+          <gdbinterceptoptions gdb_all="false" gdb_unhandled="true" gdb_unexpected="true"/>
+        </gdb_interceptlist>
+        <gdb_options>
+          <DebugOptions>
+          </DebugOptions>
+        </gdb_options>
+        <gdb_buildfirst gdb_buildfirst_overriden="false" gdb_buildfirst_old="false"/>
+      </dbx_gdbdebugger>
+      <nativedebugger version="1">
+        <engine>gdb</engine>
+      </nativedebugger>
+      <runprofile version="9">
+        <runcommandpicklist>
+          <runcommandpicklistitem>"${OUTPUT_PATH}"</runcommandpicklistitem>
+        </runcommandpicklist>
+        <runcommand>"${OUTPUT_PATH}"</runcommand>
+        <rundir>build</rundir>
+        <buildfirst>false</buildfirst>
+        <terminal-type>0</terminal-type>
+        <remove-instrumentation>0</remove-instrumentation>
+        <environment>
+        </environment>
+      </runprofile>
+    </conf>
+  </confs>
+</configurationDescriptor>

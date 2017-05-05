@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+<<<<<<< HEAD
   "CMakeFiles/petanqulator.dir/src/petanqulator/Chrono.cpp.o"
   "CMakeFiles/petanqulator.dir/src/petanqulator/Game.cpp.o"
   "CMakeFiles/petanqulator.dir/src/petanqulator/Player.cpp.o"
@@ -6,6 +7,15 @@ file(REMOVE_RECURSE
   "CMakeFiles/petanqulator.dir/src/petanqulator/Utils.cpp.o"
   "CMakeFiles/petanqulator.dir/src/petanqulator/Physics.cpp.o"
   "CMakeFiles/petanqulator.dir/src/petanqulator/GameObject.cpp.o"
+=======
+  "CMakeFiles/petanqulator.dir/src/petanqulator/Prng.cpp.o"
+  "CMakeFiles/petanqulator.dir/src/petanqulator/Game.cpp.o"
+  "CMakeFiles/petanqulator.dir/src/petanqulator/GameObject.cpp.o"
+  "CMakeFiles/petanqulator.dir/src/petanqulator/Utils.cpp.o"
+  "CMakeFiles/petanqulator.dir/src/petanqulator/Physics.cpp.o"
+  "CMakeFiles/petanqulator.dir/src/petanqulator/Player.cpp.o"
+  "CMakeFiles/petanqulator.dir/src/petanqulator/Chrono.cpp.o"
+>>>>>>> master
   "libpetanqulator.pdb"
   "libpetanqulator.a"
 )

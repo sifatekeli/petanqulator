@@ -8,7 +8,11 @@ CMakeFiles/petanqulator_test.out.dir/src/petanqulator_test/petanqulator_test.cpp
  ../src/petanqulator/Player.hpp
  ../src/petanqulator/Prng.hpp
  ../src/petanqulator/Utils.hpp
+<<<<<<< HEAD
  /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_test/petanqulator_test.cpp
+=======
+ /home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_test/petanqulator_test.cpp
+>>>>>>> master
  /usr/include/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.h
  /usr/include/bullet/BulletCollision/BroadphaseCollision/btBroadphaseInterface.h
  /usr/include/bullet/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h

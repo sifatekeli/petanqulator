@@ -35,8 +35,11 @@ list
 ../src/petanqulator/Player.hpp
 Game.hpp
 ../src/petanqulator/Game.hpp
+<<<<<<< HEAD
 math.h
 -
+=======
+>>>>>>> master
 map
 -
 
@@ -50,7 +53,11 @@ btBulletDynamicsCommon.h
 iostream
 -
 
+<<<<<<< HEAD
 /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_test/petanqulator_test.cpp
+=======
+/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_test/petanqulator_test.cpp
+>>>>>>> master
 petanqulator/Player.hpp
 -
 iomanip

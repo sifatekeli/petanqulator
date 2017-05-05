@@ -8,11 +8,19 @@ CMakeFiles/petanqulator_gui.out.dir/src/petanqulator_gui/Controller.cpp.o
  ../src/petanqulator/Physics.hpp
  ../src/petanqulator/Prng.hpp
  ../src/petanqulator/Utils.hpp
+<<<<<<< HEAD
  /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/Controller.cpp
  /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/Controller.hpp
  /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/View.hpp
  /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/ViewGL.hpp
  /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/ViewPanel.hpp
+=======
+ /home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/Controller.cpp
+ /home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/Controller.hpp
+ /home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/View.hpp
+ /home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/ViewGL.hpp
+ /home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/ViewPanel.hpp
+>>>>>>> master
  /usr/include/atk-1.0/atk/atk-enum-types.h
  /usr/include/atk-1.0/atk/atk.h
  /usr/include/atk-1.0/atk/atkaction.h
@@ -1185,11 +1193,19 @@ CMakeFiles/petanqulator_gui.out.dir/src/petanqulator_gui/View.cpp.o
  ../src/petanqulator/Physics.hpp
  ../src/petanqulator/Prng.hpp
  ../src/petanqulator/Utils.hpp
+<<<<<<< HEAD
  /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/Controller.hpp
  /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/View.cpp
  /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/View.hpp
  /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/ViewGL.hpp
  /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/ViewPanel.hpp
+=======
+ /home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/Controller.hpp
+ /home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/View.cpp
+ /home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/View.hpp
+ /home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/ViewGL.hpp
+ /home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/ViewPanel.hpp
+>>>>>>> master
  /usr/include/atk-1.0/atk/atk-enum-types.h
  /usr/include/atk-1.0/atk/atk.h
  /usr/include/atk-1.0/atk/atkaction.h
@@ -2362,11 +2378,19 @@ CMakeFiles/petanqulator_gui.out.dir/src/petanqulator_gui/ViewGL.cpp.o
  ../src/petanqulator/Physics.hpp
  ../src/petanqulator/Prng.hpp
  ../src/petanqulator/Utils.hpp
+<<<<<<< HEAD
  /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/Controller.hpp
  /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/View.hpp
  /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/ViewGL.cpp
  /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/ViewGL.hpp
  /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/ViewPanel.hpp
+=======
+ /home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/Controller.hpp
+ /home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/View.hpp
+ /home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/ViewGL.cpp
+ /home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/ViewGL.hpp
+ /home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/ViewPanel.hpp
+>>>>>>> master
  /usr/include/atk-1.0/atk/atk-enum-types.h
  /usr/include/atk-1.0/atk/atk.h
  /usr/include/atk-1.0/atk/atkaction.h
@@ -3539,11 +3563,19 @@ CMakeFiles/petanqulator_gui.out.dir/src/petanqulator_gui/ViewPanel.cpp.o
  ../src/petanqulator/Physics.hpp
  ../src/petanqulator/Prng.hpp
  ../src/petanqulator/Utils.hpp
+<<<<<<< HEAD
  /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/Controller.hpp
  /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/View.hpp
  /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/ViewGL.hpp
  /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/ViewPanel.cpp
  /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/ViewPanel.hpp
+=======
+ /home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/Controller.hpp
+ /home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/View.hpp
+ /home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/ViewGL.hpp
+ /home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/ViewPanel.cpp
+ /home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/ViewPanel.hpp
+>>>>>>> master
  /usr/include/atk-1.0/atk/atk-enum-types.h
  /usr/include/atk-1.0/atk/atk.h
  /usr/include/atk-1.0/atk/atkaction.h
@@ -4716,11 +4748,19 @@ CMakeFiles/petanqulator_gui.out.dir/src/petanqulator_gui/petanqulator_gui.cpp.o
  ../src/petanqulator/Physics.hpp
  ../src/petanqulator/Prng.hpp
  ../src/petanqulator/Utils.hpp
+<<<<<<< HEAD
  /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/Controller.hpp
  /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/View.hpp
  /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/ViewGL.hpp
  /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/ViewPanel.hpp
  /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/petanqulator_gui.cpp
+=======
+ /home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/Controller.hpp
+ /home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/View.hpp
+ /home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/ViewGL.hpp
+ /home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/ViewPanel.hpp
+ /home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/petanqulator_gui.cpp
+>>>>>>> master
  /usr/include/atk-1.0/atk/atk-enum-types.h
  /usr/include/atk-1.0/atk/atk.h
  /usr/include/atk-1.0/atk/atkaction.h

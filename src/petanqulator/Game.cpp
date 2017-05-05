@@ -155,11 +155,13 @@ int Game::getRemainingBallsBlue() const
 
 const std::vector<GameBall> & Game::getRedBalls() const
 {
+    //Le vecteur doit rester dans son ordre naturel: le dernier lancé en derniere position.
     return _redBalls;
 }
 
 const std::vector<GameBall> & Game::getBlueBalls() const
 {
+    //Le vecteur doit rester dans son ordre naturel: le dernier lancé en derniere position.
     return _blueBalls;
 }
 
@@ -174,6 +176,7 @@ const std::vector<GameBall> & Game::getPlayerBalls(player_t player) const
         return none;
     }
 }
+
 
 const GameGround & Game::getGround() const
 {

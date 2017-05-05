@@ -38,3 +38,8 @@ double Prng::generateNormalDistribution(double mu, double sigma){
     return normal(_engine);
 }
 
+double Prng::generateNormalDistribution(double mu, double sigma){
+    std::normal_distribution<double> normal(mu, sigma);
+
+    return normal(_engine);
+}

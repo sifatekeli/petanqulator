@@ -4,13 +4,21 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+<<<<<<< HEAD
   "/home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_test/petanqulator_test.cpp" "/home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles/petanqulator_test.out.dir/src/petanqulator_test/petanqulator_test.cpp.o"
+=======
+  "/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_test/petanqulator_test.cpp" "/home/sifa/Bureau/ULCO/projet/petanqulator/build/CMakeFiles/petanqulator_test.out.dir/src/petanqulator_test/petanqulator_test.cpp.o"
+>>>>>>> master
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
+<<<<<<< HEAD
   "/home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles/petanqulator.dir/DependInfo.cmake"
+=======
+  "/home/sifa/Bureau/ULCO/projet/petanqulator/build/CMakeFiles/petanqulator.dir/DependInfo.cmake"
+>>>>>>> master
   )
 
 # The include file search paths:

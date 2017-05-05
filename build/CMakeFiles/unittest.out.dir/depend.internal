@@ -8,11 +8,19 @@ CMakeFiles/unittest.out.dir/unittest.cpp.o
  ../src/petanqulator/Player.hpp
  ../src/petanqulator/Prng.hpp
  ../src/petanqulator/Utils.hpp
+<<<<<<< HEAD
  /home/kevin/Bureau/master/projet/petanqulator/build/unittest.cpp
  /home/kevin/Bureau/master/projet/petanqulator/src/unittest/GameObject_test.hpp
  /home/kevin/Bureau/master/projet/petanqulator/src/unittest/Game_test.hpp
  /home/kevin/Bureau/master/projet/petanqulator/src/unittest/Player_test.hpp
  /home/kevin/Bureau/master/projet/petanqulator/src/unittest/Prng_test.hpp
+=======
+ /home/sifa/Bureau/ULCO/projet/petanqulator/build/unittest.cpp
+ /home/sifa/Bureau/ULCO/projet/petanqulator/src/unittest/GameObject_test.hpp
+ /home/sifa/Bureau/ULCO/projet/petanqulator/src/unittest/Game_test.hpp
+ /home/sifa/Bureau/ULCO/projet/petanqulator/src/unittest/Player_test.hpp
+ /home/sifa/Bureau/ULCO/projet/petanqulator/src/unittest/Prng_test.hpp
+>>>>>>> master
  /usr/include/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.h
  /usr/include/bullet/BulletCollision/BroadphaseCollision/btBroadphaseInterface.h
  /usr/include/bullet/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h

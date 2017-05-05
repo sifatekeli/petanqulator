@@ -46,6 +46,7 @@ btBulletDynamicsCommon.h
 iostream
 -
 
+<<<<<<< HEAD
 /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/Controller.cpp
 Controller.hpp
 /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/Controller.hpp
@@ -81,6 +82,43 @@ View.hpp
 /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/View.hpp
 ViewGL.hpp
 /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/ViewGL.hpp
+=======
+/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/Controller.cpp
+Controller.hpp
+/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/Controller.hpp
+vector
+-
+
+/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/Controller.hpp
+petanqulator/Game.hpp
+-
+View.hpp
+/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/View.hpp
+
+/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/View.cpp
+Controller.hpp
+/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/Controller.hpp
+View.hpp
+/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/View.hpp
+petanqulator/Utils.hpp
+-
+
+/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/View.hpp
+ViewPanel.hpp
+/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/ViewPanel.hpp
+ViewGL.hpp
+/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/ViewGL.hpp
+gtkmm.h
+-
+
+/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/ViewGL.cpp
+Controller.hpp
+/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/Controller.hpp
+View.hpp
+/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/View.hpp
+ViewGL.hpp
+/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/ViewGL.hpp
+>>>>>>> master
 petanqulator/Utils.hpp
 -
 GL/glu.h
@@ -90,7 +128,11 @@ array
 iostream
 -
 
+<<<<<<< HEAD
 /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/ViewGL.hpp
+=======
+/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/ViewGL.hpp
+>>>>>>> master
 petanqulator/Chrono.hpp
 -
 gtkmm.h
@@ -98,6 +140,7 @@ gtkmm.h
 gtkglmm.h
 -
 
+<<<<<<< HEAD
 /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/ViewPanel.cpp
 Controller.hpp
 /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/Controller.hpp
@@ -105,6 +148,15 @@ View.hpp
 /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/View.hpp
 ViewPanel.hpp
 /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/ViewPanel.hpp
+=======
+/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/ViewPanel.cpp
+Controller.hpp
+/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/Controller.hpp
+View.hpp
+/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/View.hpp
+ViewPanel.hpp
+/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/ViewPanel.hpp
+>>>>>>> master
 petanqulator/Utils.hpp
 -
 set
@@ -112,6 +164,7 @@ set
 sstream
 -
 
+<<<<<<< HEAD
 /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/ViewPanel.hpp
 gtkmm.h
 -
@@ -119,6 +172,15 @@ gtkmm.h
 /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/petanqulator_gui.cpp
 Controller.hpp
 /home/kevin/Bureau/master/projet/petanqulator/src/petanqulator_gui/Controller.hpp
+=======
+/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/ViewPanel.hpp
+gtkmm.h
+-
+
+/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/petanqulator_gui.cpp
+Controller.hpp
+/home/sifa/Bureau/ULCO/projet/petanqulator/src/petanqulator_gui/Controller.hpp
+>>>>>>> master
 
 /usr/include/atk-1.0/atk/atk-enum-types.h
 atk/atkversion.h

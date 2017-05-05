@@ -33,8 +33,25 @@ class PlayerBestRandom : public PlayerRandom
         virtual ThrowParams chooseParams(const Game & game) override;
 };
 
-class PlayerOnePlusOne : public PlayerRandom{
+class PlayerGoodRandom : public PlayerRandom 
+{
+    public:
+        virtual ThrowParams chooseParams(const Game & game) override;
+};
 
+class PlayerMarcheAleatoire : public PlayerRandom
+{
+    protected:
+        Prng _prng;
+    public:
+        virtual ThrowParams chooseParams(const Game & game) override;     
+    
+};
+
+class PlayerOnePlusOne : public PlayerRandom
+{
+    protected:
+        Prng _prng;
     public:
         virtual ThrowParams chooseParams(const Game & game) override;     
     
@@ -47,6 +64,5 @@ class PlayerDichotomie : public PlayerRandom{
     
 };
        
-
 #endif
 

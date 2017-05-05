@@ -35,8 +35,11 @@ list
 ../src/petanqulator/Player.hpp
 Game.hpp
 ../src/petanqulator/Game.hpp
+<<<<<<< HEAD
 math.h
 -
+=======
+>>>>>>> master
 map
 -
 
@@ -50,7 +53,11 @@ btBulletDynamicsCommon.h
 iostream
 -
 
+<<<<<<< HEAD
 /home/kevin/Bureau/master/projet/petanqulator/build/unittest.cpp
+=======
+/home/sifa/Bureau/ULCO/projet/petanqulator/build/unittest.cpp
+>>>>>>> master
 cxxtest/TestListener.h
 -
 cxxtest/TestTracker.h
@@ -63,6 +70,7 @@ cxxtest/TestMain.h
 -
 cxxtest/ErrorPrinter.h
 -
+<<<<<<< HEAD
 /home/kevin/Bureau/master/projet/petanqulator/src/unittest/Player_test.hpp
 -
 /home/kevin/Bureau/master/projet/petanqulator/src/unittest/GameObject_test.hpp
@@ -70,29 +78,54 @@ cxxtest/ErrorPrinter.h
 /home/kevin/Bureau/master/projet/petanqulator/src/unittest/Prng_test.hpp
 -
 /home/kevin/Bureau/master/projet/petanqulator/src/unittest/Game_test.hpp
+=======
+/home/sifa/Bureau/ULCO/projet/petanqulator/src/unittest/Game_test.hpp
+-
+/home/sifa/Bureau/ULCO/projet/petanqulator/src/unittest/Player_test.hpp
+-
+/home/sifa/Bureau/ULCO/projet/petanqulator/src/unittest/Prng_test.hpp
+-
+/home/sifa/Bureau/ULCO/projet/petanqulator/src/unittest/GameObject_test.hpp
+>>>>>>> master
 -
 cxxtest/Root.cpp
 -
 
+<<<<<<< HEAD
 /home/kevin/Bureau/master/projet/petanqulator/src/unittest/GameObject_test.hpp
+=======
+/home/sifa/Bureau/ULCO/projet/petanqulator/src/unittest/GameObject_test.hpp
+>>>>>>> master
 petanqulator/GameObject.hpp
 -
 cxxtest/TestSuite.h
 -
 
+<<<<<<< HEAD
 /home/kevin/Bureau/master/projet/petanqulator/src/unittest/Game_test.hpp
+=======
+/home/sifa/Bureau/ULCO/projet/petanqulator/src/unittest/Game_test.hpp
+>>>>>>> master
 petanqulator/Game.hpp
 -
 cxxtest/TestSuite.h
 -
 
+<<<<<<< HEAD
 /home/kevin/Bureau/master/projet/petanqulator/src/unittest/Player_test.hpp
+=======
+/home/sifa/Bureau/ULCO/projet/petanqulator/src/unittest/Player_test.hpp
+>>>>>>> master
 petanqulator/Player.hpp
 -
 cxxtest/TestSuite.h
 -
 
+<<<<<<< HEAD
 /home/kevin/Bureau/master/projet/petanqulator/src/unittest/Prng_test.hpp
+=======
+/home/sifa/Bureau/ULCO/projet/petanqulator/src/unittest/Prng_test.hpp
+>>>>>>> master
 petanqulator/Prng.hpp
 -
 cxxtest/TestSuite.h

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # Install script for directory: /home/kevin/Bureau/master/projet/petanqulator
+=======
+# Install script for directory: /home/sifa/Bureau/ULCO/projet/petanqulator
+>>>>>>> master
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -12,7 +16,11 @@ if(NOT DEFINED CMAKE_INSTALL_CONFIG_NAME)
     string(REGEX REPLACE "^[^A-Za-z0-9_]+" ""
            CMAKE_INSTALL_CONFIG_NAME "${BUILD_TYPE}")
   else()
+<<<<<<< HEAD
     set(CMAKE_INSTALL_CONFIG_NAME "Debug")
+=======
+    set(CMAKE_INSTALL_CONFIG_NAME "Release")
+>>>>>>> master
   endif()
   message(STATUS "Install configuration: \"${CMAKE_INSTALL_CONFIG_NAME}\"")
 endif()
@@ -39,7 +47,11 @@ if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspeci
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/petanqulator_cli.out"
          RPATH "")
   endif()
+<<<<<<< HEAD
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "/home/kevin/Bureau/master/projet/petanqulator/build/petanqulator_cli.out")
+=======
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "/home/sifa/Bureau/ULCO/projet/petanqulator/build/petanqulator_cli.out")
+>>>>>>> master
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/petanqulator_cli.out" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/petanqulator_cli.out")
     if(CMAKE_INSTALL_DO_STRIP)
@@ -55,7 +67,11 @@ if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspeci
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/petanqulator_gui.out"
          RPATH "")
   endif()
+<<<<<<< HEAD
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "/home/kevin/Bureau/master/projet/petanqulator/build/petanqulator_gui.out")
+=======
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "/home/sifa/Bureau/ULCO/projet/petanqulator/build/petanqulator_gui.out")
+>>>>>>> master
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/petanqulator_gui.out" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/petanqulator_gui.out")
     if(CMAKE_INSTALL_DO_STRIP)
@@ -70,7 +86,13 @@ else()
   set(CMAKE_INSTALL_MANIFEST "install_manifest.txt")
 endif()
 
+<<<<<<< HEAD
 file(WRITE "/home/kevin/Bureau/master/projet/petanqulator/build/${CMAKE_INSTALL_MANIFEST}" "")
 foreach(file ${CMAKE_INSTALL_MANIFEST_FILES})
   file(APPEND "/home/kevin/Bureau/master/projet/petanqulator/build/${CMAKE_INSTALL_MANIFEST}" "${file}\n")
+=======
+file(WRITE "/home/sifa/Bureau/ULCO/projet/petanqulator/build/${CMAKE_INSTALL_MANIFEST}" "")
+foreach(file ${CMAKE_INSTALL_MANIFEST_FILES})
+  file(APPEND "/home/sifa/Bureau/ULCO/projet/petanqulator/build/${CMAKE_INSTALL_MANIFEST}" "${file}\n")
+>>>>>>> master
 endforeach()

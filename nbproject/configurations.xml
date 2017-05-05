@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="89">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <df root="." name="petanqulator">
+      <df name="build">
+        <in>unittest.cpp</in>
+      </df>
+      <df name="src">
+        <df name="petanqulator">
+          <in>Chrono.cpp</in>
+          <in>Chrono.hpp</in>
+          <in>Game.cpp</in>
+          <in>Game.hpp</in>
+          <in>GameObject.cpp</in>
+          <in>GameObject.hpp</in>
+          <in>Physics.cpp</in>
+          <in>Physics.hpp</in>
+          <in>Player.cpp</in>
+          <in>Player.hpp</in>
+          <in>Prng.cpp</in>
+          <in>Prng.hpp</in>
+          <in>Utils.cpp</in>
+          <in>Utils.hpp</in>
+        </df>
+        <df name="petanqulator_cli">
+          <in>petanqulator_cli.cpp</in>
+        </df>
+        <df name="petanqulator_gui">
+          <in>Controller.cpp</in>
+          <in>Controller.hpp</in>
+          <in>View.cpp</in>
+          <in>View.hpp</in>
+          <in>ViewGL.cpp</in>
+          <in>ViewGL.hpp</in>
+          <in>ViewPanel.cpp</in>
+          <in>ViewPanel.hpp</in>
+          <in>petanqulator_gui.cpp</in>
+        </df>
+        <df name="petanqulator_test">
+          <in>petanqulator_test.cpp</in>
+        </df>
+        <df name="unittest">
+          <in>GameObject_test.hpp</in>
+          <in>Game_test.hpp</in>
+          <in>Player_test.hpp</in>
+          <in>Prng_test.hpp</in>
+        </df>
+      </df>
+    </df>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>build/Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
+  <sourceRootList>
+    <Elem>.</Elem>
+  </sourceRootList>
+  <projectmakefile>build/Makefile</projectmakefile>
+  <confs>
+    <conf name="Default" type="0">
+      <toolsSet>
+        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>false</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <codeAssistance>
+      </codeAssistance>
+      <makefileType>
+        <makeTool>
+          <buildCommandWorkingDir>build</buildCommandWorkingDir>
+          <buildCommand>${MAKE} -f Makefile</buildCommand>
+          <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
+          <executablePath>build/petanqulator_gui.out</executablePath>
+          <ccTool>
+            <incDir>
+              <pElem>src</pElem>
+              <pElem>/usr/include/bullet</pElem>
+              <pElem>/usr/include/libdrm</pElem>
+              <pElem>/usr/include/gtkglextmm-1.2</pElem>
+              <pElem>/usr/lib/x86_64-linux-gnu/gtkglextmm-1.2/include</pElem>
+              <pElem>/usr/include/gtk-2.0</pElem>
+              <pElem>/usr/lib/x86_64-linux-gnu/gtk-2.0/include</pElem>
+              <pElem>/usr/include/pango-1.0</pElem>
+              <pElem>/usr/include/gtkmm-2.4</pElem>
+              <pElem>/usr/lib/x86_64-linux-gnu/gtkmm-2.4/include</pElem>
+              <pElem>/usr/include/atkmm-1.6</pElem>
+              <pElem>/usr/include/gtk-unix-print-2.0</pElem>
+              <pElem>/usr/include/gdkmm-2.4</pElem>
+              <pElem>/usr/lib/x86_64-linux-gnu/gdkmm-2.4/include</pElem>
+              <pElem>/usr/include/giomm-2.4</pElem>
+              <pElem>/usr/lib/x86_64-linux-gnu/giomm-2.4/include</pElem>
+              <pElem>/usr/include/pangomm-1.4</pElem>
+              <pElem>/usr/lib/x86_64-linux-gnu/pangomm-1.4/include</pElem>
+              <pElem>/usr/include/glibmm-2.4</pElem>
+              <pElem>/usr/lib/x86_64-linux-gnu/glibmm-2.4/include</pElem>
+              <pElem>/usr/include/sigc++-2.0</pElem>
+              <pElem>/usr/lib/x86_64-linux-gnu/sigc++-2.0/include</pElem>
+              <pElem>/usr/include/gio-unix-2.0</pElem>
+              <pElem>/usr/include/cairo</pElem>
+              <pElem>/usr/include/atk-1.0</pElem>
+              <pElem>/usr/include/pixman-1</pElem>
+              <pElem>/usr/include/libpng12</pElem>
+              <pElem>/usr/include/gdk-pixbuf-2.0</pElem>
+              <pElem>/usr/include/harfbuzz</pElem>
+              <pElem>/usr/include/glib-2.0</pElem>
+              <pElem>/usr/lib/x86_64-linux-gnu/glib-2.0/include</pElem>
+              <pElem>/usr/include/freetype2</pElem>
+              <pElem>/usr/include/gtkglext-1.0</pElem>
+              <pElem>/usr/lib/gtkglext-1.0/include</pElem>
+              <pElem>/usr/include/cairomm-1.0</pElem>
+              <pElem>/usr/lib/cairomm-1.0/include</pElem>
+            </incDir>
+            <preprocessorList>
+              <Elem>NDEBUG</Elem>
+            </preprocessorList>
+          </ccTool>
+        </makeTool>
+      </makefileType>
+      <item path="build/unittest.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <folder path="petanqulator/src">
+        <ccTool>
+          <incDir>
+            <pElem>build</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <item path="src/petanqulator/Chrono.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/petanqulator/Chrono.hpp" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/petanqulator/Game.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/petanqulator/Game.hpp" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/petanqulator/GameObject.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/petanqulator/GameObject.hpp" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/petanqulator/Physics.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/petanqulator/Physics.hpp" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/petanqulator/Player.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/petanqulator/Player.hpp" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/petanqulator/Prng.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/petanqulator/Prng.hpp" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/petanqulator/Utils.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/petanqulator/Utils.hpp" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/petanqulator_cli/petanqulator_cli.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/petanqulator_gui/Controller.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/petanqulator_gui/Controller.hpp"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/petanqulator_gui/View.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/petanqulator_gui/View.hpp" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/petanqulator_gui/ViewGL.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/petanqulator_gui/ViewGL.hpp" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/petanqulator_gui/ViewPanel.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/petanqulator_gui/ViewPanel.hpp" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/petanqulator_gui/petanqulator_gui.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/petanqulator_test/petanqulator_test.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/unittest/GameObject_test.hpp" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/unittest/Game_test.hpp" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/unittest/Player_test.hpp" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/unittest/Prng_test.hpp" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>

@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 /usr/bin/c++    -std=c++14 -Wall -Wextra -g    CMakeFiles/unittest.out.dir/unittest.cpp.o  -o unittest.out -rdynamic libpetanqulator.a -lBulletDynamics -lBulletCollision -lLinearMath -lBulletSoftBody 
+=======
+/usr/bin/c++    -std=c++14 -Wall -Wextra -O3 -DNDEBUG    CMakeFiles/unittest.out.dir/unittest.cpp.o  -o unittest.out -rdynamic libpetanqulator.a -lBulletDynamics -lBulletCollision -lLinearMath -lBulletSoftBody 
+>>>>>>> master

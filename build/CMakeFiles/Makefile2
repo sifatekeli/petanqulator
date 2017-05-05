@@ -47,10 +47,17 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
+<<<<<<< HEAD
 CMAKE_SOURCE_DIR = /home/kevin/Bureau/master/projet/petanqulator
 
 # The top-level build directory on which CMake was run.
 CMAKE_BINARY_DIR = /home/kevin/Bureau/master/projet/petanqulator/build
+=======
+CMAKE_SOURCE_DIR = /home/sifa/Bureau/ULCO/projet/petanqulator
+
+# The top-level build directory on which CMake was run.
+CMAKE_BINARY_DIR = /home/sifa/Bureau/ULCO/projet/petanqulator/build
+>>>>>>> master
 
 #=============================================================================
 # Target rules for target CMakeFiles/petanqulator.dir
@@ -59,7 +66,11 @@ CMAKE_BINARY_DIR = /home/kevin/Bureau/master/projet/petanqulator/build
 CMakeFiles/petanqulator.dir/all:
 	$(MAKE) -f CMakeFiles/petanqulator.dir/build.make CMakeFiles/petanqulator.dir/depend
 	$(MAKE) -f CMakeFiles/petanqulator.dir/build.make CMakeFiles/petanqulator.dir/build
+<<<<<<< HEAD
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles  1 2 3 4 5 6 7
+=======
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/sifa/Bureau/ULCO/projet/petanqulator/build/CMakeFiles  1 2 3 4 5 6 7
+>>>>>>> master
 	@echo "Built target petanqulator"
 .PHONY : CMakeFiles/petanqulator.dir/all
 
@@ -69,9 +80,15 @@ all: CMakeFiles/petanqulator.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/petanqulator.dir/rule: cmake_check_build_system
+<<<<<<< HEAD
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles 7
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/petanqulator.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles 0
+=======
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/sifa/Bureau/ULCO/projet/petanqulator/build/CMakeFiles 7
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/petanqulator.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/sifa/Bureau/ULCO/projet/petanqulator/build/CMakeFiles 0
+>>>>>>> master
 .PHONY : CMakeFiles/petanqulator.dir/rule
 
 # Convenience name for target.
@@ -94,7 +111,11 @@ clean: CMakeFiles/petanqulator.dir/clean
 CMakeFiles/petanqulator_cli.out.dir/all: CMakeFiles/petanqulator.dir/all
 	$(MAKE) -f CMakeFiles/petanqulator_cli.out.dir/build.make CMakeFiles/petanqulator_cli.out.dir/depend
 	$(MAKE) -f CMakeFiles/petanqulator_cli.out.dir/build.make CMakeFiles/petanqulator_cli.out.dir/build
+<<<<<<< HEAD
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles  8
+=======
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/sifa/Bureau/ULCO/projet/petanqulator/build/CMakeFiles  8
+>>>>>>> master
 	@echo "Built target petanqulator_cli.out"
 .PHONY : CMakeFiles/petanqulator_cli.out.dir/all
 
@@ -104,9 +125,15 @@ all: CMakeFiles/petanqulator_cli.out.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/petanqulator_cli.out.dir/rule: cmake_check_build_system
+<<<<<<< HEAD
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles 8
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/petanqulator_cli.out.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles 0
+=======
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/sifa/Bureau/ULCO/projet/petanqulator/build/CMakeFiles 8
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/petanqulator_cli.out.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/sifa/Bureau/ULCO/projet/petanqulator/build/CMakeFiles 0
+>>>>>>> master
 .PHONY : CMakeFiles/petanqulator_cli.out.dir/rule
 
 # Convenience name for target.
@@ -129,7 +156,11 @@ clean: CMakeFiles/petanqulator_cli.out.dir/clean
 CMakeFiles/petanqulator_gui.out.dir/all: CMakeFiles/petanqulator.dir/all
 	$(MAKE) -f CMakeFiles/petanqulator_gui.out.dir/build.make CMakeFiles/petanqulator_gui.out.dir/depend
 	$(MAKE) -f CMakeFiles/petanqulator_gui.out.dir/build.make CMakeFiles/petanqulator_gui.out.dir/build
+<<<<<<< HEAD
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles  9 10 11 12 13
+=======
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/sifa/Bureau/ULCO/projet/petanqulator/build/CMakeFiles  9 10 11 12 13
+>>>>>>> master
 	@echo "Built target petanqulator_gui.out"
 .PHONY : CMakeFiles/petanqulator_gui.out.dir/all
 
@@ -139,9 +170,15 @@ all: CMakeFiles/petanqulator_gui.out.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/petanqulator_gui.out.dir/rule: cmake_check_build_system
+<<<<<<< HEAD
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles 12
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/petanqulator_gui.out.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles 0
+=======
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/sifa/Bureau/ULCO/projet/petanqulator/build/CMakeFiles 12
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/petanqulator_gui.out.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/sifa/Bureau/ULCO/projet/petanqulator/build/CMakeFiles 0
+>>>>>>> master
 .PHONY : CMakeFiles/petanqulator_gui.out.dir/rule
 
 # Convenience name for target.
@@ -164,7 +201,11 @@ clean: CMakeFiles/petanqulator_gui.out.dir/clean
 CMakeFiles/petanqulator_test.out.dir/all: CMakeFiles/petanqulator.dir/all
 	$(MAKE) -f CMakeFiles/petanqulator_test.out.dir/build.make CMakeFiles/petanqulator_test.out.dir/depend
 	$(MAKE) -f CMakeFiles/petanqulator_test.out.dir/build.make CMakeFiles/petanqulator_test.out.dir/build
+<<<<<<< HEAD
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles  14
+=======
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/sifa/Bureau/ULCO/projet/petanqulator/build/CMakeFiles  14
+>>>>>>> master
 	@echo "Built target petanqulator_test.out"
 .PHONY : CMakeFiles/petanqulator_test.out.dir/all
 
@@ -174,9 +215,15 @@ all: CMakeFiles/petanqulator_test.out.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/petanqulator_test.out.dir/rule: cmake_check_build_system
+<<<<<<< HEAD
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles 8
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/petanqulator_test.out.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles 0
+=======
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/sifa/Bureau/ULCO/projet/petanqulator/build/CMakeFiles 8
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/petanqulator_test.out.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/sifa/Bureau/ULCO/projet/petanqulator/build/CMakeFiles 0
+>>>>>>> master
 .PHONY : CMakeFiles/petanqulator_test.out.dir/rule
 
 # Convenience name for target.
@@ -199,7 +246,11 @@ clean: CMakeFiles/petanqulator_test.out.dir/clean
 CMakeFiles/unittest.out.dir/all: CMakeFiles/petanqulator.dir/all
 	$(MAKE) -f CMakeFiles/unittest.out.dir/build.make CMakeFiles/unittest.out.dir/depend
 	$(MAKE) -f CMakeFiles/unittest.out.dir/build.make CMakeFiles/unittest.out.dir/build
+<<<<<<< HEAD
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles  15 16
+=======
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/sifa/Bureau/ULCO/projet/petanqulator/build/CMakeFiles  15 16
+>>>>>>> master
 	@echo "Built target unittest.out"
 .PHONY : CMakeFiles/unittest.out.dir/all
 
@@ -209,9 +260,15 @@ all: CMakeFiles/unittest.out.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/unittest.out.dir/rule: cmake_check_build_system
+<<<<<<< HEAD
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles 9
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/unittest.out.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles 0
+=======
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/sifa/Bureau/ULCO/projet/petanqulator/build/CMakeFiles 9
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/unittest.out.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/sifa/Bureau/ULCO/projet/petanqulator/build/CMakeFiles 0
+>>>>>>> master
 .PHONY : CMakeFiles/unittest.out.dir/rule
 
 # Convenience name for target.

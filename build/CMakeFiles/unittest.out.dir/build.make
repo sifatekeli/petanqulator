@@ -35,10 +35,17 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
+<<<<<<< HEAD
 CMAKE_SOURCE_DIR = /home/kevin/Bureau/master/projet/petanqulator
 
 # The top-level build directory on which CMake was run.
 CMAKE_BINARY_DIR = /home/kevin/Bureau/master/projet/petanqulator/build
+=======
+CMAKE_SOURCE_DIR = /home/sifa/Bureau/ULCO/projet/petanqulator
+
+# The top-level build directory on which CMake was run.
+CMAKE_BINARY_DIR = /home/sifa/Bureau/ULCO/projet/petanqulator/build
+>>>>>>> master
 
 # Include any dependencies generated for this target.
 include CMakeFiles/unittest.out.dir/depend.make
@@ -49,6 +56,7 @@ include CMakeFiles/unittest.out.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/unittest.out.dir/flags.make
 
+<<<<<<< HEAD
 unittest.cpp: ../src/unittest/Player_test.hpp
 unittest.cpp: ../src/unittest/GameObject_test.hpp
 unittest.cpp: ../src/unittest/Prng_test.hpp
@@ -70,6 +78,29 @@ CMakeFiles/unittest.out.dir/unittest.cpp.i: cmake_force
 CMakeFiles/unittest.out.dir/unittest.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/unittest.out.dir/unittest.cpp.s"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/kevin/Bureau/master/projet/petanqulator/build/unittest.cpp -o CMakeFiles/unittest.out.dir/unittest.cpp.s
+=======
+unittest.cpp: ../src/unittest/Game_test.hpp
+unittest.cpp: ../src/unittest/Player_test.hpp
+unittest.cpp: ../src/unittest/Prng_test.hpp
+unittest.cpp: ../src/unittest/GameObject_test.hpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/sifa/Bureau/ULCO/projet/petanqulator/build/CMakeFiles $(CMAKE_PROGRESS_1)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating unittest.cpp"
+	/usr/bin/python /usr/bin/cxxtestgen --error-printer -o /home/sifa/Bureau/ULCO/projet/petanqulator/build/unittest.cpp /home/sifa/Bureau/ULCO/projet/petanqulator/src/unittest/Game_test.hpp /home/sifa/Bureau/ULCO/projet/petanqulator/src/unittest/Player_test.hpp /home/sifa/Bureau/ULCO/projet/petanqulator/src/unittest/Prng_test.hpp /home/sifa/Bureau/ULCO/projet/petanqulator/src/unittest/GameObject_test.hpp
+
+CMakeFiles/unittest.out.dir/unittest.cpp.o: CMakeFiles/unittest.out.dir/flags.make
+CMakeFiles/unittest.out.dir/unittest.cpp.o: unittest.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/sifa/Bureau/ULCO/projet/petanqulator/build/CMakeFiles $(CMAKE_PROGRESS_2)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/unittest.out.dir/unittest.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/unittest.out.dir/unittest.cpp.o -c /home/sifa/Bureau/ULCO/projet/petanqulator/build/unittest.cpp
+
+CMakeFiles/unittest.out.dir/unittest.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/unittest.out.dir/unittest.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/sifa/Bureau/ULCO/projet/petanqulator/build/unittest.cpp > CMakeFiles/unittest.out.dir/unittest.cpp.i
+
+CMakeFiles/unittest.out.dir/unittest.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/unittest.out.dir/unittest.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/sifa/Bureau/ULCO/projet/petanqulator/build/unittest.cpp -o CMakeFiles/unittest.out.dir/unittest.cpp.s
+>>>>>>> master
 
 CMakeFiles/unittest.out.dir/unittest.cpp.o.requires:
 .PHONY : CMakeFiles/unittest.out.dir/unittest.cpp.o.requires
@@ -110,6 +141,10 @@ CMakeFiles/unittest.out.dir/clean:
 .PHONY : CMakeFiles/unittest.out.dir/clean
 
 CMakeFiles/unittest.out.dir/depend: unittest.cpp
+<<<<<<< HEAD
 	cd /home/kevin/Bureau/master/projet/petanqulator/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/kevin/Bureau/master/projet/petanqulator /home/kevin/Bureau/master/projet/petanqulator /home/kevin/Bureau/master/projet/petanqulator/build /home/kevin/Bureau/master/projet/petanqulator/build /home/kevin/Bureau/master/projet/petanqulator/build/CMakeFiles/unittest.out.dir/DependInfo.cmake --color=$(COLOR)
+=======
+	cd /home/sifa/Bureau/ULCO/projet/petanqulator/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/sifa/Bureau/ULCO/projet/petanqulator /home/sifa/Bureau/ULCO/projet/petanqulator /home/sifa/Bureau/ULCO/projet/petanqulator/build /home/sifa/Bureau/ULCO/projet/petanqulator/build /home/sifa/Bureau/ULCO/projet/petanqulator/build/CMakeFiles/unittest.out.dir/DependInfo.cmake --color=$(COLOR)
+>>>>>>> master
 .PHONY : CMakeFiles/unittest.out.dir/depend
 
