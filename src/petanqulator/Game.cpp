@@ -46,6 +46,9 @@ void Game::newGame()
     // jack
     btScalar x = _prng.generate(-4, 4);
     btScalar z = _prng.generate(-4, 4);
+    
+    x = 3.10056;
+    z = 0.80692;
     _jack = {btTransform(btQuaternion(0,0,0,1),btVector3(x,0.2,z)), 
         btVector3(0, 0, 0), 0.1, 0.2};
 
@@ -136,13 +139,28 @@ int Game::getRemainingBallsBlue() const
 
 const std::vector<GameBall> & Game::getRedBalls() const
 {
+    //Le vecteur doit rester dans son ordre naturel: le dernier lancé en derniere position.
     return _redBalls;
 }
 
 const std::vector<GameBall> & Game::getBlueBalls() const
 {
+    //Le vecteur doit rester dans son ordre naturel: le dernier lancé en derniere position.
     return _blueBalls;
 }
+
+const std::vector<GameBall> & Game::getPlayerBalls(player_t player) const
+{
+    if(player == PLAYER_RED){
+        return getRedBalls();
+    }else if(player == PLAYER_BLUE){
+        return getBlueBalls();
+    }else{
+        std::vector<GameBall> none;
+        return none;
+    }
+}
+
 
 const GameGround & Game::getGround() const
 {

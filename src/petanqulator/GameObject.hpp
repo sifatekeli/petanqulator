@@ -8,7 +8,7 @@
 
 #include "Utils.hpp"
 
-struct GameBall 
+struct GameBall
 {
     btTransform _transform;
     btVector3 _velocity;
@@ -17,10 +17,9 @@ struct GameBall
     const btVector3 & getPosition() const;
 };
 
-struct GameGround 
+struct GameGround
 {
     btScalar _xMin, _xMax, _zMin, _zMax;
 };
 
-#endif 
-
+#endif

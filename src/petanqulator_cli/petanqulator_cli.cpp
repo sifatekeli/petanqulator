@@ -37,6 +37,19 @@ int main()
             player_t currentPlayer = game.getCurrentPlayer();
             ThrowParams params = players[currentPlayer]->chooseParams(game);
             game.throwBall(params);
+
+            // ---
+            cout << game.getCurrentPlayer() << "          ";
+            if(game.getCurrentPlayer() == 0) cout << (game.getRedBalls()[game.getRedBalls().size()]).getPosition() << endl;
+            if(game.getCurrentPlayer() == 1) cout << (game.getRedBalls()[game.getBlueBalls().size()]).getPosition() << endl;
+            if(game.getCurrentPlayer() == 2) cout << endl;
+            /*
+            cout << "----------------------------------" << endl;
+            for(GameBall g: (game.getRedBalls())){
+              cout << game.getCurrentPlayer() << "      "g.getPosition() << endl;
+            }*/
+            //cout << float((game.getRedBalls()).end()._mass) << endl;
+            // ---
         }
 
         // get result
@@ -55,4 +68,3 @@ int main()
 
     return 0;
 }
-

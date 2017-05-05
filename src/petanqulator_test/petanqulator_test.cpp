@@ -17,8 +17,8 @@ void displayPosition(const GameBall & ball)
 int main()
 {
     vector<unique_ptr<Player>> players;
-    players.push_back(make_unique<PlayerRandom>());
-    players.push_back(make_unique<PlayerBestRandom>());
+    players.push_back(make_unique<PlayerOnePlusOne>());
+    players.push_back(make_unique<PlayerMarcheAleatoire>());
     players.back()->_params["nbTries"] = 1;
 
     // create game
@@ -42,7 +42,6 @@ int main()
         cout << "jack ";
         displayPosition(game.getJack());
         cout << endl;
-
         // display game results
         GameResult result = game.computeResult();
         for (const auto & r : result._ballResults)

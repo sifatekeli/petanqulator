@@ -68,6 +68,7 @@ class Game
         int getRemainingBallsBlue() const;
         const std::vector<GameBall> & getRedBalls() const;
         const std::vector<GameBall> & getBlueBalls() const;
+        const std::vector<GameBall> & getPlayerBalls(player_t player) const;
         const GameGround & getGround() const;
         const GameBall & getJack() const;
         btVector3 getShooterPosition() const;
@@ -96,4 +97,3 @@ class GameInteractive : public Game
 };
 
 #endif
-
