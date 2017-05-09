@@ -225,6 +225,116 @@ ThrowParams PlayerOnePlusOne::chooseParams(const Game & game)
     return bestParams;
 }
 
+struct comp
+{
+    int operator()(const std::pair<double,ThrowParams>& t1,const std::pair<double,ThrowParams>& t2) const
+        {
+            return t1.first<t2.first;
+        }
+};
+
+ThrowParams PlayerAverageMu::chooseParams(const Game & game) 
+{
+    player_t currentPlayer = game.getCurrentPlayer();
+    ThrowParams bestParams = PlayerRandom::chooseParams(game);
+    ThrowParams testParams;
+    
+    float sigma_pitch = 20.0;
+    float sigma_yaw = 20.0;
+    float sigma_velocity = 2.5;
+    
+    btScalar precision = 4.0;
+    btScalar bestDistanceToJack = 1000.0;
+    
+    int lambdaSize = 15;
+    int muSize = 7;
+    
+    do{
+        std::vector<std::pair<double,ThrowParams>> solutions (lambdaSize);
+
+        for(int i = 0; i < lambdaSize; i++){
+            do{
+                testParams._pitch = bestParams._pitch + sigma_pitch * _prng.generateNormalDistribution(0.0, 1.0);
+            }while(testParams._pitch < -180 or testParams._pitch > 180);
+            do{
+                testParams._yaw = bestParams._yaw + sigma_yaw * _prng.generateNormalDistribution(0.0, 1.0);
+            }while(testParams._yaw < -90 or testParams._yaw > 90);
+            do{
+                testParams._velocity = bestParams._velocity + sigma_velocity * _prng.generateNormalDistribution(0.0, 1.0);
+            }while(testParams._velocity < 0 or testParams._velocity > 10);
+            
+            // Crée une copie du jeu et fait le lancé
+            Game testGame(game);
+            testGame.throwBall(testParams);
+            GameResult result = testGame.computeResult();
+            // Met la balle qui vient d'être lancée par le joueur courant dans la variable br
+            GameBall gb = testGame.getPlayerBalls(currentPlayer).back();
+            BallResult br;
+            for (BallResult & b : result._ballResults) {
+                if(b._position == gb.getPosition()){
+                    br = b;
+                }
+            }
+            
+            //std::cout << br._distanceToJack << "    " << testParams._pitch << "  " << testParams._yaw << "  " << testParams._velocity << std::endl;
+            
+            solutions[i] = std::make_pair(br._distanceToJack, testParams);
+        }
+        //std::cout << " ----------------------- " << std::endl;
+
+        
+        
+        std::cout << " ----------------------- " << std::endl;
+     
+        std::sort(solutions.begin(), solutions.end(), comp());
+
+        solutions.resize(muSize);
+        
+        double avg_pitch = 0;
+        double avg_yaw = 0;
+        double avg_velocity = 0;
+            
+        for(int i = 0 ; i < muSize; i++){
+            
+            std::cout << i << "    " << solutions[i].first << "    " << solutions[i].second << std::endl;
+            
+            avg_pitch += solutions[i].second._pitch;
+            avg_yaw += solutions[i].second._yaw;
+            avg_velocity += solutions[i].second._velocity;
+        }
+        
+        bestParams._pitch = avg_pitch / muSize;
+        bestParams._yaw = avg_yaw / muSize;
+        bestParams._velocity = avg_velocity / muSize; 
+        
+        
+        std::cout << bestParams << std::endl;
+        
+        // Crée une copie du jeu et fait le lancé
+        Game testGame(game);
+        testGame.throwBall(testParams);
+        GameResult result = testGame.computeResult();
+        // Met la balle qui vient d'être lancée par le joueur courant dans la variable br
+        GameBall gb = testGame.getPlayerBalls(currentPlayer).back();
+        BallResult br;
+        for (BallResult & b : result._ballResults) {
+            if(b._position == gb.getPosition()){
+                br = b;
+            }
+        } 
+        
+        bestDistanceToJack = br._distanceToJack;
+        
+    }while(bestDistanceToJack >= precision);
+    
+
+    return bestParams;
+}
+
+
+
+
+
 
 
 

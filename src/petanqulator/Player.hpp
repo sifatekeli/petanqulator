@@ -63,6 +63,15 @@ class PlayerDichotomie : public PlayerRandom{
         virtual ThrowParams chooseParams(const Game & game) override;
     
 };
-       
+
+class PlayerAverageMu : public PlayerRandom
+{
+    protected:
+        Prng _prng;
+    public:
+        virtual ThrowParams chooseParams(const Game & game) override;     
+    
+};
+
 #endif
 

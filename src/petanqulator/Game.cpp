@@ -46,8 +46,8 @@ void Game::newGame()
     // jack
     btScalar x = _prng.generate(-4, 4);
     btScalar z = _prng.generate(-4, 4);
-//    x=3.10056;
-//    z=0.80692;
+    x=3.10056;
+    z=0.80692;
     _jack = {btTransform(btQuaternion(0,0,0,1),btVector3(x,0.2,z)),
         btVector3(0, 0, 0), 0.1, 0.2};
 
