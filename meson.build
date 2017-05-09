@@ -6,6 +6,7 @@ add_global_arguments('-O2', language : 'cpp')
 inc_dir = include_directories('src/')
 
 bullet_dep = dependency('bullet')
+eigen_dep = dependency('eigen3')
 
 pet_src = [ 'src/petanqulator/Chrono.cpp',
                      'src/petanqulator/Game.cpp',
@@ -18,18 +19,24 @@ pet_src = [ 'src/petanqulator/Chrono.cpp',
 petanqulator_lib = static_library('petanqulator', 
         pet_src, 
         include_directories : inc_dir,
-        dependencies : bullet_dep)
+        dependencies : [bullet_dep, eigen_dep])
 
 executable('petanqulator_cli', 
         'src/petanqulator_cli/petanqulator_cli.cpp',
         include_directories : inc_dir,
-        dependencies : bullet_dep,
+        dependencies : [bullet_dep, eigen_dep],
         link_with : petanqulator_lib)
 
-executable('petanqulator_test', 
-        'src/petanqulator_test/petanqulator_test.cpp',
+executable('petanqulator_test1', 
+        'src/petanqulator_test/petanqulator_test1.cpp',
         include_directories : inc_dir,
-        dependencies : bullet_dep,
+        dependencies : [bullet_dep, eigen_dep],
+        link_with : petanqulator_lib)
+
+executable('petanqulator_test2', 
+        'src/petanqulator_test/petanqulator_test2.cpp',
+        include_directories : inc_dir,
+        dependencies : [bullet_dep, eigen_dep],
         link_with : petanqulator_lib)
 
 gtkmm_dep = dependency('gtkmm-2.4')
@@ -45,6 +52,6 @@ pet_gui_src = [ 'src/petanqulator_gui/Controller.cpp',
 executable('petanqulator_gui', 
         pet_gui_src,
         include_directories : inc_dir,
-        dependencies : [gtkmm_dep, bullet_dep, gtkglextmm_dep, glu_dep],
+        dependencies : [gtkmm_dep, bullet_dep, eigen_dep, gtkglextmm_dep, glu_dep],
         link_with : petanqulator_lib)
 

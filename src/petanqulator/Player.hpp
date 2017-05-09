@@ -15,7 +15,7 @@ class Player
     public:
         std::map<std::string, double> _params;
         virtual ~Player() = default;
-        virtual ThrowParams chooseParams(const Game & game) = 0;
+        virtual VecParam chooseParams(const Game & game) = 0;
 };
 
 class PlayerRandom : public Player 
@@ -23,20 +23,20 @@ class PlayerRandom : public Player
     protected:
         Prng _prng;
     public:
-        virtual ThrowParams chooseParams(const Game & game) override;
+        VecParam chooseParams(const Game & game) override;
 };
 
 class PlayerBestRandom : public PlayerRandom 
 {
     public:
         PlayerBestRandom();
-        virtual ThrowParams chooseParams(const Game & game) override;
+        VecParam chooseParams(const Game & game) override;
 };
 
 class PlayerGoodRandom : public PlayerRandom 
 {
     public:
-        virtual ThrowParams chooseParams(const Game & game) override;
+        virtual VecParam chooseParams(const Game & game) override;
 };
 
 class PlayerMarcheAleatoire : public PlayerRandom
@@ -44,7 +44,7 @@ class PlayerMarcheAleatoire : public PlayerRandom
     protected:
         Prng _prng;
     public:
-        virtual ThrowParams chooseParams(const Game & game) override;     
+        virtual VecParam chooseParams(const Game & game) override;     
     
 };
 
@@ -53,14 +53,14 @@ class PlayerOnePlusOne : public PlayerRandom
     protected:
         Prng _prng;
     public:
-        virtual ThrowParams chooseParams(const Game & game) override;     
+        virtual VecParam chooseParams(const Game & game) override;     
     
 };
 
 class PlayerDichotomie : public PlayerRandom{
     
     public: 
-        virtual ThrowParams chooseParams(const Game & game) override;
+        virtual VecParam chooseParams(const Game & game) override;
     
 };
        

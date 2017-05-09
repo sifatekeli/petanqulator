@@ -2,7 +2,7 @@ with import <nixpkgs> {};
 
 stdenv.mkDerivation {
     name = "petanqulator";
-    buildInputs = [ stdenv tup bullet xorg.libXmu pkgconfig mesa_glu gnome.gtkglextmm gnome.gtkmm xorg.libxcb xorg.libpthreadstubs ];
+    buildInputs = [ stdenv tup bullet xorg.libXmu pkgconfig mesa_glu gnome2.gtkglextmm gnome2.gtkmm xorg.libxcb xorg.libpthreadstubs ];
     src = ./.;
     configurePhase = ''
         mkdir -p $out/build_tup/petanqulator

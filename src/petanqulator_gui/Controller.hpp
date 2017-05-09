@@ -29,11 +29,11 @@ class Controller
         int getRemainingBallsRed() const;
         int getRemainingBallsBlue() const;
 
-        ThrowParams getMinParams() const;
-        ThrowParams getMaxParams() const;
+        VecParam getMinParams() const;
+        VecParam getMaxParams() const;
 
         void newGame();
-        void startThrow(const ThrowParams & params);
+        void startThrow(const VecParam & params);
         void updateThrow(double duration);
 
         bool isGameFinished() const;

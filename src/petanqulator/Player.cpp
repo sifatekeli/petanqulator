@@ -15,19 +15,11 @@
 #include <bullet/LinearMath/btScalar.h>
 
 
-ThrowParams PlayerRandom::chooseParams(const Game & game) 
+VecParam PlayerRandom::chooseParams(const Game & game) 
 {
-    ThrowParams pmin = game.getMinParams();
-    ThrowParams pmax = game.getMaxParams();
-    double pitch = _prng.generate(pmin._pitch, pmax._pitch);
-    double yaw = _prng.generate(pmin._yaw, pmax._yaw);
-    double velocity = _prng.generate(pmin._velocity, pmax._velocity);
-    /*
-    double pitch = _prng.generate(0, 70);
-    double yaw = _prng.generate(-90, 90);
-    double velocity = _prng.generate(1, 7);
-    */
-    return ThrowParams {pitch, yaw, velocity};
+    VecParam pmin = game.getMinParams();
+    VecParam pmax = game.getMaxParams();
+    return _prng.generate(pmin, pmax);
 }
 
 PlayerBestRandom::PlayerBestRandom()
@@ -35,14 +27,14 @@ PlayerBestRandom::PlayerBestRandom()
     _params["nbTries"] = 10;
 }
 
-ThrowParams PlayerBestRandom::chooseParams(const Game & game) 
+VecParam PlayerBestRandom::chooseParams(const Game & game) 
 {
     int nbTries = _params["nbTries"];
-    ThrowParams bestParams = PlayerRandom::chooseParams(game);
+    VecParam bestParams = PlayerRandom::chooseParams(game);
     player_t currentPlayer = game.getCurrentPlayer();
     for (int i=1; i<nbTries; i++)
     {
-        ThrowParams testParams = PlayerRandom::chooseParams(game);
+        VecParam testParams = PlayerRandom::chooseParams(game);
         Game testGame(game);
         testGame.throwBall(testParams);
         GameResult result = testGame.computeResult();
@@ -67,9 +59,9 @@ ThrowParams PlayerBestRandom::chooseParams(const Game & game)
     return bestParams;
 }
 
-ThrowParams PlayerGoodRandom::chooseParams(const Game & game) 
+VecParam PlayerGoodRandom::chooseParams(const Game & game) 
 {
-    ThrowParams bestParams = PlayerRandom::chooseParams(game);
+    VecParam bestParams = PlayerRandom::chooseParams(game);
     
     btScalar precision = 4.0;
     btScalar bestDistanceToJack = 1000;
@@ -77,7 +69,7 @@ ThrowParams PlayerGoodRandom::chooseParams(const Game & game)
 
     
     do{
-        ThrowParams testParams = PlayerRandom::chooseParams(game);
+        VecParam testParams = PlayerRandom::chooseParams(game);
         
         Game testGame(game);
         testGame.throwBall(testParams);
@@ -104,7 +96,7 @@ ThrowParams PlayerGoodRandom::chooseParams(const Game & game)
     return bestParams;
 }
 
-ThrowParams PlayerMarcheAleatoire::chooseParams(const Game & game) 
+VecParam PlayerMarcheAleatoire::chooseParams(const Game & game) 
 {
     btScalar nb_iter = 500.0;
     btScalar bestDistanceToJack = 1000.0;
@@ -115,13 +107,13 @@ ThrowParams PlayerMarcheAleatoire::chooseParams(const Game & game)
     float sigma_yaw = 4.0;
     float sigma_velocity = 0.5;
 
-    ThrowParams bestParams;
-    ThrowParams testParams = PlayerRandom::chooseParams(game);
+    VecParam bestParams;
+    VecParam testParams = PlayerRandom::chooseParams(game);
     
     do{ 
-        testParams._pitch += sigma_pitch * _prng.generateNormalDistribution(0.0, 4.0);
-        testParams._yaw += sigma_yaw * _prng.generateNormalDistribution(0.0, 4.0);
-        testParams._velocity += sigma_velocity * _prng.generateNormalDistribution(0.0, 4.0);
+        testParams[0] += sigma_pitch * _prng.generateNormalDistribution(0.0, 4.0);
+        testParams[1] += sigma_yaw * _prng.generateNormalDistribution(0.0, 4.0);
+        testParams[2] += sigma_velocity * _prng.generateNormalDistribution(0.0, 4.0);
         
         // Lancer test        
         Game testGame(game);
@@ -151,7 +143,7 @@ ThrowParams PlayerMarcheAleatoire::chooseParams(const Game & game)
 }
 
 
-ThrowParams PlayerOnePlusOne::chooseParams(const Game & game) 
+VecParam PlayerOnePlusOne::chooseParams(const Game & game) 
 {
     double bestDistance = 1000;
     double testDistance;
@@ -164,27 +156,27 @@ ThrowParams PlayerOnePlusOne::chooseParams(const Game & game)
     btScalar precision = 4.0;
         
     player_t currentPlayer = game.getCurrentPlayer();
-    ThrowParams bestParams = PlayerRandom::chooseParams(game);
+    VecParam bestParams = PlayerRandom::chooseParams(game);
     
     // Compteur qui arrêtera la boucle si pendant 200 iterations aucune amelioration n'est trouvée
     int compteur = 200;
     
     do{
-        ThrowParams testParams;
+        VecParam testParams;
         if (sigma_pitch < 0.01 or sigma_yaw < 0.01 or sigma_velocity < 0.01) {
                 // Eviter les optimums locaux
                 sigma_pitch = 20.0;
                 sigma_yaw = 20.0;
                 sigma_velocity = 2.5;
                 
-                testParams._pitch = _prng.generate(-90,90);
-                testParams._yaw = _prng.generate(-180,180);
-                testParams._velocity = _prng.generate(0,10);  
+                testParams[0] = _prng.generate(-90,90);
+                testParams[1] = _prng.generate(-180,180);
+                testParams[2] = _prng.generate(0,10);  
         } else {
                 // Modifie les parametres de lancé
-                testParams._pitch = bestParams._pitch + sigma_pitch * _prng.generateNormalDistribution(0.0, 1.0);
-                testParams._yaw = bestParams._yaw + sigma_yaw * _prng.generateNormalDistribution(0.0, 1.0);
-                testParams._velocity = bestParams._velocity + _prng.generateNormalDistribution(0.0, 1.0);
+                testParams[0] = bestParams[0] + sigma_pitch * _prng.generateNormalDistribution(0.0, 1.0);
+                testParams[1] = bestParams[1] + sigma_yaw * _prng.generateNormalDistribution(0.0, 1.0);
+                testParams[2] = bestParams[2] + _prng.generateNormalDistribution(0.0, 1.0);
         }
         
         // Crée une copie du jeu et fait le lancé
@@ -231,11 +223,11 @@ ThrowParams PlayerOnePlusOne::chooseParams(const Game & game)
 
 
 
-ThrowParams PlayerDichotomie::chooseParams(const Game & game)
+VecParam PlayerDichotomie::chooseParams(const Game & game)
 {
     
-    ThrowParams bestParams = PlayerRandom::chooseParams(game);
-    ThrowParams testParams;
+    VecParam bestParams = PlayerRandom::chooseParams(game);
+    VecParam testParams;
     player_t currentPlayer = game.getCurrentPlayer();
     //GameResult result;    
 
@@ -247,11 +239,11 @@ ThrowParams PlayerDichotomie::chooseParams(const Game & game)
     int nbIterations=0;
     
     //initialise les deux autres parametres
-    testParams._pitch = 32.0;
-    testParams._velocity = 2.0;
+    testParams[0] = 32.0;
+    testParams[2] = 2.0;
   
     //***************************************  OPTIMISATION SUR YAW   ******************************************************
-    testParams._yaw = -180.0;
+    testParams[1] = -180.0;
 
     //4 points : -180, -60, 60, 180
      for(int i=0; i<4; i++){
@@ -270,7 +262,7 @@ ThrowParams PlayerDichotomie::chooseParams(const Game & game)
         //FIN DISTANCE TO JACK
          
          distance.push_back(br._distanceToJack);
-         testParams._yaw += 120; 
+         testParams[1] += 120; 
      }
 
      //trie par borne inf et borne sup
@@ -295,7 +287,7 @@ ThrowParams PlayerDichotomie::chooseParams(const Game & game)
      while(nbIterations<10){
 
          //dichotomie
-         testParams._yaw = (degreeDistance[0]+degreeDistance[1] )/2 ;
+         testParams[1] = (degreeDistance[0]+degreeDistance[1] )/2 ;
          Game testGame(game);
          testGame.throwBall(testParams);
          GameResult result = testGame.computeResult();
@@ -314,7 +306,7 @@ ThrowParams PlayerDichotomie::chooseParams(const Game & game)
 
          //borne supérieur
          std::vector<double>::iterator resultTrier = std::min_element(std::begin(distanceTrier), std::end(distanceTrier));
-         degreeDistance.push_back(testParams._yaw);
+         degreeDistance.push_back(testParams[1]);
          std::swap(distanceTrier[0],distanceTrier[std::distance(std::begin(distanceTrier), resultTrier)]);
          std::swap(degreeDistance[0],degreeDistance[std::distance(std::begin(distanceTrier), resultTrier)]);
          distanceMinIntermediaire = distanceTrier[0];
@@ -345,7 +337,7 @@ ThrowParams PlayerDichotomie::chooseParams(const Game & game)
        
     distanceTrier.clear();
     degreeDistance.clear();
-    testParams._pitch=0;
+    testParams[0]=0;
 
     //init bornes : 0 et 90
     for(int i=0; i<2; i++){
@@ -365,8 +357,8 @@ ThrowParams PlayerDichotomie::chooseParams(const Game & game)
 
         distance.push_back(br._distanceToJack);
         distanceTrier.push_back(br._distanceToJack);
-        degreeDistance.push_back(testParams._pitch);
-        testParams._pitch += 90;
+        degreeDistance.push_back(testParams[0]);
+        testParams[0] += 90;
     }
             
     //DICHOTOMIE 10 itérations sans amélioration = STOP !!!
@@ -374,7 +366,7 @@ ThrowParams PlayerDichotomie::chooseParams(const Game & game)
    while(nbIterations<10){
        
        //dichotomie
-       testParams._pitch = (degreeDistance[0]+degreeDistance[1] )/2 ;
+       testParams[0] = (degreeDistance[0]+degreeDistance[1] )/2 ;
 
        Game testGame(game);
        testGame.throwBall(testParams);
@@ -393,7 +385,7 @@ ThrowParams PlayerDichotomie::chooseParams(const Game & game)
 
        //borne supérieur
        std::vector<double>::iterator resultTrier = std::min_element(std::begin(distanceTrier), std::end(distanceTrier));
-       degreeDistance.push_back(testParams._pitch);
+       degreeDistance.push_back(testParams[0]);
        std::swap(distanceTrier[0],distanceTrier[std::distance(std::begin(distanceTrier), resultTrier)]);
        std::swap(degreeDistance[0],degreeDistance[std::distance(std::begin(distanceTrier), resultTrier)]);
        distanceMinIntermediaire = distanceTrier[0];
@@ -424,7 +416,7 @@ ThrowParams PlayerDichotomie::chooseParams(const Game & game)
     distanceTrier.clear();
     degreeDistance.clear();
     testParams = bestParams;
-    testParams._velocity=0.0;
+    testParams[2]=0.0;
 
     //init born
     for(int i=0; i<2; i++){
@@ -445,8 +437,8 @@ ThrowParams PlayerDichotomie::chooseParams(const Game & game)
         distance.push_back(br._distanceToJack);
 
         distanceTrier.push_back(br._distanceToJack);
-        degreeDistance.push_back(testParams._velocity);
-        testParams._velocity += 10.0;
+        degreeDistance.push_back(testParams[2]);
+        testParams[2] += 10.0;
     }
 
      nbIterations=0;
@@ -454,7 +446,7 @@ ThrowParams PlayerDichotomie::chooseParams(const Game & game)
     while(nbIterations<10){
 
         //dichotomie
-        testParams._velocity = (degreeDistance[0]+degreeDistance[1] )/2 ;
+        testParams[2] = (degreeDistance[0]+degreeDistance[1] )/2 ;
 
         Game testGame(game);
         testGame.throwBall(testParams);
@@ -473,7 +465,7 @@ ThrowParams PlayerDichotomie::chooseParams(const Game & game)
 
         //borne supérieur
         std::vector<double>::iterator result2 = std::min_element(std::begin(distanceTrier), std::end(distanceTrier));
-        degreeDistance.push_back(testParams._velocity);
+        degreeDistance.push_back(testParams[2]);
         std::swap(distanceTrier[0],distanceTrier[std::distance(std::begin(distanceTrier), result2)]);
         std::swap(degreeDistance[0],degreeDistance[std::distance(std::begin(distanceTrier), result2)]);
         distanceMinIntermediaire = distanceTrier[0];

@@ -1,6 +1,6 @@
 # petanqulator [![Build Status](https://travis-ci.org/juliendehos/petanqulator.svg?branch=master)](https://travis-ci.org/juliendehos/petanqulator)
 
-[PETANQue](<https://en.wikipedia.org/wiki/P%C3%A9tanque) simULATOR 
+[PETANQue](https://en.wikipedia.org/wiki/P%C3%A9tanque) simULATOR 
 
 ## Dependencies
 
