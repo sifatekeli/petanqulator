@@ -7,7 +7,7 @@
 #define _PLAYER_HPP_
 
 #include "Game.hpp"
-
+#include <math.h>  
 #include <map>
 
 class Player 
@@ -57,5 +57,12 @@ class PlayerOnePlusOne : public PlayerRandom
     
 };
 
+class PlayerDichotomie : public PlayerRandom{
+    
+    public: 
+        virtual ThrowParams chooseParams(const Game & game) override;
+    
+};
+       
 #endif
 

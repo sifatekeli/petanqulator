@@ -56,6 +56,10 @@ int main()
                 cout << " winning";
             cout << endl;
         }
+        
+//        cout << "\n----------FITNESS----------------" << endl;
+//        game.fitness(result);
+//        cout << "--------------------------" << endl;
 
         cout << endl;
     }
@@ -70,5 +74,3 @@ int main()
 
     return 0;
 }
-
-
