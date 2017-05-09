@@ -219,17 +219,17 @@ VecParam PlayerOnePlusOne::chooseParams(const Game & game)
 
 struct comp
 {
-    int operator()(const std::pair<double,ThrowParams>& t1,const std::pair<double,ThrowParams>& t2) const
+    int operator()(const std::pair<double,VecParam>& t1,const std::pair<double,VecParam>& t2) const
         {
             return t1.first<t2.first;
         }
 };
 
-ThrowParams PlayerAverageMu::chooseParams(const Game & game) 
+VecParam PlayerAverageMu::chooseParams(const Game & game) 
 {
     player_t currentPlayer = game.getCurrentPlayer();
-    ThrowParams bestParams = PlayerRandom::chooseParams(game);
-    ThrowParams testParams;
+    VecParam bestParams = PlayerRandom::chooseParams(game);
+    VecParam testParams;
     
     float sigma_pitch = 20.0;
     float sigma_yaw = 20.0;
@@ -242,18 +242,18 @@ ThrowParams PlayerAverageMu::chooseParams(const Game & game)
     int muSize = 7;
     
     do{
-        std::vector<std::pair<double,ThrowParams>> solutions (lambdaSize);
+        std::vector<std::pair<double,VecParam>> solutions (lambdaSize);
 
         for(int i = 0; i < lambdaSize; i++){
             do{
-                testParams._pitch = bestParams._pitch + sigma_pitch * _prng.generateNormalDistribution(0.0, 1.0);
-            }while(testParams._pitch < -180 or testParams._pitch > 180);
+                testParams[0] = bestParams[0] + sigma_pitch * _prng.generateNormalDistribution(0.0, 1.0);
+            }while(testParams[0] < -180 or testParams[0] > 180);
             do{
-                testParams._yaw = bestParams._yaw + sigma_yaw * _prng.generateNormalDistribution(0.0, 1.0);
-            }while(testParams._yaw < -90 or testParams._yaw > 90);
+                testParams[1] = bestParams[1] + sigma_yaw * _prng.generateNormalDistribution(0.0, 1.0);
+            }while(testParams[1] < -90 or testParams[1] > 90);
             do{
-                testParams._velocity = bestParams._velocity + sigma_velocity * _prng.generateNormalDistribution(0.0, 1.0);
-            }while(testParams._velocity < 0 or testParams._velocity > 10);
+                testParams[2] = bestParams[2] + sigma_velocity * _prng.generateNormalDistribution(0.0, 1.0);
+            }while(testParams[2] < 0 or testParams[2] > 10);
             
             // Crée une copie du jeu et fait le lancé
             Game testGame(game);
@@ -268,7 +268,7 @@ ThrowParams PlayerAverageMu::chooseParams(const Game & game)
                 }
             }
             
-            //std::cout << br._distanceToJack << "    " << testParams._pitch << "  " << testParams._yaw << "  " << testParams._velocity << std::endl;
+            //std::cout << br._distanceToJack << "    " << testParams[0] << "  " << testParams[1] << "  " << testParams[2] << std::endl;
             
             solutions[i] = std::make_pair(br._distanceToJack, testParams);
         }
@@ -290,14 +290,14 @@ ThrowParams PlayerAverageMu::chooseParams(const Game & game)
             
             std::cout << i << "    " << solutions[i].first << "    " << solutions[i].second << std::endl;
             
-            avg_pitch += solutions[i].second._pitch;
-            avg_yaw += solutions[i].second._yaw;
-            avg_velocity += solutions[i].second._velocity;
+            avg_pitch += solutions[i].second[0];
+            avg_yaw += solutions[i].second[1];
+            avg_velocity += solutions[i].second[2];
         }
         
-        bestParams._pitch = avg_pitch / muSize;
-        bestParams._yaw = avg_yaw / muSize;
-        bestParams._velocity = avg_velocity / muSize; 
+        bestParams[0] = avg_pitch / muSize;
+        bestParams[1] = avg_yaw / muSize;
+        bestParams[2] = avg_velocity / muSize; 
         
         
         std::cout << bestParams << std::endl;

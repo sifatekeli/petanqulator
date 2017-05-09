@@ -69,7 +69,7 @@ class PlayerAverageMu : public PlayerRandom
     protected:
         Prng _prng;
     public:
-        virtual ThrowParams chooseParams(const Game & game) override;     
+        virtual VecParam chooseParams(const Game & game) override;     
     
 };
 
