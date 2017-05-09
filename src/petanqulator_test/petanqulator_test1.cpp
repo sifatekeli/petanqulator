@@ -29,9 +29,10 @@ int main()
     {
         // throw ball
         player_t currentPlayer = game.getCurrentPlayer();
-        ThrowParams params = players[currentPlayer]->chooseParams(game);
-        cout << "throw (" << params._pitch << ", " << params._yaw 
-            << ", " << params._velocity << ") ";
+        VecParam params = players[currentPlayer]->chooseParams(game);
+        cout << "throw (" << params(0) << ", " 
+            << params(1) << ", " 
+            << params(2) << ") ";
         if (currentPlayer==PLAYER_RED)
            cout << "red" << endl;
         else

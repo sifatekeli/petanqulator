@@ -37,7 +37,7 @@ class View
 
         static std::string getPlayerName(player_t player);
 
-        ThrowParams getThrowParams() const;
+        VecParam getThrowParams() const;
 
         void startAnimation();
         void stopAnimation();

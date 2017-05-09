@@ -31,16 +31,6 @@ struct GameResult
     std::vector<BallResult> _ballResults;
 };
 
-//lancer
-struct ThrowParams
-{
-    double _pitch;
-    double _yaw;
-    double _velocity;
-};
-
-std::ostream & operator<<(std::ostream & os, const ThrowParams & p);
-
 class Game
 {
     protected:
@@ -75,14 +65,14 @@ class Game
         const GameBall & getJack() const;
         btVector3 getShooterPosition() const;
 
-        ThrowParams getMinParams() const;
-        ThrowParams getMaxParams() const;
+        VecParam getMinParams() const;
+        VecParam getMaxParams() const;
 
         // throw one ball and compute physics simulation till stationnarity
-        void throwBall(const ThrowParams & params);
+        void throwBall(const VecParam & params);
 
     protected:
-        void createBall(const ThrowParams & params);
+        void createBall(const VecParam & params);
         void updateCurrentPlayer();
 };
 
@@ -93,7 +83,7 @@ class GameInteractive : public Game
 
     public:
         // step-by-step simulation (for interactive display)
-        void interactiveThrowStart(const ThrowParams & params);
+        void interactiveThrowStart(const VecParam & params);
         bool interactiveThrowRunning();
         void interactiveThrowContinue(double duration);
 };

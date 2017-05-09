@@ -34,6 +34,14 @@ double Prng::generate(double a, double b)
 }
 double Prng::generateNormalDistribution(double mu, double sigma){
     std::normal_distribution<double> normal(mu, sigma);
-
     return normal(_engine);
 }
+
+VecParam Prng::generate(const VecParam & pmin, const VecParam & pmax) 
+{
+    double pitch = generate(pmin(0), pmax(0));
+    double yaw = generate(pmin(1), pmax(1));
+    double velocity = generate(pmin(2), pmax(2));
+    return VecParam(pitch, yaw, velocity);
+}
+

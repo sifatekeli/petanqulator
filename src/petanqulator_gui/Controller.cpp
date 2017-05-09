@@ -50,14 +50,15 @@ void Controller::newGame()
     _view.update();
 }
 
-void Controller::startThrow(const ThrowParams & params)
+void Controller::startThrow(const VecParam & params)
 {
     // log
     std::stringstream ss;
     ss << "throw ball, player=" 
         << (_game.getCurrentPlayer() == PLAYER_RED ? "red" : "blue")
-        << ", pitch=" << params._pitch << ", yaw=" << params._yaw
-        << ", velocity=" << params._velocity << std::endl;
+        << ", pitch=" << params(0) 
+        << ", yaw=" << params(1)
+        << ", velocity=" << params(2) << std::endl;
     UTILS_INFO(ss.str());
 
     if (not _game.isGameFinished())
@@ -105,12 +106,12 @@ int Controller::getRemainingBallsBlue() const
     return _game.getRemainingBallsBlue();
 }
 
-ThrowParams Controller::getMinParams() const
+VecParam Controller::getMinParams() const
 {
     return _game.getMinParams();
 }
 
-ThrowParams Controller::getMaxParams() const
+VecParam Controller::getMaxParams() const
 {
     return _game.getMaxParams();
 }
