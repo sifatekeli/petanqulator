@@ -111,9 +111,15 @@ VecParam PlayerMarcheAleatoire::chooseParams(const Game & game)
     VecParam testParams = PlayerRandom::chooseParams(game);
     
     do{ 
-        testParams[0] += sigma_pitch * _prng.generateNormalDistribution(0.0, 4.0);
-        testParams[1] += sigma_yaw * _prng.generateNormalDistribution(0.0, 4.0);
-        testParams[2] += sigma_velocity * _prng.generateNormalDistribution(0.0, 4.0);
+        do{
+            testParams[0] = sigma_pitch * _prng.generateNormalDistribution(0.0, 4.0);
+        }while(testParams[0] < -180 or testParams[0] > 180);
+        do{
+            testParams[1] = sigma_yaw * _prng.generateNormalDistribution(0.0, 4.0);
+        }while(testParams[1] < -90 or testParams[1] > 90);
+        do{
+            testParams[2] = sigma_velocity * _prng.generateNormalDistribution(0.0, 4.0);
+        }while(testParams[2] < 0 or testParams[2] > 10);
         
         // Lancer test        
         Game testGame(game);
@@ -145,9 +151,6 @@ VecParam PlayerMarcheAleatoire::chooseParams(const Game & game)
 
 VecParam PlayerOnePlusOne::chooseParams(const Game & game) 
 {
-    double bestDistance = 1000;
-    double testDistance;
-    
     float sigma_pitch = 20.0;
     float sigma_yaw = 20.0;
     float sigma_velocity = 2.5;
@@ -174,9 +177,22 @@ VecParam PlayerOnePlusOne::chooseParams(const Game & game)
                 testParams[2] = _prng.generate(0,10);  
         } else {
                 // Modifie les parametres de lancé
+                /*
                 testParams[0] = bestParams[0] + sigma_pitch * _prng.generateNormalDistribution(0.0, 1.0);
                 testParams[1] = bestParams[1] + sigma_yaw * _prng.generateNormalDistribution(0.0, 1.0);
-                testParams[2] = bestParams[2] + _prng.generateNormalDistribution(0.0, 1.0);
+                testParams[2] = bestParams[2] + sigma_velocity * _prng.generateNormalDistribution(0.0, 1.0);
+                */
+                
+                do{
+                    testParams[0] = bestParams[0] + sigma_pitch * _prng.generateNormalDistribution(0.0, 1.0);
+                }while(testParams[0] < -180 or testParams[0] > 180);
+                do{
+                    testParams[1] = bestParams[1] + sigma_yaw * _prng.generateNormalDistribution(0.0, 1.0);
+                }while(testParams[1] < -90 or testParams[1] > 90);
+                do{
+                    testParams[2] = bestParams[2] + sigma_velocity * _prng.generateNormalDistribution(0.0, 1.0);
+                }while(testParams[2] < 0 or testParams[2] > 10);                
+                
         }
         
         // Crée une copie du jeu et fait le lancé
@@ -287,8 +303,7 @@ VecParam PlayerAverageMu::chooseParams(const Game & game)
         double avg_velocity = 0;
             
         for(int i = 0 ; i < muSize; i++){
-            
-            std::cout << i << "    " << solutions[i].first << "    " << solutions[i].second << std::endl;
+            //std::cout << i << "    " << solutions[i].first << "    " << solutions[i].second << std::endl;
             
             avg_pitch += solutions[i].second[0];
             avg_yaw += solutions[i].second[1];
@@ -300,11 +315,11 @@ VecParam PlayerAverageMu::chooseParams(const Game & game)
         bestParams[2] = avg_velocity / muSize; 
         
         
-        std::cout << bestParams << std::endl;
+       std::cout << bestParams[0] << " , " << bestParams[1] << " , " << bestParams[2] << std::endl;
         
         // Crée une copie du jeu et fait le lancé
         Game testGame(game);
-        testGame.throwBall(testParams);
+        testGame.throwBall(bestParams);
         GameResult result = testGame.computeResult();
         // Met la balle qui vient d'être lancée par le joueur courant dans la variable br
         GameBall gb = testGame.getPlayerBalls(currentPlayer).back();
