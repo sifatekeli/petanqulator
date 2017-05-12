@@ -50,7 +50,8 @@ class Game
         Game();
 
         void newGame();
-        int fitness(const GameResult & result) const;
+        std::vector<double> bestDistancePlayer(GameResult result) const;
+        int fitness(const Game & game, GameResult result) const;
         bool isGameFinished() const;
         GameResult computeResult() const;
         player_t getCurrentPlayer() const;

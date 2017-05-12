@@ -156,13 +156,13 @@ VecParam PlayerOnePlusOne::chooseParams(const Game & game)
     float sigma_velocity = 2.5;
 
     btScalar bestDistanceToJack = 1000.0;
-    btScalar precision = 4.0;
+    btScalar precision = 2.0;
         
     player_t currentPlayer = game.getCurrentPlayer();
     VecParam bestParams = PlayerRandom::chooseParams(game);
     
     // Compteur qui arrêtera la boucle si pendant 200 iterations aucune amelioration n'est trouvée
-    int compteur = 200;
+    int compteur = 400;
     
     do{
         VecParam testParams;
@@ -251,7 +251,7 @@ VecParam PlayerAverageMu::chooseParams(const Game & game)
     float sigma_yaw = 20.0;
     float sigma_velocity = 2.5;
     
-    btScalar precision = 4.0;
+    btScalar precision = 2.0;
     btScalar bestDistanceToJack = 1000.0;
     
     int lambdaSize = 15;
@@ -292,7 +292,7 @@ VecParam PlayerAverageMu::chooseParams(const Game & game)
 
         
         
-        std::cout << " ----------------------- " << std::endl;
+//        std::cout << " ----------------------- " << std::endl;
      
         std::sort(solutions.begin(), solutions.end(), comp());
 
@@ -315,7 +315,7 @@ VecParam PlayerAverageMu::chooseParams(const Game & game)
         bestParams[2] = avg_velocity / muSize; 
         
         
-       std::cout << bestParams[0] << " , " << bestParams[1] << " , " << bestParams[2] << std::endl;
+//       std::cout << bestParams[0] << " , " << bestParams[1] << " , " << bestParams[2] << std::endl;
         
         // Crée une copie du jeu et fait le lancé
         Game testGame(game);
@@ -337,12 +337,6 @@ VecParam PlayerAverageMu::chooseParams(const Game & game)
 
     return bestParams;
 }
-
-
-
-
-
-
 
 
 

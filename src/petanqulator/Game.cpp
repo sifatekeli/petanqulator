@@ -33,8 +33,8 @@ void Game::newGame()
     // jack
     btScalar x = _prng.generate(-4, 4);
     btScalar z = _prng.generate(-4, 4);
-    x=3.10056;
-    z=0.80692;
+//    x=3.10056;
+//    z=0.80692;
     _jack = {btTransform(btQuaternion(0,0,0,1),btVector3(x,0.2,z)),
         btVector3(0, 0, 0), 0.1, 0.2};
 
@@ -42,19 +42,26 @@ void Game::newGame()
     _blueBalls.clear();
 }
 
-int Game::fitness(const GameResult & result) const
+//renvoi meilleur distance de chaque joueur
+std::vector<double> Game::bestDistancePlayer(GameResult result) const{
+     
+    std::vector<double> vec (2,1000.0);
+    
+    //toutes les boules
+    for (BallResult & b :  result._ballResults) {  
+        if( vec[b._player] > b._distanceToJack ){
+            vec[b._player] = b._distanceToJack; 
+        }    
+    }
+    
+  return vec;
+    
+    
+}
+
+int Game::fitness(const Game & game,GameResult result) const
 {
-
-    
-
-    
-  //distance cochonet
-  std::cout << float((result._ballResults[result._ballResults.size()-1])._distanceToJack) << std::endl;
-  std::cout << float((result._ballResults[0])._distanceToJack) << std::endl;
-  std::cout << float((result._ballResults[1])._distanceToJack) << std::endl;
-  std::cout << float((result._ballResults[2])._distanceToJack) << std::endl;
-
-  //TODO : renvoyer une solution (force + direction)
+   
 
   return 0;
 }
