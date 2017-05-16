@@ -51,7 +51,7 @@ class Game
 
         void newGame();
         std::vector<double> bestDistancePlayer(GameResult result) const;
-        int fitness(const Game & game, GameResult result) const;
+        btScalar fitness(const Game & game, GameResult result) const;
         bool isGameFinished() const;
         GameResult computeResult() const;
         player_t getCurrentPlayer() const;
