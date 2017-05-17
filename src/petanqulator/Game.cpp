@@ -72,9 +72,13 @@ std::vector<double> Game::bestDistancePlayer(GameResult result) const{
     
 }
 
-btScalar Game::fitness(const Game & game, GameResult result) const
+btScalar Game::fitness(const VecParam & params) const
 {
- 
+    // Lancer test        
+    Game testGame(*this);
+    testGame.throwBall(params);
+    GameResult result = testGame.computeResult();
+    
     btScalar somme_gagnante = 0.0;
     btScalar somme_perdante = 0.0;
     btScalar fitness = 0.0;
@@ -83,7 +87,7 @@ btScalar Game::fitness(const Game & game, GameResult result) const
     for (BallResult br : result._ballResults){
 
         //boules du joueur
-        if(br._player == game.getCurrentPlayer()){
+        if(br._player == this->getCurrentPlayer()){
            
             if(br._isWinning){
                 somme_gagnante += br._distanceToJack;

@@ -67,7 +67,7 @@ VecParam PlayerGoodRandom::chooseParams(const Game & game)
 {
     VecParam bestParams = PlayerRandom::chooseParams(game);
     btScalar precision = 4.0;
-    btScalar bestDistanceToJack = 1000;
+    btScalar bestDistanceToJack = 1000.0;
     player_t currentPlayer = game.getCurrentPlayer();
 
     
@@ -274,7 +274,7 @@ VecParam PlayerDichotomie::chooseParams(const Game & game)
     std::vector<double> distanceTrier;
     std::vector<int> degreeDistance = {-180, -60, 60, 180};
     double distanceMinIntermediaire=0.0;
-    double best = 1000.0; 
+    double best = 1000.0;
     int nbIterations=0;
     
     //initialise les deux autres parametres
