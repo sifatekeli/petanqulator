@@ -25,7 +25,7 @@ int main(int argc, char ** argv) {
     ofstream file(fileName);
     
     vector<unique_ptr<Player>> players;
-    players.push_back(make_unique<PlayerOnePlusOne>());
+    players.push_back(make_unique<PlayerOnePlusOne>(8.2, 500));
     
     Game game;
     game.newGame();

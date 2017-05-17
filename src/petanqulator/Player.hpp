@@ -35,7 +35,10 @@ class PlayerBestRandom : public PlayerRandom
 
 class PlayerGoodRandom : public PlayerRandom 
 {
+    protected:
+        btScalar _precision;
     public:
+        PlayerGoodRandom(btScalar precision);
         virtual VecParam chooseParams(const Game & game) override;
 };
 
@@ -43,7 +46,9 @@ class PlayerMarcheAleatoire : public PlayerRandom
 {
     protected:
         Prng _prng;
+        int _nb_iteration;
     public:
+        PlayerMarcheAleatoire(int nb_iteration);
         virtual VecParam chooseParams(const Game & game) override;     
     
 };
@@ -52,7 +57,23 @@ class PlayerOnePlusOne : public PlayerRandom
 {
     protected:
         Prng _prng;
+        btScalar _precision;
+        int _compteur;        
     public:
+        PlayerOnePlusOne(btScalar precision, int compteur);
+        virtual VecParam chooseParams(const Game & game) override;     
+    
+};
+
+class PlayerAverageMu : public PlayerRandom
+{
+    protected:
+        Prng _prng;
+        btScalar _precision;
+        int _lambdaSize;
+        int _muSize;
+    public:
+        PlayerAverageMu(btScalar precision, int lambdaSize, int muSize);
         virtual VecParam chooseParams(const Game & game) override;     
     
 };
@@ -64,14 +85,7 @@ class PlayerDichotomie : public PlayerRandom{
     
 };
 
-class PlayerAverageMu : public PlayerRandom
-{
-    protected:
-        Prng _prng;
-    public:
-        virtual VecParam chooseParams(const Game & game) override;     
-    
-};
+
 
 #endif
 

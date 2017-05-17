@@ -21,8 +21,8 @@ void comparerAlgorithme(std::string nomFichier, int nbRun){
            
     //choix des algos
     vector<unique_ptr<Player>> players;
-    players.push_back(make_unique<PlayerAverageMu>());
     players.push_back(make_unique<PlayerDichotomie>());
+    players.push_back(make_unique<PlayerAverageMu>(2.0, 12, 7));
     players.back()->_params["nbTries"] = 1;
     
 
@@ -62,7 +62,7 @@ void comparerAlgorithme(std::string nomFichier, int nbRun){
 
 int main(){
 
-    comparerAlgorithme("resultat6.csv",500);
+    comparerAlgorithme("resultat19.csv",200);
     
     return 0;
 }

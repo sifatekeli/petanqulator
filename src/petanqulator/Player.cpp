@@ -59,10 +59,13 @@ VecParam PlayerBestRandom::chooseParams(const Game & game)
     return bestParams;
 }
 
+PlayerGoodRandom::PlayerGoodRandom(btScalar precision){
+    _precision = precision;
+}
+
 VecParam PlayerGoodRandom::chooseParams(const Game & game) 
 {
     VecParam bestParams = PlayerRandom::chooseParams(game);
-    
     btScalar precision = 4.0;
     btScalar bestDistanceToJack = 1000;
     player_t currentPlayer = game.getCurrentPlayer();
@@ -70,35 +73,24 @@ VecParam PlayerGoodRandom::chooseParams(const Game & game)
     
     do{
         VecParam testParams = PlayerRandom::chooseParams(game);
-        
-        Game testGame(game);
-        testGame.throwBall(testParams);
-        GameResult result = testGame.computeResult();
-
-        // Met la balle qui vient d'être lancée par le joueur courant dans la variable br
-        GameBall gb = testGame.getPlayerBalls(currentPlayer).back();
-        BallResult br;
-        for (BallResult & b : result._ballResults) {
-            if(b._position == gb.getPosition()){
-                br = b;
-            }
-        }
-        btScalar testDistanceToJack = br._distanceToJack;
-        
+        btScalar testDistanceToJack = game.fitness_boule(testParams);
         
         if(testDistanceToJack < bestDistanceToJack){
             bestDistanceToJack = testDistanceToJack;
             bestParams = testParams;
-            
         }
 
-    }while(bestDistanceToJack > precision);
+    }while(bestDistanceToJack > _precision);
     return bestParams;
+}
+
+PlayerMarcheAleatoire::PlayerMarcheAleatoire(int nb_iteration){
+    _nb_iteration = nb_iteration;
 }
 
 VecParam PlayerMarcheAleatoire::chooseParams(const Game & game) 
 {
-    btScalar nb_iter = 500.0;
+    btScalar n_iteration = 0;
     btScalar bestDistanceToJack = 1000.0;
 
     player_t currentPlayer = game.getCurrentPlayer();
@@ -112,42 +104,32 @@ VecParam PlayerMarcheAleatoire::chooseParams(const Game & game)
     
     do{ 
         do{
-            testParams[0] = sigma_pitch * _prng.generateNormalDistribution(0.0, 4.0);
+            testParams[0] += sigma_pitch * _prng.generateNormalDistribution(0.0, 4.0);
         }while(testParams[0] < -180 or testParams[0] > 180);
         do{
-            testParams[1] = sigma_yaw * _prng.generateNormalDistribution(0.0, 4.0);
+            testParams[1] += sigma_yaw * _prng.generateNormalDistribution(0.0, 4.0);
         }while(testParams[1] < -90 or testParams[1] > 90);
         do{
-            testParams[2] = sigma_velocity * _prng.generateNormalDistribution(0.0, 4.0);
+            testParams[2] += sigma_velocity * _prng.generateNormalDistribution(0.0, 4.0);
         }while(testParams[2] < 0 or testParams[2] > 10);
         
-        // Lancer test        
-        Game testGame(game);
-        testGame.throwBall(testParams);
-        GameResult result = testGame.computeResult();
-                
-        // Met la balle qui vient d'être lancée par le joueur courant dans la variable br
-        GameBall gb = testGame.getPlayerBalls(currentPlayer).back();
-        BallResult br;
-        for (BallResult & b : result._ballResults) {
-            if(b._position == gb.getPosition()){
-                br = b;
-            }
-        }
-        
-        btScalar testDistanceToJack = br._distanceToJack;
+        btScalar testDistanceToJack = game.fitness_boule(testParams);
         
         if(testDistanceToJack < bestDistanceToJack){
             bestDistanceToJack = testDistanceToJack; 
             bestParams = testParams;
         }
         
-        nb_iter--;
-    }while(nb_iter >= 0);
+        n_iteration++;
+    }while(n_iteration < _nb_iteration);
     
     return bestParams;
 }
 
+PlayerOnePlusOne::PlayerOnePlusOne(btScalar precision, int compteur){
+    _precision = precision;
+    _compteur = compteur;
+}
 
 VecParam PlayerOnePlusOne::chooseParams(const Game & game) 
 {
@@ -156,14 +138,12 @@ VecParam PlayerOnePlusOne::chooseParams(const Game & game)
     float sigma_velocity = 2.5;
 
     btScalar bestDistanceToJack = 1000.0;
-    btScalar precision = 2.0;
         
     player_t currentPlayer = game.getCurrentPlayer();
     VecParam bestParams = PlayerRandom::chooseParams(game);
     
-    // Compteur qui arrêtera la boucle si pendant 200 iterations aucune amelioration n'est trouvée
-    int compteur = 400;
-    
+    // Compteur qui arrêtera la boucle si pendant _compteur iterations aucune amelioration n'est trouvée
+    int compteur = _compteur;
     do{
         VecParam testParams;
         if (sigma_pitch < 0.01 or sigma_yaw < 0.01 or sigma_velocity < 0.01) {
@@ -176,13 +156,6 @@ VecParam PlayerOnePlusOne::chooseParams(const Game & game)
                 testParams[1] = _prng.generate(-180,180);
                 testParams[2] = _prng.generate(0,10);  
         } else {
-                // Modifie les parametres de lancé
-                /*
-                testParams[0] = bestParams[0] + sigma_pitch * _prng.generateNormalDistribution(0.0, 1.0);
-                testParams[1] = bestParams[1] + sigma_yaw * _prng.generateNormalDistribution(0.0, 1.0);
-                testParams[2] = bestParams[2] + sigma_velocity * _prng.generateNormalDistribution(0.0, 1.0);
-                */
-                
                 do{
                     testParams[0] = bestParams[0] + sigma_pitch * _prng.generateNormalDistribution(0.0, 1.0);
                 }while(testParams[0] < -180 or testParams[0] > 180);
@@ -192,25 +165,12 @@ VecParam PlayerOnePlusOne::chooseParams(const Game & game)
                 do{
                     testParams[2] = bestParams[2] + sigma_velocity * _prng.generateNormalDistribution(0.0, 1.0);
                 }while(testParams[2] < 0 or testParams[2] > 10);                
-                
         }
+
+        btScalar testDistanceToJack = game.fitness_boule(testParams);
         
-        // Crée une copie du jeu et fait le lancé
-        Game testGame(game);
-        testGame.throwBall(testParams);
-        GameResult result = testGame.computeResult();
-        
-        // Met la balle qui vient d'être lancée par le joueur courant dans la variable br
-        GameBall gb = testGame.getPlayerBalls(currentPlayer).back();
-        BallResult br;
-        for (BallResult & b : result._ballResults) {
-            if(b._position == gb.getPosition()){
-                br = b;
-            }
-        }
-        
-        if(br._distanceToJack < bestDistanceToJack){ // Si le lancé de test est meilleur que le best
-            bestDistanceToJack = br._distanceToJack; 
+        if(testDistanceToJack < bestDistanceToJack){ // Si le lancé de test est meilleur que le best
+            bestDistanceToJack = testDistanceToJack; 
             bestParams = testParams;
             
             // MAJ des sigmas
@@ -218,7 +178,7 @@ VecParam PlayerOnePlusOne::chooseParams(const Game & game)
             sigma_yaw = sigma_yaw * exp(1.0/3.0);
             sigma_velocity = sigma_velocity * exp(1.0/3.0);
             
-            compteur = 200;
+            compteur = _compteur;
         }else{ // Si le lancé de test n'est pas meilleur que le best
             // MAJ des sigmas
             sigma_pitch = sigma_pitch / std::pow(exp(1.0/3.0),0.25);
@@ -226,10 +186,9 @@ VecParam PlayerOnePlusOne::chooseParams(const Game & game)
             sigma_velocity = sigma_velocity / std::pow(exp(1.0/3.0),0.25);
         }
         compteur--;
-        
-    }while(bestDistanceToJack >= precision && compteur >=0); 
-    // On s'arrête si on obtient un résultat satisfaisant ou si le compteur arrive à 0
 
+    }while(bestDistanceToJack >= _precision && compteur >=0); 
+    // On s'arrête si on obtient un résultat satisfaisant ou si le compteur arrive à 0
     return bestParams;
 }
 
@@ -241,8 +200,15 @@ struct comp
         }
 };
 
+PlayerAverageMu::PlayerAverageMu(btScalar precision, int lambdaSize, int muSize){
+    _precision = precision;
+    _lambdaSize = lambdaSize;
+    _muSize = muSize;
+}
+
 VecParam PlayerAverageMu::chooseParams(const Game & game) 
 {
+    
     player_t currentPlayer = game.getCurrentPlayer();
     VecParam bestParams = PlayerRandom::chooseParams(game);
     VecParam testParams;
@@ -251,16 +217,12 @@ VecParam PlayerAverageMu::chooseParams(const Game & game)
     float sigma_yaw = 20.0;
     float sigma_velocity = 2.5;
     
-    btScalar precision = 2.0;
     btScalar bestDistanceToJack = 1000.0;
-    
-    int lambdaSize = 15;
-    int muSize = 7;
-    
-    do{
-        std::vector<std::pair<double,VecParam>> solutions (lambdaSize);
 
-        for(int i = 0; i < lambdaSize; i++){
+    do{
+        std::vector<std::pair<double,VecParam>> solutions (_lambdaSize);
+
+        for(int i = 0; i < _lambdaSize; i++){
             do{
                 testParams[0] = bestParams[0] + sigma_pitch * _prng.generateNormalDistribution(0.0, 1.0);
             }while(testParams[0] < -180 or testParams[0] > 180);
@@ -270,77 +232,35 @@ VecParam PlayerAverageMu::chooseParams(const Game & game)
             do{
                 testParams[2] = bestParams[2] + sigma_velocity * _prng.generateNormalDistribution(0.0, 1.0);
             }while(testParams[2] < 0 or testParams[2] > 10);
-            
-            // Crée une copie du jeu et fait le lancé
-            Game testGame(game);
-            testGame.throwBall(testParams);
-            GameResult result = testGame.computeResult();
-            // Met la balle qui vient d'être lancée par le joueur courant dans la variable br
-            GameBall gb = testGame.getPlayerBalls(currentPlayer).back();
-            BallResult br;
-            for (BallResult & b : result._ballResults) {
-                if(b._position == gb.getPosition()){
-                    br = b;
-                }
-            }
-            
-            //std::cout << br._distanceToJack << "    " << testParams[0] << "  " << testParams[1] << "  " << testParams[2] << std::endl;
-            
-            solutions[i] = std::make_pair(br._distanceToJack, testParams);
-        }
-        //std::cout << " ----------------------- " << std::endl;
 
-        
-        
-//        std::cout << " ----------------------- " << std::endl;
-     
+            btScalar testDistanceToJack = game.fitness_boule(testParams);
+            solutions[i] = std::make_pair(testDistanceToJack, testParams);
+        }
+
         std::sort(solutions.begin(), solutions.end(), comp());
 
-        solutions.resize(muSize);
+        solutions.resize(_muSize);
         
-        double avg_pitch = 0;
-        double avg_yaw = 0;
-        double avg_velocity = 0;
+        double sum_pitch = 0;
+        double sum_yaw = 0;
+        double sum_velocity = 0;
             
-        for(int i = 0 ; i < muSize; i++){
-            //std::cout << i << "    " << solutions[i].first << "    " << solutions[i].second << std::endl;
-            
-            avg_pitch += solutions[i].second[0];
-            avg_yaw += solutions[i].second[1];
-            avg_velocity += solutions[i].second[2];
+        for(int i = 0 ; i < _muSize; i++){
+            sum_pitch += solutions[i].second[0];
+            sum_yaw += solutions[i].second[1];
+            sum_velocity += solutions[i].second[2];
         }
         
-        bestParams[0] = avg_pitch / muSize;
-        bestParams[1] = avg_yaw / muSize;
-        bestParams[2] = avg_velocity / muSize; 
+        bestParams[0] = sum_pitch / _muSize;
+        bestParams[1] = sum_yaw / _muSize;
+        bestParams[2] = sum_velocity / _muSize; 
+
+        bestDistanceToJack = game.fitness_boule(bestParams);
         
-        
-//       std::cout << bestParams[0] << " , " << bestParams[1] << " , " << bestParams[2] << std::endl;
-        
-        // Crée une copie du jeu et fait le lancé
-        Game testGame(game);
-        testGame.throwBall(bestParams);
-        GameResult result = testGame.computeResult();
-        // Met la balle qui vient d'être lancée par le joueur courant dans la variable br
-        GameBall gb = testGame.getPlayerBalls(currentPlayer).back();
-        BallResult br;
-        for (BallResult & b : result._ballResults) {
-            if(b._position == gb.getPosition()){
-                br = b;
-            }
-        } 
-        
-        bestDistanceToJack = br._distanceToJack;
-        
-    }while(bestDistanceToJack >= precision);
-    
+    }while(bestDistanceToJack >= _precision);
 
     return bestParams;
 }
-
-
-
-
 
 VecParam PlayerDichotomie::chooseParams(const Game & game)
 {

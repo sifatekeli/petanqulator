@@ -17,8 +17,8 @@ void displayPosition(const GameBall & ball)
 int main()
 {
     vector<unique_ptr<Player>> players;
-    players.push_back(make_unique<PlayerDichotomie>());
-    players.push_back(make_unique<PlayerOnePlusOne>());
+    players.push_back(make_unique<PlayerMarcheAleatoire>(410));
+    players.push_back(make_unique<PlayerAverageMu>(2.0, 20, 7));
     players.back()->_params["nbTries"] = 1;
 
     // create game

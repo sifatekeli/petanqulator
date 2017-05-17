@@ -18,6 +18,19 @@ Game::Game():
     _remainingBallsRed(0),
     _remainingBallsBlue(0)
 {}
+    
+Game::Game(Game const& game):
+    _prng(game._prng),
+    _currentPlayer(game._currentPlayer),
+    _remainingBallsRed(game._remainingBallsRed),
+    _remainingBallsBlue(game._remainingBallsBlue),
+    _redBalls(game._redBalls),
+    _blueBalls(game._blueBalls),
+    _jack(game._jack),
+    _ground(game._ground),
+    _shooterPosition(game._shooterPosition)
+{}
+
 
 void Game::newGame()
 {
@@ -33,8 +46,8 @@ void Game::newGame()
     // jack
     btScalar x = _prng.generate(-4, 4);
     btScalar z = _prng.generate(-4, 4);
-//    x=3.10056;
-//    z=0.80692;
+    x=3.10056;
+    z=0.80692;
     _jack = {btTransform(btQuaternion(0,0,0,1),btVector3(x,0.2,z)),
         btVector3(0, 0, 0), 0.1, 0.2};
 
@@ -83,6 +96,27 @@ btScalar Game::fitness(const Game & game, GameResult result) const
     fitness = somme_gagnante + 1000 * somme_perdante;
 
   return fitness;
+}
+
+btScalar Game::fitness_boule(const VecParam & params) const
+{
+    player_t currentPlayer = this->getCurrentPlayer();
+    
+    // Lancer test        
+    Game testGame(*this);
+    testGame.throwBall(params);
+    GameResult result = testGame.computeResult();
+
+    // Met la balle qui vient d'être lancée par le joueur courant dans la variable br
+    GameBall gb = testGame.getPlayerBalls(currentPlayer).back();
+    BallResult br;
+    for (BallResult & b : result._ballResults) {
+        if(b._position == gb.getPosition()){
+            br = b;
+        }
+    }
+
+    return br._distanceToJack;
 }
 
 bool Game::isGameFinished() const
