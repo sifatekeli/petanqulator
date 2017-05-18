@@ -73,7 +73,20 @@ class PlayerAverageMu : public PlayerRandom
         int _lambdaSize;
         int _muSize;
     public:
-        PlayerAverageMu(btScalar precision, int lambdaSize, int muSize);
+        PlayerAverageMu(btScalar precision, int lambdaSize);
+        virtual VecParam chooseParams(const Game & game) override;     
+    
+};
+
+class PlayerAverageMuSmart : public PlayerRandom
+{
+    protected:
+        Prng _prng;
+        btScalar _precision;
+        int _lambdaSize;
+        int _muSize;
+    public:
+        PlayerAverageMuSmart(btScalar precision, int lambdaSize);
         virtual VecParam chooseParams(const Game & game) override;     
     
 };

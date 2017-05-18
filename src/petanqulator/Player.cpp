@@ -200,10 +200,10 @@ struct comp
         }
 };
 
-PlayerAverageMu::PlayerAverageMu(btScalar precision, int lambdaSize, int muSize){
+PlayerAverageMu::PlayerAverageMu(btScalar precision, int lambdaSize){
     _precision = precision;
     _lambdaSize = lambdaSize;
-    _muSize = muSize;
+    _muSize = lambdaSize / 4;
 }
 
 VecParam PlayerAverageMu::chooseParams(const Game & game) 
@@ -258,6 +258,80 @@ VecParam PlayerAverageMu::chooseParams(const Game & game)
         bestDistanceToJack = game.fitness_boule(bestParams);
         
     }while(bestDistanceToJack >= _precision);
+
+    return bestParams;
+}
+
+PlayerAverageMuSmart::PlayerAverageMuSmart(btScalar precision, int lambdaSize){
+    _precision = precision;
+    _lambdaSize = lambdaSize;
+    _muSize = lambdaSize / 4;
+}
+
+VecParam PlayerAverageMuSmart::chooseParams(const Game & game) 
+{
+    
+    player_t currentPlayer = game.getCurrentPlayer();
+    VecParam bestParams = PlayerRandom::chooseParams(game);
+    VecParam testParams;
+    
+    float sigma_pitch = 20.0;
+    float sigma_yaw = 20.0;
+    float sigma_velocity = 2.5;
+    
+    btScalar bestDistanceToJack = 1000000.0;
+    btScalar testDistanceToJack = 1000000.0;
+    
+    // Pour que l'algo s'arrête s'il ne trouve pas de meilleur solution durant nb_iteration iterations
+    int nb_iteration = 100;
+    int compteur = 0;
+    
+    do{
+        std::vector<std::pair<double,VecParam>> solutions (_lambdaSize);
+
+        for(int i = 0; i < _lambdaSize; i++){
+            do{
+                testParams[0] = bestParams[0] + sigma_pitch * _prng.generateNormalDistribution(0.0, 1.0);
+            }while(testParams[0] < -180 or testParams[0] > 180);
+            do{
+                testParams[1] = bestParams[1] + sigma_yaw * _prng.generateNormalDistribution(0.0, 1.0);
+            }while(testParams[1] < -90 or testParams[1] > 90);
+            do{
+                testParams[2] = bestParams[2] + sigma_velocity * _prng.generateNormalDistribution(0.0, 1.0);
+            }while(testParams[2] < 0 or testParams[2] > 10);
+
+            btScalar testDistanceToJack = game.fitness_boule(testParams);
+            solutions[i] = std::make_pair(testDistanceToJack, testParams);
+        }
+
+        std::sort(solutions.begin(), solutions.end(), comp());
+
+        solutions.resize(_muSize);
+        
+        double sum_pitch = 0;
+        double sum_yaw = 0;
+        double sum_velocity = 0;
+            
+        for(int i = 0 ; i < _muSize; i++){
+            sum_pitch += solutions[i].second[0];
+            sum_yaw += solutions[i].second[1];
+            sum_velocity += solutions[i].second[2];
+        }
+        
+        bestParams[0] = sum_pitch / _muSize;
+        bestParams[1] = sum_yaw / _muSize;
+        bestParams[2] = sum_velocity / _muSize; 
+
+        bestDistanceToJack = game.fitness(bestParams);
+        
+        if(bestDistanceToJack < testDistanceToJack){
+            compteur = 0;
+            testDistanceToJack = bestDistanceToJack;
+        }else{
+            compteur++;
+        }
+        
+    }while(bestDistanceToJack >= _precision && compteur < nb_iteration);
 
     return bestParams;
 }

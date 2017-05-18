@@ -18,8 +18,7 @@ int main()
 {
     vector<unique_ptr<Player>> players;
     players.push_back(make_unique<PlayerDichotomie>());
-    players.push_back(make_unique<PlayerAverageMu>(2.0, 20, 7));
-    players.back()->_params["nbTries"] = 1;
+    players.push_back(make_unique<PlayerAverageMuSmart>(7.5, 20));
 
     // create game
     Game game;
