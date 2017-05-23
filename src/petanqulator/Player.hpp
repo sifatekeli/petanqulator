@@ -65,6 +65,18 @@ class PlayerOnePlusOne : public PlayerRandom
     
 };
 
+class PlayerOnePlusOneSmart : public PlayerRandom
+{
+    protected:
+        Prng _prng;
+        btScalar _precision;
+        int _compteur;        
+    public:
+        PlayerOnePlusOneSmart(btScalar precision, int compteur);
+        virtual VecParam chooseParams(const Game & game) override;     
+    
+};
+
 class PlayerAverageMu : public PlayerRandom
 {
     protected:
@@ -94,8 +106,7 @@ class PlayerAverageMuSmart : public PlayerRandom
 class PlayerDichotomie : public PlayerRandom{
     
     public: 
-        virtual VecParam chooseParams(const Game & game) override;
-    
+        virtual VecParam chooseParams(const Game & game) override;   
 };
 
 

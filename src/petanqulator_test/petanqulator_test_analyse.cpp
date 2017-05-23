@@ -85,6 +85,7 @@ int main(){
     comparerAlgorithme("analyse/resultat37.csv", 200, 30);
     comparerAlgorithme("analyse/resultat38.csv", 200, 30);    
     comparerAlgorithme("analyse/resultat39.csv", 200, 30);
+    comparerAlgorithme("analyse/resultat48.csv", 400, 20);
     
     return 0;
 }

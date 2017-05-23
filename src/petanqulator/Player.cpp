@@ -104,15 +104,14 @@ VecParam PlayerMarcheAleatoire::chooseParams(const Game & game)
     
     do{ 
         do{
-            testParams[0] += sigma_pitch * _prng.generateNormalDistribution(0.0, 4.0);
-        }while(testParams[0] < -180 or testParams[0] > 180);
+            testParams[0] = bestParams[0] + sigma_pitch * _prng.generateNormalDistribution(0.0, 4.0);
+        }while(testParams[0] < -90 or testParams[0] > 90);
         do{
-            testParams[1] += sigma_yaw * _prng.generateNormalDistribution(0.0, 4.0);
-        }while(testParams[1] < -90 or testParams[1] > 90);
+            testParams[1] = bestParams[1] + sigma_yaw * _prng.generateNormalDistribution(0.0, 4.0);
+        }while(testParams[1] < -180 or testParams[1] > 180);
         do{
-            testParams[2] += sigma_velocity * _prng.generateNormalDistribution(0.0, 4.0);
+            testParams[2] = bestParams[2] + sigma_velocity * _prng.generateNormalDistribution(0.0, 4.0);
         }while(testParams[2] < 0 or testParams[2] > 10);
-        
         btScalar testDistanceToJack = game.fitness_boule(testParams);
         
         if(testDistanceToJack < bestDistanceToJack){
@@ -132,7 +131,7 @@ PlayerOnePlusOne::PlayerOnePlusOne(btScalar precision, int compteur){
 }
 
 VecParam PlayerOnePlusOne::chooseParams(const Game & game) 
-{
+{       
     float sigma_pitch = 20.0;
     float sigma_yaw = 20.0;
     float sigma_velocity = 2.5;
@@ -158,10 +157,10 @@ VecParam PlayerOnePlusOne::chooseParams(const Game & game)
         } else {
                 do{
                     testParams[0] = bestParams[0] + sigma_pitch * _prng.generateNormalDistribution(0.0, 1.0);
-                }while(testParams[0] < -180 or testParams[0] > 180);
+                }while(testParams[0] < -90 or testParams[0] > 90);
                 do{
                     testParams[1] = bestParams[1] + sigma_yaw * _prng.generateNormalDistribution(0.0, 1.0);
-                }while(testParams[1] < -90 or testParams[1] > 90);
+                }while(testParams[1] < -180 or testParams[1] > 180);
                 do{
                     testParams[2] = bestParams[2] + sigma_velocity * _prng.generateNormalDistribution(0.0, 1.0);
                 }while(testParams[2] < 0 or testParams[2] > 10);                
@@ -188,6 +187,74 @@ VecParam PlayerOnePlusOne::chooseParams(const Game & game)
         compteur--;
 
     }while(bestDistanceToJack >= _precision && compteur >=0); 
+    
+    // On s'arrête si on obtient un résultat satisfaisant ou si le compteur arrive à 0
+    return bestParams;
+}
+
+PlayerOnePlusOneSmart::PlayerOnePlusOneSmart(btScalar precision, int compteur){
+    _precision = precision;
+    _compteur = compteur;
+}
+
+VecParam PlayerOnePlusOneSmart::chooseParams(const Game & game) 
+{       
+    float sigma_pitch = 20.0;
+    float sigma_yaw = 20.0;
+    float sigma_velocity = 2.5;
+
+    btScalar bestDistanceToJack = 1000000.0;
+        
+    player_t currentPlayer = game.getCurrentPlayer();
+    VecParam bestParams = PlayerRandom::chooseParams(game);
+    
+    // Compteur qui arrêtera la boucle si pendant _compteur iterations aucune amelioration n'est trouvée
+    int compteur = _compteur;
+    do{
+        VecParam testParams;
+        if (sigma_pitch < 0.01 or sigma_yaw < 0.01 or sigma_velocity < 0.01) {
+                // Eviter les optimums locaux
+                sigma_pitch = 20.0;
+                sigma_yaw = 20.0;
+                sigma_velocity = 2.5;
+                
+                testParams[0] = _prng.generate(-90,90);
+                testParams[1] = _prng.generate(-180,180);
+                testParams[2] = _prng.generate(0,10);  
+        } else {
+                do{
+                    testParams[0] = bestParams[0] + sigma_pitch * _prng.generateNormalDistribution(0.0, 1.0);
+                }while(testParams[0] < -90 or testParams[0] > 90);
+                do{
+                    testParams[1] = bestParams[1] + sigma_yaw * _prng.generateNormalDistribution(0.0, 1.0);
+                }while(testParams[1] < -180 or testParams[1] > 180);
+                do{
+                    testParams[2] = bestParams[2] + sigma_velocity * _prng.generateNormalDistribution(0.0, 1.0);
+                }while(testParams[2] < 0 or testParams[2] > 10);                
+        }
+
+        btScalar testDistanceToJack = game.fitness(testParams);
+        
+        if(testDistanceToJack < bestDistanceToJack){ // Si le lancé de test est meilleur que le best
+            bestDistanceToJack = testDistanceToJack; 
+            bestParams = testParams;
+            
+            // MAJ des sigmas
+            sigma_pitch = sigma_pitch * exp(1.0/3.0);
+            sigma_yaw = sigma_yaw * exp(1.0/3.0);
+            sigma_velocity = sigma_velocity * exp(1.0/3.0);
+            
+            compteur = _compteur;
+        }else{ // Si le lancé de test n'est pas meilleur que le best
+            // MAJ des sigmas
+            sigma_pitch = sigma_pitch / std::pow(exp(1.0/3.0),0.25);
+            sigma_yaw = sigma_yaw / std::pow(exp(1.0/3.0),0.25);
+            sigma_velocity = sigma_velocity / std::pow(exp(1.0/3.0),0.25);
+        }
+        compteur--;
+
+    }while(bestDistanceToJack >= _precision && compteur >=0); 
+    
     // On s'arrête si on obtient un résultat satisfaisant ou si le compteur arrive à 0
     return bestParams;
 }
@@ -208,7 +275,6 @@ PlayerAverageMu::PlayerAverageMu(btScalar precision, int lambdaSize){
 
 VecParam PlayerAverageMu::chooseParams(const Game & game) 
 {
-    
     player_t currentPlayer = game.getCurrentPlayer();
     VecParam bestParams = PlayerRandom::chooseParams(game);
     VecParam testParams;
@@ -225,10 +291,10 @@ VecParam PlayerAverageMu::chooseParams(const Game & game)
         for(int i = 0; i < _lambdaSize; i++){
             do{
                 testParams[0] = bestParams[0] + sigma_pitch * _prng.generateNormalDistribution(0.0, 1.0);
-            }while(testParams[0] < -180 or testParams[0] > 180);
+            }while(testParams[0] < -90 or testParams[0] > 90);
             do{
                 testParams[1] = bestParams[1] + sigma_yaw * _prng.generateNormalDistribution(0.0, 1.0);
-            }while(testParams[1] < -90 or testParams[1] > 90);
+            }while(testParams[1] < -180 or testParams[1] > 180);
             do{
                 testParams[2] = bestParams[2] + sigma_velocity * _prng.generateNormalDistribution(0.0, 1.0);
             }while(testParams[2] < 0 or testParams[2] > 10);
@@ -292,10 +358,10 @@ VecParam PlayerAverageMuSmart::chooseParams(const Game & game)
         for(int i = 0; i < _lambdaSize; i++){
             do{
                 testParams[0] = bestParams[0] + sigma_pitch * _prng.generateNormalDistribution(0.0, 1.0);
-            }while(testParams[0] < -180 or testParams[0] > 180);
+            }while(testParams[0] < -90 or testParams[0] > 90);
             do{
                 testParams[1] = bestParams[1] + sigma_yaw * _prng.generateNormalDistribution(0.0, 1.0);
-            }while(testParams[1] < -90 or testParams[1] > 90);
+            }while(testParams[1] < -180 or testParams[1] > 180);
             do{
                 testParams[2] = bestParams[2] + sigma_velocity * _prng.generateNormalDistribution(0.0, 1.0);
             }while(testParams[2] < 0 or testParams[2] > 10);
@@ -607,3 +673,4 @@ VecParam PlayerDichotomie::chooseParams(const Game & game)
     return bestParams;
  
 }
+
