@@ -27,8 +27,6 @@ add_executable( petanqulator_test2.out src/petanqulator_test/petanqulator_test2.
 target_link_libraries( petanqulator_test2.out petanqulator )
 add_executable( petanqulator_test3.out src/petanqulator_test/petanqulator_test3.cpp )
 target_link_libraries( petanqulator_test3.out petanqulator )
-add_executable( petanqulator_test_csv.out src/petanqulator_test/petanqulator_test_csv.cpp )
-target_link_libraries( petanqulator_test_csv.out petanqulator )
 add_executable( petanqulator_test_analyse.out src/petanqulator_test/petanqulator_test_analyse.cpp )
 target_link_libraries( petanqulator_test_analyse.out petanqulator )
 

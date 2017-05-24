@@ -6,8 +6,10 @@
 #include "Controller.hpp"
 #include "View.hpp"
 #include "ViewPanel.hpp"
+#include <petanqulator/Player.hpp>
 
 #include <petanqulator/Utils.hpp>
+#include <iomanip>
 
 #include <set>
 #include <sstream>
@@ -31,14 +33,16 @@ ViewPanel::ViewPanel(Controller & refController, View & refView) :
     VecParam pmax = _refController.getMaxParams();
 
     packLabel("\n pitch:");
+    _pitchSpin.set_digits(1);
     _pitchSpin.set_range(pmin(0), pmax(0));
-    _pitchSpin.set_increments(1, 5);
+    _pitchSpin.set_increments(0.1, 5);
     _pitchSpin.set_value(45);
     pack_start(_pitchSpin, Gtk::PACK_SHRINK);
 	_pitchSpin.signal_changed().connect(sigc::mem_fun(_refView, &View::update));
     packLabel(" yaw:");
+    _yawSpin.set_digits(1);
     _yawSpin.set_range(pmin(1), pmax(1));
-    _yawSpin.set_increments(1, 5);
+    _yawSpin.set_increments(0.1, 5);
     pack_start(_yawSpin, Gtk::PACK_SHRINK);
 	_yawSpin.signal_changed().connect(sigc::mem_fun(_refView, &View::update));
     packLabel(" velocity:");
@@ -78,7 +82,16 @@ void ViewPanel::handleNew()
 void ViewPanel::handleThrowBall()
 {
     // throw ball
-    _refController.startThrow(getThrowParams());
+    std::vector<std::unique_ptr<Player>> players;
+    players.push_back(std::make_unique<PlayerOnePlusOneDynamicSmart>(0.65, 200));
+    players.push_back(std::make_unique<PlayerOnePlusOneDynamic>(0.65, 200));
+
+    player_t currentPlayer = _refController.getCurrentPlayer();
+    VecParam params;
+    /*if          (currentPlayer == 0) params = getThrowParams();
+    else*/        params = players[currentPlayer]->chooseParams(_refController.getGame());
+    
+    _refController.startThrow(params);
 }
 
 void ViewPanel::packLabel(const char * str)

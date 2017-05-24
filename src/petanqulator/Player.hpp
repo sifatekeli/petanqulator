@@ -42,37 +42,48 @@ class PlayerGoodRandom : public PlayerRandom
         virtual VecParam chooseParams(const Game & game) override;
 };
 
-class PlayerMarcheAleatoire : public PlayerRandom
+class PlayerOnePlusOneStatic : public PlayerRandom
 {
     protected:
         Prng _prng;
         int _nb_iteration;
     public:
-        PlayerMarcheAleatoire(int nb_iteration);
+        PlayerOnePlusOneStatic(int nb_iteration);
         virtual VecParam chooseParams(const Game & game) override;     
     
 };
 
-class PlayerOnePlusOne : public PlayerRandom
+class PlayerOnePlusOneStaticSmart : public PlayerRandom
+{
+    protected:
+        Prng _prng;
+        int _nb_iteration;
+    public:
+        PlayerOnePlusOneStaticSmart(int nb_iteration);
+        virtual VecParam chooseParams(const Game & game) override;     
+    
+};
+
+class PlayerOnePlusOneDynamic : public PlayerRandom
 {
     protected:
         Prng _prng;
         btScalar _precision;
         int _compteur;        
     public:
-        PlayerOnePlusOne(btScalar precision, int compteur);
+        PlayerOnePlusOneDynamic(btScalar precision, int compteur);
         virtual VecParam chooseParams(const Game & game) override;     
     
 };
 
-class PlayerOnePlusOneSmart : public PlayerRandom
+class PlayerOnePlusOneDynamicSmart : public PlayerRandom
 {
     protected:
         Prng _prng;
         btScalar _precision;
         int _compteur;        
     public:
-        PlayerOnePlusOneSmart(btScalar precision, int compteur);
+        PlayerOnePlusOneDynamicSmart(btScalar precision, int compteur);
         virtual VecParam chooseParams(const Game & game) override;     
     
 };
@@ -108,8 +119,6 @@ class PlayerDichotomie : public PlayerRandom{
     public: 
         virtual VecParam chooseParams(const Game & game) override;   
 };
-
-
 
 #endif
 

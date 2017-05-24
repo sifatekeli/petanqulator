@@ -84,11 +84,11 @@ VecParam PlayerGoodRandom::chooseParams(const Game & game)
     return bestParams;
 }
 
-PlayerMarcheAleatoire::PlayerMarcheAleatoire(int nb_iteration){
+PlayerOnePlusOneStatic::PlayerOnePlusOneStatic(int nb_iteration){
     _nb_iteration = nb_iteration;
 }
 
-VecParam PlayerMarcheAleatoire::chooseParams(const Game & game) 
+VecParam PlayerOnePlusOneStatic::chooseParams(const Game & game) 
 {
     btScalar n_iteration = 0;
     btScalar bestDistanceToJack = 1000.0;
@@ -99,7 +99,7 @@ VecParam PlayerMarcheAleatoire::chooseParams(const Game & game)
     float sigma_yaw = 4.0;
     float sigma_velocity = 0.5;
 
-    VecParam bestParams;
+    VecParam bestParams = VecParam(0,0,0);
     VecParam testParams = PlayerRandom::chooseParams(game);
     
     do{ 
@@ -115,54 +115,86 @@ VecParam PlayerMarcheAleatoire::chooseParams(const Game & game)
         btScalar testDistanceToJack = game.fitness_boule(testParams);
         
         if(testDistanceToJack < bestDistanceToJack){
-            bestDistanceToJack = testDistanceToJack; 
+            bestDistanceToJack = testDistanceToJack;
             bestParams = testParams;
         }
-        
+
         n_iteration++;
+        //std::cout << "au pif " << bestDistanceToJack << std::endl;
     }while(n_iteration < _nb_iteration);
-    
+
     return bestParams;
 }
 
-PlayerOnePlusOne::PlayerOnePlusOne(btScalar precision, int compteur){
+PlayerOnePlusOneStaticSmart::PlayerOnePlusOneStaticSmart(int nb_iteration){
+    _nb_iteration = nb_iteration;
+}
+
+VecParam PlayerOnePlusOneStaticSmart::chooseParams(const Game & game) 
+{
+    btScalar n_iteration = 0;
+    btScalar bestDistanceToJack = 1000000.0;
+
+    player_t currentPlayer = game.getCurrentPlayer();
+    
+    float sigma_pitch = 4.0;
+    float sigma_yaw = 4.0;
+    float sigma_velocity = 0.5;
+
+    VecParam bestParams = VecParam(0,0,0);
+    VecParam testParams = PlayerRandom::chooseParams(game);
+    
+    do{ 
+        do{
+            testParams[0] = bestParams[0] + sigma_pitch * _prng.generateNormalDistribution(0.0, 4.0);
+        }while(testParams[0] < -90 or testParams[0] > 90);
+        do{
+            testParams[1] = bestParams[1] + sigma_yaw * _prng.generateNormalDistribution(0.0, 4.0);
+        }while(testParams[1] < -180 or testParams[1] > 180);
+        do{
+            testParams[2] = bestParams[2] + sigma_velocity * _prng.generateNormalDistribution(0.0, 4.0);
+        }while(testParams[2] < 0 or testParams[2] > 10);
+        
+        btScalar testDistanceToJack = game.fitness(testParams);
+        
+        if(testDistanceToJack < bestDistanceToJack){
+            bestDistanceToJack = testDistanceToJack;
+            bestParams = testParams;
+        }
+
+        n_iteration++;
+    }while(n_iteration < _nb_iteration);
+    std::cout << bestDistanceToJack << std::endl;
+
+    return bestParams;
+}
+
+PlayerOnePlusOneDynamic::PlayerOnePlusOneDynamic(btScalar precision, int compteur){
     _precision = precision;
     _compteur = compteur;
 }
 
-VecParam PlayerOnePlusOne::chooseParams(const Game & game) 
+VecParam PlayerOnePlusOneDynamic::chooseParams(const Game & game) 
 {       
-    float sigma_pitch = 20.0;
-    float sigma_yaw = 20.0;
-    float sigma_velocity = 2.5;
-
+    float sigmaF = 100;
     btScalar bestDistanceToJack = 1000.0;
-        
-    player_t currentPlayer = game.getCurrentPlayer();
     VecParam bestParams = PlayerRandom::chooseParams(game);
+    int compteur = _compteur; // Compteur qui arrêtera la boucle si pendant _compteur iterations aucune amelioration n'est trouvée
     
-    // Compteur qui arrêtera la boucle si pendant _compteur iterations aucune amelioration n'est trouvée
-    int compteur = _compteur;
     do{
         VecParam testParams;
-        if (sigma_pitch < 0.01 or sigma_yaw < 0.01 or sigma_velocity < 0.01) {
+        if (sigmaF < 0.001) {
                 // Eviter les optimums locaux
-                sigma_pitch = 20.0;
-                sigma_yaw = 20.0;
-                sigma_velocity = 2.5;
-                
-                testParams[0] = _prng.generate(-90,90);
-                testParams[1] = _prng.generate(-180,180);
-                testParams[2] = _prng.generate(0,10);  
+                sigmaF = 100;
         } else {
                 do{
-                    testParams[0] = bestParams[0] + sigma_pitch * _prng.generateNormalDistribution(0.0, 1.0);
+                    testParams[0] = bestParams[0] + sigmaF * _prng.generateNormalDistribution(0.0, 1.0);
                 }while(testParams[0] < -90 or testParams[0] > 90);
                 do{
-                    testParams[1] = bestParams[1] + sigma_yaw * _prng.generateNormalDistribution(0.0, 1.0);
+                    testParams[1] = bestParams[1] + sigmaF * _prng.generateNormalDistribution(0.0, 1.0);
                 }while(testParams[1] < -180 or testParams[1] > 180);
                 do{
-                    testParams[2] = bestParams[2] + sigma_velocity * _prng.generateNormalDistribution(0.0, 1.0);
+                    testParams[2] = bestParams[2] + sigmaF * _prng.generateNormalDistribution(0.0, 1.0);
                 }while(testParams[2] < 0 or testParams[2] > 10);                
         }
 
@@ -172,64 +204,43 @@ VecParam PlayerOnePlusOne::chooseParams(const Game & game)
             bestDistanceToJack = testDistanceToJack; 
             bestParams = testParams;
             
-            // MAJ des sigmas
-            sigma_pitch = sigma_pitch * exp(1.0/3.0);
-            sigma_yaw = sigma_yaw * exp(1.0/3.0);
-            sigma_velocity = sigma_velocity * exp(1.0/3.0);
-            
-            compteur = _compteur;
+            sigmaF = sigmaF * exp(1.0/3.0);
+            compteur = 0;
         }else{ // Si le lancé de test n'est pas meilleur que le best
-            // MAJ des sigmas
-            sigma_pitch = sigma_pitch / std::pow(exp(1.0/3.0),0.25);
-            sigma_yaw = sigma_yaw / std::pow(exp(1.0/3.0),0.25);
-            sigma_velocity = sigma_velocity / std::pow(exp(1.0/3.0),0.25);
+            sigmaF = sigmaF / std::pow(exp(1.0/3.0),0.25);
+            compteur++;
         }
-        compteur--;
-
-    }while(bestDistanceToJack >= _precision && compteur >=0); 
-    
+    }while(bestDistanceToJack >= _precision && compteur < _compteur); 
     // On s'arrête si on obtient un résultat satisfaisant ou si le compteur arrive à 0
     return bestParams;
 }
 
-PlayerOnePlusOneSmart::PlayerOnePlusOneSmart(btScalar precision, int compteur){
+PlayerOnePlusOneDynamicSmart::PlayerOnePlusOneDynamicSmart(btScalar precision, int compteur){
     _precision = precision;
     _compteur = compteur;
 }
 
-VecParam PlayerOnePlusOneSmart::chooseParams(const Game & game) 
+VecParam PlayerOnePlusOneDynamicSmart::chooseParams(const Game & game) 
 {       
-    float sigma_pitch = 20.0;
-    float sigma_yaw = 20.0;
-    float sigma_velocity = 2.5;
-
+    float sigmaF = 100;
     btScalar bestDistanceToJack = 1000000.0;
-        
-    player_t currentPlayer = game.getCurrentPlayer();
     VecParam bestParams = PlayerRandom::chooseParams(game);
+    int compteur = _compteur; // Compteur qui arrêtera la boucle si pendant _compteur iterations aucune amelioration n'est trouvée
     
-    // Compteur qui arrêtera la boucle si pendant _compteur iterations aucune amelioration n'est trouvée
-    int compteur = _compteur;
     do{
         VecParam testParams;
-        if (sigma_pitch < 0.01 or sigma_yaw < 0.01 or sigma_velocity < 0.01) {
+        if (sigmaF < 0.001) {
                 // Eviter les optimums locaux
-                sigma_pitch = 20.0;
-                sigma_yaw = 20.0;
-                sigma_velocity = 2.5;
-                
-                testParams[0] = _prng.generate(-90,90);
-                testParams[1] = _prng.generate(-180,180);
-                testParams[2] = _prng.generate(0,10);  
+                sigmaF = 100;
         } else {
                 do{
-                    testParams[0] = bestParams[0] + sigma_pitch * _prng.generateNormalDistribution(0.0, 1.0);
+                    testParams[0] = bestParams[0] + sigmaF * _prng.generateNormalDistribution(0.0, 1.0);
                 }while(testParams[0] < -90 or testParams[0] > 90);
                 do{
-                    testParams[1] = bestParams[1] + sigma_yaw * _prng.generateNormalDistribution(0.0, 1.0);
+                    testParams[1] = bestParams[1] + sigmaF * _prng.generateNormalDistribution(0.0, 1.0);
                 }while(testParams[1] < -180 or testParams[1] > 180);
                 do{
-                    testParams[2] = bestParams[2] + sigma_velocity * _prng.generateNormalDistribution(0.0, 1.0);
+                    testParams[2] = bestParams[2] + sigmaF * _prng.generateNormalDistribution(0.0, 1.0);
                 }while(testParams[2] < 0 or testParams[2] > 10);                
         }
 
@@ -239,22 +250,13 @@ VecParam PlayerOnePlusOneSmart::chooseParams(const Game & game)
             bestDistanceToJack = testDistanceToJack; 
             bestParams = testParams;
             
-            // MAJ des sigmas
-            sigma_pitch = sigma_pitch * exp(1.0/3.0);
-            sigma_yaw = sigma_yaw * exp(1.0/3.0);
-            sigma_velocity = sigma_velocity * exp(1.0/3.0);
-            
-            compteur = _compteur;
+            sigmaF = sigmaF * exp(1.0/3.0);
+            compteur = 0;
         }else{ // Si le lancé de test n'est pas meilleur que le best
-            // MAJ des sigmas
-            sigma_pitch = sigma_pitch / std::pow(exp(1.0/3.0),0.25);
-            sigma_yaw = sigma_yaw / std::pow(exp(1.0/3.0),0.25);
-            sigma_velocity = sigma_velocity / std::pow(exp(1.0/3.0),0.25);
+            sigmaF = sigmaF / std::pow(exp(1.0/3.0),0.25);
+            compteur++;
         }
-        compteur--;
-
-    }while(bestDistanceToJack >= _precision && compteur >=0); 
-    
+    }while(bestDistanceToJack >= _precision && compteur < _compteur); 
     // On s'arrête si on obtient un résultat satisfaisant ou si le compteur arrive à 0
     return bestParams;
 }
@@ -278,12 +280,18 @@ VecParam PlayerAverageMu::chooseParams(const Game & game)
     player_t currentPlayer = game.getCurrentPlayer();
     VecParam bestParams = PlayerRandom::chooseParams(game);
     VecParam testParams;
+    VecParam finalParams;
     
     float sigma_pitch = 20.0;
     float sigma_yaw = 20.0;
     float sigma_velocity = 2.5;
     
     btScalar bestDistanceToJack = 1000.0;
+    btScalar testDistanceToJack = 1000.0;
+    
+    // Pour que l'algo s'arrête s'il ne trouve pas de meilleur solution durant nb_iteration iterations
+    int nb_iteration = 100;
+    int compteur = 0;
 
     do{
         std::vector<std::pair<double,VecParam>> solutions (_lambdaSize);
@@ -322,10 +330,17 @@ VecParam PlayerAverageMu::chooseParams(const Game & game)
         bestParams[2] = sum_velocity / _muSize; 
 
         bestDistanceToJack = game.fitness_boule(bestParams);
-        
-    }while(bestDistanceToJack >= _precision);
+        if(bestDistanceToJack < testDistanceToJack){
+            compteur = 0;
+            testDistanceToJack = bestDistanceToJack;
+            finalParams = bestParams;
+        }else{
+            compteur++;
+        }
 
-    return bestParams;
+    }while(bestDistanceToJack >= _precision && compteur < nb_iteration);
+
+    return finalParams;
 }
 
 PlayerAverageMuSmart::PlayerAverageMuSmart(btScalar precision, int lambdaSize){
@@ -336,7 +351,6 @@ PlayerAverageMuSmart::PlayerAverageMuSmart(btScalar precision, int lambdaSize){
 
 VecParam PlayerAverageMuSmart::chooseParams(const Game & game) 
 {
-    
     player_t currentPlayer = game.getCurrentPlayer();
     VecParam bestParams = PlayerRandom::chooseParams(game);
     VecParam testParams;
@@ -671,6 +685,5 @@ VecParam PlayerDichotomie::chooseParams(const Game & game)
     }  
     
     return bestParams;
- 
 }
 

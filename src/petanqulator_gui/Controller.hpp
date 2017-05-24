@@ -24,7 +24,7 @@ class Controller
         const GameGround & getGround() const;
         const std::vector<GameBall> & getRedBalls() const;
         const std::vector<GameBall> & getBlueBalls() const;
-
+        const GameInteractive & getGame() const;
         btVector3 getShooterPosition() const;
         int getRemainingBallsRed() const;
         int getRemainingBallsBlue() const;
