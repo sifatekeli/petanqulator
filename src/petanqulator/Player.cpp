@@ -164,7 +164,6 @@ VecParam PlayerOnePlusOneStaticSmart::chooseParams(const Game & game)
 
         n_iteration++;
     }while(n_iteration < _nb_iteration);
-    std::cout << bestDistanceToJack << std::endl;
 
     return bestParams;
 }
@@ -363,7 +362,7 @@ VecParam PlayerAverageMuSmart::chooseParams(const Game & game)
     btScalar testDistanceToJack = 1000000.0;
     
     // Pour que l'algo s'arrête s'il ne trouve pas de meilleur solution durant nb_iteration iterations
-    int nb_iteration = 100;
+    int nb_iteration = 200;
     int compteur = 0;
     
     do{
@@ -380,7 +379,7 @@ VecParam PlayerAverageMuSmart::chooseParams(const Game & game)
                 testParams[2] = bestParams[2] + sigma_velocity * _prng.generateNormalDistribution(0.0, 1.0);
             }while(testParams[2] < 0 or testParams[2] > 10);
 
-            btScalar testDistanceToJack = game.fitness_boule(testParams);
+            btScalar testDistanceToJack = game.fitness(testParams);
             solutions[i] = std::make_pair(testDistanceToJack, testParams);
         }
 
