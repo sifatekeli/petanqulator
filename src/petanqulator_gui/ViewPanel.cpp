@@ -81,6 +81,7 @@ void ViewPanel::handleNew()
 
 void ViewPanel::handleThrowBall()
 {
+    /*
     // throw ball
     std::vector<std::unique_ptr<Player>> players;
     players.push_back(std::make_unique<PlayerOnePlusOneDynamicSmart>(0.65, 200));
@@ -88,10 +89,13 @@ void ViewPanel::handleThrowBall()
 
     player_t currentPlayer = _refController.getCurrentPlayer();
     VecParam params;
-    /*if          (currentPlayer == 0) params = getThrowParams();
-    else*/        params = players[currentPlayer]->chooseParams(_refController.getGame());
+    //if          (currentPlayer == 0) params = getThrowParams();
+    //else        
+    params = players[currentPlayer]->chooseParams(_refController.getGame());
     
     _refController.startThrow(params);
+    */
+    _refController.startThrow(getThrowParams());
 }
 
 void ViewPanel::packLabel(const char * str)
