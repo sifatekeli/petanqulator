@@ -81,8 +81,9 @@ void ViewPanel::handleNew()
 
 void ViewPanel::handleThrowBall()
 {
+    
     /*
-    // throw ball
+    // Ici, c'est utilisateur contre PlayerOnePlusOneDynamic
     std::vector<std::unique_ptr<Player>> players;
     players.push_back(std::make_unique<PlayerOnePlusOneDynamicSmart>(0.65, 200));
     players.push_back(std::make_unique<PlayerOnePlusOneDynamic>(0.65, 200));
