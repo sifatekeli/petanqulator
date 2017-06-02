@@ -36,6 +36,12 @@ const std::vector<GameBall> & Controller::getBlueBalls() const
     return _game.getBlueBalls();
 }
 
+const GameInteractive & Controller::getGame() const
+{
+    return _game;
+}
+
+
 void Controller::newGame()
 {
     _game.newGame();

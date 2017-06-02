@@ -35,24 +35,81 @@ class PlayerBestRandom : public PlayerRandom
 
 class PlayerGoodRandom : public PlayerRandom 
 {
+    protected:
+        btScalar _precision;
     public:
+        PlayerGoodRandom(btScalar precision);
         virtual VecParam chooseParams(const Game & game) override;
 };
 
-class PlayerMarcheAleatoire : public PlayerRandom
+class PlayerOnePlusOneStatic : public PlayerRandom
 {
     protected:
         Prng _prng;
+        int _nb_iteration;
     public:
+        PlayerOnePlusOneStatic(int nb_iteration);
         virtual VecParam chooseParams(const Game & game) override;     
     
 };
 
-class PlayerOnePlusOne : public PlayerRandom
+class PlayerOnePlusOneStaticSmart : public PlayerRandom
 {
     protected:
         Prng _prng;
+        int _nb_iteration;
     public:
+        PlayerOnePlusOneStaticSmart(int nb_iteration);
+        virtual VecParam chooseParams(const Game & game) override;     
+    
+};
+
+class PlayerOnePlusOneDynamic : public PlayerRandom
+{
+    protected:
+        Prng _prng;
+        btScalar _precision;
+        int _compteur;        
+    public:
+        PlayerOnePlusOneDynamic(btScalar precision, int compteur);
+        virtual VecParam chooseParams(const Game & game) override;     
+    
+};
+
+class PlayerOnePlusOneDynamicSmart : public PlayerRandom
+{
+    protected:
+        Prng _prng;
+        btScalar _precision;
+        int _compteur;        
+    public:
+        PlayerOnePlusOneDynamicSmart(btScalar precision, int compteur);
+        virtual VecParam chooseParams(const Game & game) override;     
+    
+};
+
+class PlayerAverageMu : public PlayerRandom
+{
+    protected:
+        Prng _prng;
+        btScalar _precision;
+        int _lambdaSize;
+        int _muSize;
+    public:
+        PlayerAverageMu(btScalar precision, int lambdaSize);
+        virtual VecParam chooseParams(const Game & game) override;     
+    
+};
+
+class PlayerAverageMuSmart : public PlayerRandom
+{
+    protected:
+        Prng _prng;
+        btScalar _precision;
+        int _lambdaSize;
+        int _muSize;
+    public:
+        PlayerAverageMuSmart(btScalar precision, int lambdaSize);
         virtual VecParam chooseParams(const Game & game) override;     
     
 };
@@ -60,9 +117,8 @@ class PlayerOnePlusOne : public PlayerRandom
 class PlayerDichotomie : public PlayerRandom{
     
     public: 
-        virtual VecParam chooseParams(const Game & game) override;
-    
+        virtual VecParam chooseParams(const Game & game) override;   
 };
-       
+
 #endif
 

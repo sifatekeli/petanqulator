@@ -18,6 +18,19 @@ Game::Game():
     _remainingBallsRed(0),
     _remainingBallsBlue(0)
 {}
+    
+Game::Game(Game const& game):
+    _prng(game._prng),
+    _currentPlayer(game._currentPlayer),
+    _remainingBallsRed(game._remainingBallsRed),
+    _remainingBallsBlue(game._remainingBallsBlue),
+    _redBalls(game._redBalls),
+    _blueBalls(game._blueBalls),
+    _jack(game._jack),
+    _ground(game._ground),
+    _shooterPosition(game._shooterPosition)
+{}
+
 
 void Game::newGame()
 {
@@ -42,21 +55,72 @@ void Game::newGame()
     _blueBalls.clear();
 }
 
-int Game::fitness(const GameResult & result) const
+//renvoi meilleur distance de chaque joueur
+std::vector<double> Game::bestDistancePlayer(GameResult result) const{
+     
+    std::vector<double> vec (2,1000.0);
+    
+    //toutes les boules
+    for (BallResult & b :  result._ballResults) {  
+        if( vec[b._player] > b._distanceToJack ){
+            vec[b._player] = b._distanceToJack; 
+        }    
+    }
+    
+  return vec;
+    
+    
+}
+
+btScalar Game::fitness(const VecParam & params) const
 {
-
+    // Lancer test        
+    Game testGame(*this);
+    testGame.throwBall(params);
+    GameResult result = testGame.computeResult();
     
+    btScalar somme_gagnante = 0.0;
+    btScalar somme_perdante = 0.0;
+    btScalar fitness = 0.0;
+   
+    //parcours toutes les boules
+    for (BallResult br : result._ballResults){
 
+        //boules du joueur
+        if(br._player == this->getCurrentPlayer()){
+           
+            if(br._isWinning){
+                somme_gagnante += br._distanceToJack;
+            }else{
+                somme_perdante += br._distanceToJack;
+            }
+        }
+     }
     
-  //distance cochonet
-  std::cout << float((result._ballResults[result._ballResults.size()-1])._distanceToJack) << std::endl;
-  std::cout << float((result._ballResults[0])._distanceToJack) << std::endl;
-  std::cout << float((result._ballResults[1])._distanceToJack) << std::endl;
-  std::cout << float((result._ballResults[2])._distanceToJack) << std::endl;
+    fitness = somme_gagnante + 1000 * somme_perdante;
 
-  //TODO : renvoyer une solution (force + direction)
+  return fitness;
+}
 
-  return 0;
+btScalar Game::fitness_boule(const VecParam & params) const
+{
+    player_t currentPlayer = this->getCurrentPlayer();
+    
+    // Lancer test        
+    Game testGame(*this);
+    testGame.throwBall(params);
+    GameResult result = testGame.computeResult();
+
+    // Met la balle qui vient d'être lancée par le joueur courant dans la variable br
+    GameBall gb = testGame.getPlayerBalls(currentPlayer).back();
+    BallResult br;
+    for (BallResult & b : result._ballResults) {
+        if(b._position == gb.getPosition()){
+            br = b;
+        }
+    }
+
+    return br._distanceToJack;
 }
 
 bool Game::isGameFinished() const

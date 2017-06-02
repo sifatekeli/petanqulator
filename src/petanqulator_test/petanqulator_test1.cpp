@@ -17,9 +17,8 @@ void displayPosition(const GameBall & ball)
 int main()
 {
     vector<unique_ptr<Player>> players;
-    players.push_back(make_unique<PlayerOnePlusOne>());
-    players.push_back(make_unique<PlayerMarcheAleatoire>());
-    players.back()->_params["nbTries"] = 1;
+    players.push_back(make_unique<PlayerOnePlusOneDynamic>(0.65, 200));
+    players.push_back(make_unique<PlayerOnePlusOneDynamicSmart>(0.65, 200));
 
     // create game
     Game game;

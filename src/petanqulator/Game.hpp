@@ -48,9 +48,12 @@ class Game
 
     public:
         Game();
+        Game(const Game& game);
 
         void newGame();
-        int fitness(const GameResult & result) const;
+        std::vector<double> bestDistancePlayer(GameResult result) const;
+        btScalar fitness(const VecParam & params) const;
+        btScalar fitness_boule(const VecParam & params) const;
         bool isGameFinished() const;
         GameResult computeResult() const;
         player_t getCurrentPlayer() const;
